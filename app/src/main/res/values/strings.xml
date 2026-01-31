@@ -66,7 +66,15 @@
     <string name="leave_checkbox_title">Leave (Taxi):</string>
     <string name="fuel_scored">Fuel Scored:</string>
     <string name="hang_attempted">Hang Attempted:</string>
-    <string name = "hang_successful">Hang Successful:</string>
+    <string name="hang_successful">Hang Successful:</string>
+
+    <string name="collecting_button_auton">Collecting</string>
+    <string name="shuttling_button_auton">Shuttling</string>
+    <string name="scoring_button_auton">Scoring</string>
+    <string name="immobile_button_auton">Immobile</string>
+    <string name="outpost_button_auton">Outpost</string>
+    <string name="depot_button_auton">Depot</string>
+
     <string-array name="fuel_scored_auton">
         <item>0</item>
         <item>1–8</item>
@@ -83,16 +91,42 @@
     <!-- Teleop Page -->
     <string name="teleop_title">Teleop</string>
     <string name="hang_started_title">Hang started:</string>
+    <string name="scoring_button_teleop">Scoring</string>
+    <string name="collecting_button_teleop">Collecting</string>
+    <string name="outpost_button_teleop">Outpost</string>
+    <string name="shuttling_button_teleop">Shuttling</string>
+    <string name="immobile_button_teleop">Immobile</string>
+    <string name="defending_button_teleop">Defending</string>
 
     <!-- Post Match Page -->
     <string name="post_match_title">Post Match</string>
     <string name="hang_spinner_title">Hang successful?</string>
+    <string name="score_estimate">Score Estimate:</string>
     <string name="hang_failed_title">Hang Failed:</string>
+    <string name="hub_accuracy">Hub Accuracy:</string>
+    <string name="confidence_estimate">Confidence:</string>
+    <string name="red_auton">Red</string>
+    <string name="middle_auton">Middle</string>
+    <string name="blue_auton">Blue</string>
+
     <string-array name="hang_spinner_options">
         <item>Not Attempted</item>
-        <item>Deep</item>
-        <item>Shallow</item>
-        <item>Park</item>
+        <item>L1</item>
+        <item>L2</item>
+        <item>L3</item>
+        <item>Failed</item>
+    </string-array>
+
+    <string-array name="score_estimate_array">
+        <item>0</item>
+        <item>1–25</item>
+        <item>26–50</item>
+        <item>51–75</item>
+        <item>76–100</item>
+        <item>101–150</item>
+        <item>151–200</item>
+        <item>201–250</item>
+        <item>250+</item>
     </string-array>
 
     <!-- Submission Confirmation -->

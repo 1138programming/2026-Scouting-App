@@ -47,9 +47,6 @@ public class AutonFragment extends DataFragment {
 
         undoStack.setMatchPhaseAuton();
 
-        ButtonTimeToggle testButton = new ButtonTimeToggle(NonDataIDs.Default.getID(),
-                binding.testButton, undoStack, context.getColor(R.color.dark_red));
-
         List<CharSequence> fuelScoredAuton = Arrays.asList(requireActivity().getResources().getStringArray(R.array.fuel_scored_auton));
         Spinner fuelScoredSpinner = new Spinner(0, binding.fuelScoredAuton,false);
         fuelScoredSpinner.updateSpinnerList(new ArrayList<>(fuelScoredAuton));

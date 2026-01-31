@@ -14,31 +14,30 @@
         android:layout_height="match_parent">
 
         <CheckBox
-            android:id="@+id/noShowCheckbox2"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
+            android:id="@+id/hang_attempted_checkbox"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
             android:layout_marginEnd="15dp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
             android:backgroundTint="@color/chaminade_orange"
             android:button="@null"
             android:checked="false"
             app:layout_constraintBottom_toBottomOf="@+id/hang_attempted"
-            app:layout_constraintEnd_toEndOf="@+id/testButton5"
-            app:layout_constraintStart_toEndOf="@+id/teamNoShowTitle"
+            app:layout_constraintEnd_toEndOf="@+id/depot_button_auton"
+            app:layout_constraintStart_toEndOf="@+id/hang_attempted"
             app:layout_constraintTop_toTopOf="@+id/hang_attempted"
             app:layout_constraintVertical_bias="0.50" />
 
         <CheckBox
-            android:id="@+id/noShowCheckbox3"
-            android:layout_width="120sp"
-            android:layout_height="120sp"
+            android:id="@+id/depot_attempted_checkbox"
+            android:layout_width="100sp"
+            android:layout_height="100sp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
             android:backgroundTint="@color/chaminade_orange"
             android:button="@null"
             android:checked="false"
             app:layout_constraintBottom_toBottomOf="@+id/hang_successful"
-            app:layout_constraintEnd_toEndOf="@+id/noShowCheckbox2"
-            app:layout_constraintStart_toEndOf="@+id/teamNoShowTitle"
+            app:layout_constraintEnd_toEndOf="@+id/hang_attempted_checkbox"
             app:layout_constraintTop_toTopOf="@+id/hang_successful" />
 
         <TextView
@@ -112,7 +111,7 @@
         <Button
             android:id="@+id/nextButton"
             android:layout_width="240sp"
-            android:layout_height="120sp"
+            android:layout_height="100sp"
             android:text="@string/next_button_title"
             android:textColor="@color/background_default"
             android:textSize="48sp"
@@ -120,73 +119,74 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
-            android:id="@+id/testButton"
+            android:id="@+id/collecting_button_auton"
             android:layout_width="240sp"
-            android:layout_height="100sp"
+            android:layout_height="110sp"
             android:layout_marginStart="20dp"
-            android:text="Test 0"
+            android:text="@string/collecting_button_auton"
             android:textColor="@color/background_default"
-            android:textSize="48sp"
+            android:textSize="38sp"
             app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/testButton2" />
+            app:layout_constraintTop_toTopOf="@+id/shuttling_button_teleop" />
 
         <Button
-            android:id="@+id/testButton3"
+            android:id="@+id/immobile_button_auton"
             android:layout_width="240sp"
-            android:layout_height="100sp"
+            android:layout_height="110sp"
             android:layout_marginTop="15dp"
-            android:text="Test 0"
+            android:text="@string/immobile_button_auton"
             android:textColor="@color/background_default"
-            android:textSize="48sp"
-            app:layout_constraintEnd_toEndOf="@+id/testButton2"
-            app:layout_constraintTop_toBottomOf="@+id/testButton2" />
+            android:textSize="38sp"
+            app:layout_constraintEnd_toEndOf="@+id/shuttling_button_teleop"
+            app:layout_constraintTop_toBottomOf="@+id/shuttling_button_teleop" />
 
         <Button
-            android:id="@+id/testButton4"
+            android:id="@+id/scoring_button_auton"
             android:layout_width="240sp"
-            android:layout_height="100sp"
-            android:text="Test 0"
+            android:layout_height="110sp"
+            android:text="@string/scoring_button_auton"
             android:textColor="@color/background_default"
-            android:textSize="48sp"
-            app:layout_constraintStart_toStartOf="@+id/testButton"
-            app:layout_constraintTop_toTopOf="@+id/testButton3" />
+            android:textSize="38sp"
+            app:layout_constraintStart_toStartOf="@+id/collecting_button_auton"
+            app:layout_constraintTop_toTopOf="@+id/immobile_button_auton" />
 
         <Button
-            android:id="@+id/testButton5"
+            android:id="@+id/depot_button_auton"
             android:layout_width="240sp"
-            android:layout_height="100sp"
+            android:layout_height="110sp"
             android:layout_marginTop="15dp"
-            android:text="Test 0"
+            android:text="@string/depot_button_auton"
             android:textColor="@color/background_default"
-            android:textSize="48sp"
-            app:layout_constraintEnd_toEndOf="@+id/testButton3"
-            app:layout_constraintTop_toBottomOf="@+id/testButton3" />
+            android:textSize="38sp"
+            app:layout_constraintEnd_toEndOf="@+id/immobile_button_auton"
+            app:layout_constraintTop_toBottomOf="@+id/immobile_button_auton" />
 
         <Button
-            android:id="@+id/testButton6"
+            android:id="@+id/outpost_button_auton"
             android:layout_width="240sp"
-            android:layout_height="100sp"
-            android:text="Test 0"
+            android:layout_height="110sp"
+            android:text="@string/outpost_button_auton"
             android:textColor="@color/background_default"
-            android:textSize="48sp"
-            app:layout_constraintStart_toStartOf="@+id/testButton4"
-            app:layout_constraintTop_toTopOf="@+id/testButton5" />
+            android:textSize="38sp"
+            app:layout_constraintStart_toStartOf="@+id/scoring_button_auton"
+            app:layout_constraintTop_toTopOf="@+id/depot_button_auton" />
 
         <Button
-            android:id="@+id/testButton2"
+            android:id="@+id/shuttling_button_teleop"
             android:layout_width="240sp"
-            android:layout_height="100sp"
+            android:layout_height="110sp"
+            android:layout_marginTop="-15dp"
             android:layout_marginEnd="20dp"
-            android:text="Test 0"
+            android:text="@string/shuttling_button_auton"
             android:textColor="@color/background_default"
-            android:textSize="48sp"
+            android:textSize="38sp"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <Button
             android:id="@+id/backButton"
             android:layout_width="240sp"
-            android:layout_height="120sp"
+            android:layout_height="100sp"
             android:text="@string/back_button_title"
             android:textColor="@color/background_default"
             android:textSize="48sp"
@@ -212,8 +212,8 @@
             android:text="@string/fuel_scored"
             android:textColor="@color/off_white"
             android:textSize="45sp"
-            app:layout_constraintStart_toStartOf="@+id/testButton6"
-            app:layout_constraintTop_toBottomOf="@+id/testButton6" />
+            app:layout_constraintStart_toStartOf="@+id/outpost_button_auton"
+            app:layout_constraintTop_toBottomOf="@+id/outpost_button_auton" />
 
         <TextView
             android:id="@+id/hang_attempted"
@@ -224,7 +224,7 @@
             android:text="@string/hang_attempted"
             android:textColor="@color/off_white"
             android:textSize="45sp"
-            app:layout_constraintStart_toStartOf="@+id/testButton6"
+            app:layout_constraintStart_toStartOf="@+id/outpost_button_auton"
             app:layout_constraintTop_toBottomOf="@+id/fuelScored" />
 
         <TextView
@@ -240,14 +240,73 @@
 
         <Spinner
             android:id="@+id/fuelScoredAuton"
-            android:layout_width="150sp"
+            android:layout_width="100sp"
             android:layout_height="50dp"
             android:layout_marginEnd="20dp"
             android:textColor="@color/off_white"
             android:textSize="64sp"
             app:layout_constraintBottom_toBottomOf="@+id/fuelScored"
-            app:layout_constraintEnd_toEndOf="@+id/testButton5"
+            app:layout_constraintEnd_toEndOf="@+id/depot_button_auton"
             app:layout_constraintTop_toTopOf="@+id/fuelScored" />
+
+        <RadioGroup
+            android:id="@+id/locationAuton"
+            android:layout_width="441dp"
+            android:layout_height="216dp"
+            android:background="@color/invisible"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/mainTitle">
+
+            <RadioButton
+                android:id="@+id/red_auton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/start_toggle_red"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/red_auton"
+                android:textColor="@color/red_text_toggle"
+                android:textSize="24sp" />
+
+            <RadioButton
+                android:id="@+id/middle_auton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/start_toggle_purple"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/middle_auton"
+                android:textColor="@color/purple_text_toggle"
+                android:textSize="24sp" />
+
+            <RadioButton
+                android:id="@+id/blue_auton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/start_toggle_blue"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/blue_auton"
+                android:textColor="@color/blue_text_toggle"
+                android:textSize="24sp" />
+        </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

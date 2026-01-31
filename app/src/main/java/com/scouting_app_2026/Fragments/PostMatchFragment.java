@@ -15,12 +15,18 @@ import com.scouting_app_2026.DatapointIDs.DatapointID;
 import com.scouting_app_2026.DatapointIDs.NonDataIDs;
 import com.scouting_app_2026.JSON.JSONManager;
 import com.scouting_app_2026.MainActivity;
+import com.scouting_app_2026.R;
 import com.scouting_app_2026.UIElements.Button;
 import com.scouting_app_2026.UIElements.SliderElement;
+import com.scouting_app_2026.UIElements.Spinner;
 import com.scouting_app_2026.databinding.PostMatchFragmentBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class PostMatchFragment extends DataFragment {
@@ -41,6 +47,14 @@ public class PostMatchFragment extends DataFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        List<CharSequence> hangOptionsPost = Arrays.asList(requireActivity().getResources().getStringArray(R.array.hang_spinner_options));
+        Spinner fuelScoredSpinner = new Spinner(0, binding.hangSpinner,false);
+        fuelScoredSpinner.updateSpinnerList(new ArrayList<>(hangOptionsPost));
+
+        List<CharSequence> scoreEstimatePost = Arrays.asList(requireActivity().getResources().getStringArray(R.array.score_estimate_array));
+        Spinner scoreEstimateSpinner = new Spinner(0, binding.scoreEstimate,false);
+        scoreEstimateSpinner.updateSpinnerList(new ArrayList<>(scoreEstimatePost));
 
         Button backButton = new Button(NonDataIDs.PostMatchBack.getID(), binding.returnToTeleop);
         backButton.setOnClickFunction(() -> ftm.postMatchBack());

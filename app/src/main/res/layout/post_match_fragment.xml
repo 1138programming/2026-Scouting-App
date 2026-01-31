@@ -13,6 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <Spinner
+            android:id="@+id/scoreEstimate"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/score_estimate_array"
+            app:layout_constraintBottom_toBottomOf="@+id/score_estimate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.547"
+            app:layout_constraintStart_toEndOf="@+id/hangSuccessful"
+            app:layout_constraintTop_toTopOf="@+id/score_estimate" />
+
         <TextView
             android:id="@+id/teamNumber"
             android:layout_width="wrap_content"
@@ -37,10 +48,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/trapScoredTitle"
+            android:id="@+id/hangSuccessful"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="48dp"
             android:text="@string/hang_spinner_title"
             android:textColor="@color/off_white"
@@ -51,60 +62,87 @@
             app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
 
         <TextView
-            android:id="@+id/parkTitle"
+            android:id="@+id/score_estimate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hang_failed_title"
+            android:layout_marginTop="50dp"
+            android:text="@string/score_estimate"
             android:textColor="@color/off_white"
             android:textSize="48sp"
-            app:layout_constraintBottom_toBottomOf="@+id/parkCheckbox"
-            app:layout_constraintStart_toStartOf="@+id/trapScoredTitle"
-            app:layout_constraintTop_toTopOf="@+id/parkCheckbox" />
+            app:layout_constraintStart_toStartOf="@+id/hangSuccessful"
+            app:layout_constraintTop_toBottomOf="@+id/hangSuccessful" />
 
-        <CheckBox
-            android:id="@+id/parkCheckbox"
-            android:layout_width="100sp"
-            android:layout_height="100sp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="48dp"
-            android:background="?android:attr/listChoiceIndicatorMultiple"
-            android:backgroundTint="@color/chaminade_orange"
-            android:button="@null"
-            app:layout_constraintEnd_toEndOf="@+id/mainTitle"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/parkTitle"
-            app:layout_constraintTop_toBottomOf="@+id/hangSpinner" />
+        <TextView
+            android:id="@+id/hubAccuracy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="@string/hub_accuracy"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintStart_toStartOf="@+id/score_estimate"
+            app:layout_constraintTop_toBottomOf="@+id/score_estimate" />
+
+        <TextView
+            android:id="@+id/confidence_estimate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="@string/confidence_estimate"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintStart_toStartOf="@+id/score_estimate"
+            app:layout_constraintTop_toBottomOf="@+id/accuracySlider" />
 
         <Spinner
             android:id="@+id/hangSpinner"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:entries="@array/hang_spinner_options"
-            app:layout_constraintBottom_toBottomOf="@+id/trapScoredTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/hangSuccessful"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/trapScoredTitle"
-            app:layout_constraintTop_toTopOf="@+id/trapScoredTitle" />
+            app:layout_constraintStart_toEndOf="@+id/hangSuccessful"
+            app:layout_constraintTop_toTopOf="@+id/hangSuccessful" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/accuracySlider"
+            android:layout_width="550dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:stepSize="5"
+            android:valueFrom="0"
+            android:valueTo="100"
+            app:haloColor="@color/chaminade_orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hubAccuracy"
+            app:thumbColor="@color/chaminade_orange"
+            app:thumbHeight="80dp"
+            app:thumbWidth="80dp"
+            app:tickRadiusActive="2dp"
+            app:tickRadiusInactive="4dp"
+            app:trackColorActive="@color/chaminade_orange"
+            app:trackHeight="50dp" />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/confidenceSlider"
             android:layout_width="550dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:stepSize="1"
             android:valueFrom="0"
             android:valueTo="10"
-            app:trackHeight="50dp"
             app:haloColor="@color/chaminade_orange"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintTop_toBottomOf="@+id/confidence_estimate"
             app:thumbColor="@color/chaminade_orange"
-            app:tickRadiusActive="2dp"
-            app:tickRadiusInactive="4dp"
             app:thumbHeight="80dp"
             app:thumbWidth="80dp"
-            app:trackColorActive="@color/chaminade_orange" />
+            app:tickRadiusActive="2dp"
+            app:tickRadiusInactive="4dp"
+            app:trackColorActive="@color/chaminade_orange"
+            app:trackHeight="50dp" />
 
         <Button
             android:id="@+id/returnToTeleop"

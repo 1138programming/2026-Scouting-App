@@ -251,7 +251,7 @@ tools:context=".Fragments.PreAutonFragment">
             app:layout_constraintVertical_bias="0.62">
 
             <RadioButton
-                android:id="@+id/left_start"
+                android:id="@+id/leftStart"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="1dp"
@@ -267,7 +267,7 @@ tools:context=".Fragments.PreAutonFragment">
                 android:textSize="24sp" />
 
             <RadioButton
-                android:id="@+id/middle_left_start"
+                android:id="@+id/middleLeftStart"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="60dp"
@@ -283,7 +283,7 @@ tools:context=".Fragments.PreAutonFragment">
                 android:textSize="24sp" />
 
             <RadioButton
-                android:id="@+id/right_start"
+                android:id="@+id/rightStart"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="1dp"
