@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/pre_auton_fragment"
-        android:name="com.scouting_app_template.Fragments.PreAutonFragment"
+        android:name="com.scouting_app_2026.Fragments.PreAutonFragment"
         tools:layout="@layout/pre_auton_fragment">
 
         <action
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/archive"
-        android:name="com.scouting_app_template.Fragments.ArchiveFragment"
+        android:name="com.scouting_app_2026.Fragments.ArchiveFragment"
         tools:layout="@layout/archive_fragment">
 
         <action
@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/archive_confirm"
-        android:name="com.scouting_app_template.Popups.ArchiveConfirm"
+        android:name="com.scouting_app_2026.Popups.ArchiveConfirm"
         tools:layout="@layout/confirm_submit_fragment">
 
         <action
@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/auton_start"
-        android:name="com.scouting_app_template.Popups.AutonStart"
+        android:name="com.scouting_app_2026.Popups.AutonStart"
         tools:layout="@layout/auton_start_fragment">
 
         <action
@@ -59,7 +59,7 @@
 
     <fragment
         android:id="@+id/auton"
-        android:name="com.scouting_app_template.Fragments.AutonFragment"
+        android:name="com.scouting_app_2026.Fragments.AutonFragment"
         tools:layout="@layout/auton_fragment">
 
         <action
@@ -75,7 +75,7 @@
 
     <fragment
         android:id="@+id/teleop_start"
-        android:name="com.scouting_app_template.Popups.TeleopStart"
+        android:name="com.scouting_app_2026.Popups.TeleopStart"
         tools:layout="@layout/teleop_start_fragment">
 
         <action
@@ -88,7 +88,7 @@
 
     <fragment
         android:id="@+id/teleop"
-        android:name="com.scouting_app_template.Fragments.TeleopFragment"
+        android:name="com.scouting_app_2026.Fragments.TeleopFragment"
         tools:layout="@layout/teleop_fragment">
 
         <action
@@ -100,7 +100,7 @@
     </fragment>
     <fragment
         android:id="@+id/post_match"
-        android:name="com.scouting_app_template.Fragments.PostMatchFragment"
+        android:name="com.scouting_app_2026.Fragments.PostMatchFragment"
         tools:layout="@layout/post_match_fragment">
 
         <action
@@ -112,7 +112,7 @@
     </fragment>
     <fragment
         android:id="@+id/confirm_submit"
-        android:name="com.scouting_app_template.Popups.ConfirmSubmit"
+        android:name="com.scouting_app_2026.Popups.ConfirmSubmit"
         tools:layout="@layout/confirm_submit_fragment">
 
         <action

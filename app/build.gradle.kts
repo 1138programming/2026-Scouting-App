@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.scouting_app_template"
+    namespace = "com.scouting_app_2026"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.scouting_app_template"
+        applicationId = "com.scouting_app_2026"
         minSdk = 33
         targetSdk = 34
         versionCode = 1

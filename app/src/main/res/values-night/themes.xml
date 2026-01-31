@@ -3,5 +3,6 @@
     <style name="Base.Theme.ScoutingApp2025" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
          <item name="colorPrimary">@color/chaminade_orange</item>
+        <item name="android:textColor">@color/background_default</item>
     </style>
 </resources>

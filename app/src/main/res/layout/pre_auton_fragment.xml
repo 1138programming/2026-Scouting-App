@@ -226,16 +226,29 @@ tools:context=".Fragments.PreAutonFragment">
                 android:textSize="20sp" />
         </RadioGroup>
 
+        <ImageView
+            android:id="@+id/startingPosImage"
+            android:layout_width="500dp"
+            android:layout_height="350dp"
+            android:src="@drawable/blueside"
+            app:layout_constraintBottom_toTopOf="@+id/nextButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.481"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/noShowCheckbox" />
+
         <RadioGroup
             android:id="@+id/startingLocation"
-            android:layout_width="425dp"
+            android:layout_width="400dp"
             android:layout_height="90dp"
             android:background="@color/invisible"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/nextButton"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.48"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/teamNoShowTitle">
+            app:layout_constraintTop_toTopOf="@+id/startingPosImage"
+            app:layout_constraintVertical_bias="0.62">
 
             <RadioButton
                 android:id="@+id/left_start"
@@ -249,7 +262,7 @@ tools:context=".Fragments.PreAutonFragment">
                 android:background="@drawable/start_toggle_blue"
                 android:button="@null"
                 android:gravity="center"
-                android:text="@string/start_far"
+                android:text="@string/start_depot"
                 android:textColor="@color/blue_text_toggle"
                 android:textSize="24sp" />
 
@@ -280,10 +293,11 @@ tools:context=".Fragments.PreAutonFragment">
                 android:background="@drawable/start_toggle_blue"
                 android:button="@null"
                 android:gravity="center"
-                android:text="@string/start_processor"
+                android:text="@string/start_outpost"
                 android:textColor="@color/blue_text_toggle"
                 android:textSize="24sp" />
         </RadioGroup>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

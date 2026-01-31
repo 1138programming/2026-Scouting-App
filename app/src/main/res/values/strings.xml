@@ -29,9 +29,9 @@
     <string name="team_prompt_title">Team Number</string>
     <string name="field_image_desc">Image of field from top down view.</string>
         <!-- Starting Position Buttons -->
-        <string name="start_processor">Processor</string>
+        <string name="start_outpost">Outpost</string>
         <string name="start_middle">Middle</string>
-        <string name="start_far">Far</string>
+        <string name="start_depot">Depot</string>
     <string name="no_show_title">Team didn\'t show up</string>
     <string name="blue_general_position">Blue Generic</string>
     <string name="red_general_position">Red Generic</string>
@@ -64,9 +64,21 @@
     <string name="processor_button_title">Processor</string>
     <string name="net_button_title">Net</string>
     <string name="leave_checkbox_title">Leave (Taxi):</string>
+    <string name="fuel_scored">Fuel Scored:</string>
+    <string name="hang_attempted">Hang Attempted:</string>
+    <string name = "hang_successful">Hang Successful:</string>
+    <string-array name="fuel_scored_auton">
+        <item>0</item>
+        <item>1–8</item>
+        <item>9–15</item>
+        <item>16–25</item>
+        <item>26–35</item>
+        <item>36–50</item>
+        <item>50+</item>
+    </string-array>
 
     <!-- Teleop Popup -->
-    <string name="teleop_start_prompt">Press when Teleop starts</string>
+    <string name="teleop_start_prompt">Prsess when Teleop starts</string>
 
     <!-- Teleop Page -->
     <string name="teleop_title">Teleop</string>

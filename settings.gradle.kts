@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Scouting-App-Template"
+rootProject.name = "Scouting-App-2026"
 include(":app")
  
