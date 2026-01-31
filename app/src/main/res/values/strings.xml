@@ -32,7 +32,7 @@
         <string name="start_outpost">Outpost</string>
         <string name="start_middle">Middle</string>
         <string name="start_depot">Depot</string>
-    <string name="no_show_title">Team didn\'t show up</string>
+    <string name="no_show_title">Team Didn\'t Show Up</string>
     <string name="blue_general_position">Blue Generic</string>
     <string name="red_general_position">Red Generic</string>
     <string name="hamburger_desc">Menu Button</string>
@@ -86,7 +86,7 @@
     </string-array>
 
     <!-- Teleop Popup -->
-    <string name="teleop_start_prompt">Prsess when Teleop starts</string>
+    <string name="teleop_start_prompt">Press when Teleop starts</string>
 
     <!-- Teleop Page -->
     <string name="teleop_title">Teleop</string>
@@ -100,7 +100,7 @@
 
     <!-- Post Match Page -->
     <string name="post_match_title">Post Match</string>
-    <string name="hang_spinner_title">Hang successful?</string>
+    <string name="hang_spinner_title">Hang Successful?</string>
     <string name="score_estimate">Score Estimate:</string>
     <string name="hang_failed_title">Hang Failed:</string>
     <string name="hub_accuracy">Hub Accuracy:</string>
