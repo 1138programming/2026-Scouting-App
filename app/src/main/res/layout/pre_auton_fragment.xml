@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/background_default"
+android:foregroundTint="@color/black"
+android:clickable="true"
+tools:context=".Fragments.PreAutonFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/mainTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pre_auton_title"
+            android:textColor="@color/off_white"
+            android:textSize="96sp"
+            android:textStyle="normal|bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/archiveButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:backgroundTint="@color/invisible"
+            android:contentDescription="@string/hamburger_desc"
+            android:cropToPadding="false"
+            android:src="@drawable/menu_hamburger"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/chaminade_orange" />
+
+        <TextView
+            android:id="@+id/NameOfScouterTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/name_prompt_title"
+            android:textColor="@color/off_white"
+            android:textSize="45sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
+
+        <Spinner
+            android:id="@+id/nameOfScouterSpinner"
+            android:layout_width="300sp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/NameOfScouterTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/NameOfScouterTitle"
+            app:layout_constraintTop_toTopOf="@+id/NameOfScouterTitle" />
+
+        <TextView
+            android:id="@+id/MatchNumberTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/match_number_title"
+            android:textColor="@color/off_white"
+            android:textSize="45sp"
+            app:layout_constraintBottom_toTopOf="@+id/teamColorTitle"
+            app:layout_constraintStart_toStartOf="@+id/NameOfScouterTitle"
+            app:layout_constraintTop_toBottomOf="@+id/NameOfScouterTitle" />
+
+        <Spinner
+            android:id="@+id/matchNumberSpinner"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/MatchNumberTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/MatchNumberTitle"
+            app:layout_constraintTop_toTopOf="@+id/MatchNumberTitle" />
+
+        <TextView
+            android:id="@+id/teamColorTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/team_color_title"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toTopOf="@+id/teamNoShowTitle"
+            app:layout_constraintStart_toStartOf="@id/MatchNumberTitle"
+            app:layout_constraintTop_toBottomOf="@+id/NameOfScouterTitle" />
+
+        <TextView
+            android:id="@+id/teamNumberTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/team_prompt_title"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toTopOf="@+id/teamNoShowTitle"
+            app:layout_constraintStart_toStartOf="@+id/teamColorTitle"
+            app:layout_constraintTop_toBottomOf="@+id/teamColorTitle" />
+
+        <Spinner
+            android:id="@+id/teamNumberSpinner"
+            android:layout_width="150sp"
+            android:layout_height="50dp"
+            android:textColor="@color/off_white"
+            android:textSize="64sp"
+            app:layout_constraintBottom_toBottomOf="@+id/teamNumberTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/teamNumberTitle"
+            app:layout_constraintTop_toTopOf="@+id/teamNumberTitle" />
+
+        <TextView
+            android:id="@+id/teamNoShowTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_show_title"
+            android:textColor="@color/off_white"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/teamNumberTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.45" />
+
+        <CheckBox
+            android:id="@+id/noShowCheckbox"
+            android:layout_width="120sp"
+            android:layout_height="120sp"
+            android:background="?android:attr/listChoiceIndicatorMultiple"
+            android:backgroundTint="@color/chaminade_orange"
+            android:button="@null"
+            android:checked="false"
+            app:layout_constraintBottom_toBottomOf="@+id/teamNoShowTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/teamNoShowTitle"
+            app:layout_constraintTop_toTopOf="@+id/teamNoShowTitle" />
+
+        <TextView
+            android:id="@+id/btConnectionStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/disconnected_status_title"
+            android:textColor="@color/off_white"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="240sp"
+            android:layout_height="120sp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/next_button_title"
+            android:textColor="@color/background_default"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/versionNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/app_version"
+            android:textColor="@color/off_white"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/robotDriverStation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/blue_general_position"
+            android:textColor="@color/off_white"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <RadioGroup
+            android:id="@+id/team_color_switch"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/toggle_background"
+            android:checkedButton="@+id/team_blue"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/teamColorTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/teamColorTitle"
+            app:layout_constraintTop_toTopOf="@+id/teamColorTitle">
+
+            <RadioButton
+                android:id="@+id/team_blue"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_background_blue"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/team_color_blue"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/team_red"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_background_red"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/team_color_red"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/startingLocation"
+            android:layout_width="425dp"
+            android:layout_height="90dp"
+            android:background="@color/invisible"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/nextButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/teamNoShowTitle">
+
+            <RadioButton
+                android:id="@+id/left_start"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/start_toggle_blue"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/start_far"
+                android:textColor="@color/blue_text_toggle"
+                android:textSize="24sp" />
+
+            <RadioButton
+                android:id="@+id/middle_left_start"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="60sp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/start_toggle_blue"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/start_middle"
+                android:textColor="@color/blue_text_toggle"
+                android:textSize="24sp" />
+
+            <RadioButton
+                android:id="@+id/right_start"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/start_toggle_blue"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/start_processor"
+                android:textColor="@color/blue_text_toggle"
+                android:textSize="24sp" />
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

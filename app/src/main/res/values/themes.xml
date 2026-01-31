@@ -1,0 +1,8 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ScoutingApp2025" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <item name="colorPrimary">@color/chaminade_orange</item>
+    </style>
+    <style name="Theme.ScoutingApp1138" parent="Base.Theme.ScoutingApp2025" />
+</resources>

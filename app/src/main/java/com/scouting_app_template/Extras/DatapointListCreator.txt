@@ -1,0 +1,27 @@
+
+    This Code is used for recreating the DatapointID list based on the Enum order,
+    just paste the code below into an online compiler and paste the Enum list
+    into the printList function call in main(). The output you get can be immediately
+    be pasted into the DatapointIDs class.
+
+
+public class DatapointListCreator {
+
+    public static void main(String[] args) {
+        printList("reversedDatapointIDs.put(*i*, *k*);", """
+
+
+        """);
+    }
+
+    public static void printList(String format, String list) {
+        list = list.replaceAll("\t", "");
+        list = list.replaceAll("\n", "");
+        String[] listArray = list.split(",");
+        for(int i = 0; i < listArray.length; i++) {
+            String temp = format.replace("*i*", String.valueOf(i+1));
+            temp = temp.replace("*k*", "\"" + listArray[i] + "\"");
+            System.out.println(temp);
+        }
+    }
+}

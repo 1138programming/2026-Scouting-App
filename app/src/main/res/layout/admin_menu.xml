@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_default"
+    android:foregroundTint="@color/black"
+    android:clickable="true"
+    tools:context="Fragments.ArchiveFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/mainTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_title"
+            android:textColor="@color/off_white"
+            android:textSize="96sp"
+            android:textStyle="normal|bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/manualOverrideTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="60dp"
+            android:text="@string/override_title"
+            android:textColor="@color/off_white"
+            android:textSize="45sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainTitle" />
+
+        <CheckBox
+            android:id="@+id/manualOverrideCheckbox"
+            android:layout_width="120sp"
+            android:layout_height="120sp"
+            android:background="?android:attr/listChoiceIndicatorMultiple"
+            android:backgroundTint="@color/chaminade_orange"
+            android:button="@null"
+            android:checked="false"
+            app:layout_constraintBottom_toBottomOf="@+id/manualOverrideTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/manualOverrideTitle"
+            app:layout_constraintTop_toTopOf="@+id/manualOverrideTitle" />
+
+<!--        <CheckBox-->
+<!--            android:id="@+id/manualOverrideCheckbox"-->
+<!--            android:layout_width="120sp"-->
+<!--            android:layout_height="120sp"-->
+<!--            android:background="?android:attr/listChoiceIndicatorMultiple"-->
+<!--            android:backgroundTint="@color/chaminade_orange"-->
+<!--            android:button="@null"-->
+<!--            android:checked="false"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/manualOverrideTitle"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/manualOverrideTitle"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/manualOverrideTitle" />-->
+
+
+        <Button
+            android:id="@+id/closeMenu"
+            android:layout_width="400sp"
+            android:layout_height="120sp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/save_close_button"
+            android:textColor="@color/background_default"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

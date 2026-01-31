@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/pre_auton_fragment">
+
+    <fragment
+        android:id="@+id/pre_auton_fragment"
+        android:name="com.scouting_app_template.Fragments.PreAutonFragment"
+        tools:layout="@layout/pre_auton_fragment">
+
+        <action
+            android:id="@+id/next"
+            app:destination="@id/auton" />
+        <action
+            android:id="@+id/popup"
+            app:destination="@id/auton_start" />
+        <action
+            android:id="@+id/archive"
+            app:destination="@id/archive" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/archive"
+        android:name="com.scouting_app_template.Fragments.ArchiveFragment"
+        tools:layout="@layout/archive_fragment">
+
+        <action
+            android:id="@+id/back"
+            app:destination="@id/pre_auton_fragment" />
+        <action
+            android:id="@+id/item_selected"
+            app:destination="@id/archive_confirm" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/archive_confirm"
+        android:name="com.scouting_app_template.Popups.ArchiveConfirm"
+        tools:layout="@layout/confirm_submit_fragment">
+
+        <action
+            android:id="@+id/back"
+            app:destination="@id/archive" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/auton_start"
+        android:name="com.scouting_app_template.Popups.AutonStart"
+        tools:layout="@layout/auton_start_fragment">
+
+        <action
+            android:id="@+id/cancel"
+            app:destination="@id/pre_auton_fragment" />
+        <action
+            android:id="@+id/start"
+            app:destination="@id/auton" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/auton"
+        android:name="com.scouting_app_template.Fragments.AutonFragment"
+        tools:layout="@layout/auton_fragment">
+
+        <action
+            android:id="@+id/back"
+            app:destination="@id/pre_auton_fragment" />
+        <action
+            android:id="@+id/popup"
+            app:destination="@id/teleop_start" />
+        <action
+            android:id="@+id/next"
+            app:destination="@id/teleop" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/teleop_start"
+        android:name="com.scouting_app_template.Popups.TeleopStart"
+        tools:layout="@layout/teleop_start_fragment">
+
+        <action
+            android:id="@+id/cancel"
+            app:destination="@id/auton" />
+        <action
+            android:id="@+id/start"
+            app:destination="@id/teleop" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/teleop"
+        android:name="com.scouting_app_template.Fragments.TeleopFragment"
+        tools:layout="@layout/teleop_fragment">
+
+        <action
+            android:id="@+id/back"
+            app:destination="@id/auton" />
+        <action
+            android:id="@+id/next"
+            app:destination="@id/post_match" />
+    </fragment>
+    <fragment
+        android:id="@+id/post_match"
+        android:name="com.scouting_app_template.Fragments.PostMatchFragment"
+        tools:layout="@layout/post_match_fragment">
+
+        <action
+            android:id="@+id/back"
+            app:destination="@id/teleop" />
+        <action
+            android:id="@+id/submit"
+            app:destination="@id/confirm_submit" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirm_submit"
+        android:name="com.scouting_app_template.Popups.ConfirmSubmit"
+        tools:layout="@layout/confirm_submit_fragment">
+
+        <action
+            android:id="@+id/back"
+            app:destination="@id/post_match" />
+        <action
+            android:id="@+id/submit"
+            app:destination="@id/pre_auton_fragment" />
+    </fragment>
+</navigation>

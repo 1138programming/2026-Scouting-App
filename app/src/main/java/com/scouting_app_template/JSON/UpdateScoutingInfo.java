@@ -1,0 +1,128 @@
+package com.scouting_app_template.JSON;
+
+import static com.scouting_app_template.MainActivity.TAG;
+import static com.scouting_app_template.MainActivity.context;
+
+import android.util.Log;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class UpdateScoutingInfo {
+
+    private final File folderDir = new File(context.getFilesDir().getPath() + "/scoutingData");
+    private final String fileName = "scouterInfo.txt";
+    boolean dirExists = true;
+
+    public UpdateScoutingInfo() {
+        if (!folderDir.isDirectory()) {
+            if (!folderDir.mkdir()) {
+                dirExists = false;
+                Log.e(TAG, "File System is Broken");
+            }
+        }
+    }
+
+    public void saveToFile(String text) throws IOException {
+        if(!dirExists) return;
+
+        File targetFile = new File(folderDir, fileName);
+        if (!targetFile.exists()) {
+            if(!targetFile.createNewFile()) {
+                Log.e(TAG, "Unable to create file");
+            }
+        }
+        FileWriter fileWriter = new FileWriter(targetFile, false);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        bufferedWriter.write(text);
+
+        bufferedWriter.close();
+    }
+
+    public String getDataFromFile() {
+        File file = new File(folderDir, fileName);
+        if (!file.exists()) {
+            try {
+                if(!file.createNewFile()) {
+                    Log.e(TAG, "Unable to create file");
+                }
+            } catch (IOException e) {
+                return "";
+            }
+        }
+
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "File doesn't exist", e);
+            return "";
+        }
+        
+        InputStreamReader inputStreamReader = new InputStreamReader(fis, StandardCharsets.UTF_8);
+        StringBuilder sb = new StringBuilder();
+        try(BufferedReader reader = new BufferedReader((inputStreamReader))) {
+            String line = reader.readLine();
+            while(line != null) {
+                sb.append(line).append('\n');
+                line = reader.readLine();
+            }
+            if(sb.length() > 0) {
+                //removes last "\n"
+                sb.deleteCharAt(sb.length()-1);
+            }
+        }
+        catch (IOException e) {
+            Log.e(TAG, "Couldn't read file: ", e);
+            return "";
+        }
+        return sb.toString();
+    }
+
+    public ArrayList<ArrayList<CharSequence>> getSplitFileData() {
+        String fileData = getDataFromFile();
+        if (fileData.isEmpty()) {
+            return new ArrayList<>();
+        }
+        String[] listsSplit = fileData.split("\n");
+        String[] teamList = listsSplit[1].split(",");
+        String[] matchBreakdown = listsSplit[2].split(",");
+
+        Arrays.sort(teamList, (s, s2) -> {
+            int i = Integer.parseInt(s);
+            int i2 = Integer.parseInt(s2);
+            return Integer.compare(i, i2);
+        });
+
+        String[] scoutersWithNum = listsSplit[0].split(",");
+            Arrays.sort(scoutersWithNum);
+
+        ArrayList<ArrayList<CharSequence>> retVal = new ArrayList<>();
+            retVal.add(new ArrayList<>());
+            retVal.add(new ArrayList<>());
+            retVal.add(new ArrayList<>());
+            retVal.add(new ArrayList<>());
+
+        for (String i : scoutersWithNum) {
+            String[] split = i.split(":");
+            retVal.get(0).add(split[0]);
+            retVal.get(1).add(split[1]);
+        }
+        for (String teamNum : teamList) {
+            retVal.get(2).add(teamNum);
+        }
+        for(String matchNumber : matchBreakdown) {
+            retVal.get(3).add(matchNumber);
+        }
+        return retVal;
+    }
+}

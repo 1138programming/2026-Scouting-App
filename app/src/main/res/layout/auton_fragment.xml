@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+ xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_default"
+    android:clickable="true"
+    tools:context=".Fragments.AutonFragment">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/mainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/auton_title"
+        android:textColor="@color/off_white"
+        android:textSize="96sp"
+        android:textStyle="normal|bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/teamNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/off_white"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="@+id/redoButton"
+        app:layout_constraintEnd_toStartOf="@+id/redoButton"
+        app:layout_constraintStart_toEndOf="@+id/mainTitle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/undoButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:backgroundTint="@color/invisible"
+        android:contentDescription="@string/undo_button_description"
+        android:src="@drawable/undo_arrow_outline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/chaminade_orange"/>
+
+    <TextView
+        android:id="@+id/undo_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/undo_title"
+        android:textColor="@color/chaminade_orange"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/undoButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/undoButton" />
+
+    <ImageButton
+        android:id="@+id/redoButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:backgroundTint="@color/invisible"
+        android:contentDescription="@string/redo_button_description"
+        android:cropToPadding="false"
+        android:src="@drawable/redo_arrow_outline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/chaminade_orange" />
+
+    <TextView
+        android:id="@+id/redo_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/redo_title"
+        android:textColor="@color/chaminade_orange"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/redoButton"
+        app:layout_constraintTop_toBottomOf="@+id/redoButton" />
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="240sp"
+        android:layout_height="120sp"
+        android:text="@string/next_button_title"
+        android:textColor="@color/background_default"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/testButton"
+        android:layout_width="240sp"
+        android:layout_height="120sp"
+        android:text="Test 0"
+        android:textColor="@color/background_default"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="240sp"
+        android:layout_height="120sp"
+        android:text="@string/back_button_title"
+        android:textColor="@color/background_default"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
