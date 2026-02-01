@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.scouting_app_2026.DatapointIDs.DatapointID;
 import com.scouting_app_2026.DatapointIDs.NonDataIDs;
+import com.scouting_app_2026.R;
 import com.scouting_app_2026.UIElements.Button;
+import com.scouting_app_2026.UIElements.ButtonTimeToggle;
 import com.scouting_app_2026.UIElements.ImageButton;
 import com.scouting_app_2026.databinding.TeleopFragmentBinding;
 
@@ -38,6 +41,26 @@ public class TeleopFragment extends DataFragment {
         super.onViewCreated(view, savedInstanceState);
 
         undoStack.setMatchPhaseTeleop();
+
+
+        ButtonTimeToggle collectingButtonTeleop = new ButtonTimeToggle(DatapointID.teleopCollected.getID(),
+                binding.collectingButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
+
+        ButtonTimeToggle shuttlingButtonTeleop = new ButtonTimeToggle(DatapointID.teleopShuttled.getID(),
+                binding.shuttlingButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
+
+        ButtonTimeToggle scoringButtonTeleop = new ButtonTimeToggle(DatapointID.teleopScored.getID(),
+                binding.scoringButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
+
+        ButtonTimeToggle immobileButtonTeleop = new ButtonTimeToggle(DatapointID.teleopScored.getID(),
+                binding.immobileButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
+
+        ButtonTimeToggle outpostButtonTeleop = new ButtonTimeToggle(DatapointID.teleopOutpost.getID(),
+                binding.outpostButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
+
+        ButtonTimeToggle defendingButtonTeleop = new ButtonTimeToggle(DatapointID.teleopDefense.getID(),
+                binding.defendingButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
+
 
         ImageButton undoButton = new ImageButton(NonDataIDs.TeleopUndo.getID(), binding.undoButton);
         undoButton.setOnClickFunction(undoButton::undo);

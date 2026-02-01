@@ -127,7 +127,7 @@
             android:textColor="@color/background_default"
             android:textSize="38sp"
             app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/shuttling_button_teleop" />
+            app:layout_constraintTop_toTopOf="@+id/shuttling_button_auton" />
 
         <Button
             android:id="@+id/immobile_button_auton"
@@ -137,8 +137,8 @@
             android:text="@string/immobile_button_auton"
             android:textColor="@color/background_default"
             android:textSize="38sp"
-            app:layout_constraintEnd_toEndOf="@+id/shuttling_button_teleop"
-            app:layout_constraintTop_toBottomOf="@+id/shuttling_button_teleop" />
+            app:layout_constraintEnd_toEndOf="@+id/shuttling_button_auton"
+            app:layout_constraintTop_toBottomOf="@+id/shuttling_button_auton" />
 
         <Button
             android:id="@+id/scoring_button_auton"
@@ -172,7 +172,7 @@
             app:layout_constraintTop_toTopOf="@+id/depot_button_auton" />
 
         <Button
-            android:id="@+id/shuttling_button_teleop"
+            android:id="@+id/shuttling_button_auton"
             android:layout_width="240sp"
             android:layout_height="110sp"
             android:layout_marginTop="-15dp"

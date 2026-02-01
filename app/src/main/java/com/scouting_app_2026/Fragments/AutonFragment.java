@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.scouting_app_2026.DatapointIDs.DatapointID;
 import com.scouting_app_2026.DatapointIDs.NonDataIDs;
 import com.scouting_app_2026.R;
 import com.scouting_app_2026.UIElements.Button;
@@ -50,6 +51,26 @@ public class AutonFragment extends DataFragment {
         List<CharSequence> fuelScoredAuton = Arrays.asList(requireActivity().getResources().getStringArray(R.array.fuel_scored_auton));
         Spinner fuelScoredSpinner = new Spinner(0, binding.fuelScoredAuton,false);
         fuelScoredSpinner.updateSpinnerList(new ArrayList<>(fuelScoredAuton));
+
+
+        ButtonTimeToggle collectingButtonAuton = new ButtonTimeToggle(DatapointID.autonCollected.getID(),
+                binding.collectingButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
+
+        ButtonTimeToggle shuttlingButtonAuton = new ButtonTimeToggle(DatapointID.autonShuttled.getID(),
+                binding.shuttlingButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
+
+        ButtonTimeToggle scoringButtonAuton = new ButtonTimeToggle(DatapointID.autonScored.getID(),
+                binding.scoringButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
+
+        ButtonTimeToggle immobileButtonAuton = new ButtonTimeToggle(DatapointID.autonImmobile.getID(),
+                binding.immobileButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
+
+        ButtonTimeToggle outpostButtonAuton = new ButtonTimeToggle(DatapointID.autonOutpost.getID(),
+                binding.outpostButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
+
+        ButtonTimeToggle depotButtonAuton = new ButtonTimeToggle(DatapointID.autonDepot.getID(),
+                binding.depotButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
+
 
         ImageButton undoButton = new ImageButton(NonDataIDs.AutonUndo.getID(), binding.undoButton);
         undoButton.setOnClickFunction(undoButton::undo);
