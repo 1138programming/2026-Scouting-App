@@ -1,6 +1,7 @@
 package com.scouting_app_2026.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.scouting_app_2026.UIElements.RadioGroup;
 import com.scouting_app_2026.UIElements.Spinner;
 import com.scouting_app_2026.UIElements.ImageButton;
 
+import static com.scouting_app_2026.MainActivity.TAG;
 import static com.scouting_app_2026.MainActivity.context;
 import static com.scouting_app_2026.MainActivity.ftm;
 
@@ -260,7 +262,7 @@ public class PreAutonFragment extends DataFragment {
                 allianceID = 8 -> blue (generic)
              */
 
-            int allianceID = (selectedColor == 1) ? driverStationNumber : driverStationNumber + 3;
+            int allianceID = (selectedColor == 0) ? driverStationNumber : driverStationNumber + 3;
             baseJson.put("AllianceID", allianceID);
         }
         else {
@@ -279,12 +281,21 @@ public class PreAutonFragment extends DataFragment {
     }
 
     private void attemptDeviceNameParse() {
+        successfulDeviceNameParse = true;
         String deviceName = ((MainActivity)context).getDeviceName();
         String[] temp = deviceName.split(" ");
-        successfulDeviceNameParse = true;
-        driverStationNumber = Integer.parseInt(temp[temp.length-1]);
+        if(temp.length >= 2) try {
+            driverStationNumber = Integer.parseInt(temp[temp.length-1]);
 
-        switch(temp[temp.length-2]) {
+            if(driverStationNumber > 3 || driverStationNumber < 1) {
+                throw new NumberFormatException("Drive station number is outside range");
+            }
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "Unable to parse device name");
+            successfulDeviceNameParse = false;
+        }
+
+        if (successfulDeviceNameParse) switch(temp[temp.length-2]) {
             case "Red":
                 selectedColor = 0;
                 lockColor();

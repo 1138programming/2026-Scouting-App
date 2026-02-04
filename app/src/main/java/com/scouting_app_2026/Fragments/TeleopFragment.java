@@ -63,10 +63,10 @@ public class TeleopFragment extends DataFragment {
         ButtonTimeToggle defendingButtonTeleop = new ButtonTimeToggle(DatapointID.teleopDefense.getID(),
                 binding.defendingButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
 
-        Checkbox hangAttemptedTeleop = new Checkbox(DatapointID.teleopHangAttempted.getID(), binding.hangAttemptedCheckbox, false, true, undoStack);
+        new Checkbox(DatapointID.teleopHangAttempted.getID(), binding.hangAttemptedCheckbox, false, true, undoStack);
 
-        RadioGroup startsTeleopButtons = new RadioGroup(NonDataIDs.TeamColor.getID(), binding.teamStartTeleop);
-        undoStack.addElement(startsTeleopButtons);
+        RadioGroup firstActiveHub = new RadioGroup(DatapointID.autonRedWin.getID(), binding.teamStartTeleop);
+        undoStack.addElement(firstActiveHub);
 
         ImageButton undoButton = new ImageButton(NonDataIDs.TeleopUndo.getID(), binding.undoButton);
         undoButton.setOnClickFunction(undoStack::undo);

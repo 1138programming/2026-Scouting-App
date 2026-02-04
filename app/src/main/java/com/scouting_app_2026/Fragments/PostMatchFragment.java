@@ -32,7 +32,6 @@ import java.util.List;
 
 public class PostMatchFragment extends DataFragment {
     private PostMatchFragmentBinding binding;
-    private SliderElement confidenceSlider;
 
     public PostMatchFragment() {
 
@@ -52,10 +51,12 @@ public class PostMatchFragment extends DataFragment {
         List<CharSequence> hangOptionsPost = Arrays.asList(requireActivity().getResources().getStringArray(R.array.hang_spinner_options));
         Spinner fuelScoredSpinner = new Spinner(DatapointID.teleopHangSuccessful.getID(), binding.hangSpinner,false);
         fuelScoredSpinner.updateSpinnerList(new ArrayList<>(hangOptionsPost));
+        undoStack.addElement(fuelScoredSpinner);
 
         List<CharSequence> scoreEstimatePost = Arrays.asList(requireActivity().getResources().getStringArray(R.array.score_estimate_array));
-        Spinner scoreEstimateSpinner = new Spinner(DatapointID.teleopScored.getID(), binding.scoreEstimate,false);
+        Spinner scoreEstimateSpinner = new Spinner(DatapointID.teleopNumScored.getID(), binding.scoreEstimate,false);
         scoreEstimateSpinner.updateSpinnerList(new ArrayList<>(scoreEstimatePost));
+        undoStack.addElement(scoreEstimateSpinner);
 
         new SliderElement(DatapointID.teleopScoreAccuracy.getID(), binding.accuracySlider, undoStack);
 
@@ -82,8 +83,6 @@ public class PostMatchFragment extends DataFragment {
     public JSONArray getFragmentMatchData() throws JSONException {
         JSONManager jsonManager = new JSONManager(((MainActivity)context).getBaseJSON());
         JSONArray jsonCollection = super.getFragmentMatchData();
-
-        jsonManager.addDatapoint(DatapointID.scouterConfidence.getID(), confidenceSlider.getValue());
 
         JSONArray jsonArray = jsonManager.getJSON();
 
