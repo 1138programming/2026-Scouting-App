@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.slider.Slider;
 import com.scouting_app_2026.DatapointIDs.DatapointID;
 import com.scouting_app_2026.DatapointIDs.NonDataIDs;
 import com.scouting_app_2026.JSON.JSONManager;
@@ -49,20 +50,22 @@ public class PostMatchFragment extends DataFragment {
         super.onViewCreated(view, savedInstanceState);
 
         List<CharSequence> hangOptionsPost = Arrays.asList(requireActivity().getResources().getStringArray(R.array.hang_spinner_options));
-        Spinner fuelScoredSpinner = new Spinner(0, binding.hangSpinner,false);
+        Spinner fuelScoredSpinner = new Spinner(DatapointID.teleopHangSuccessful.getID(), binding.hangSpinner,false);
         fuelScoredSpinner.updateSpinnerList(new ArrayList<>(hangOptionsPost));
 
         List<CharSequence> scoreEstimatePost = Arrays.asList(requireActivity().getResources().getStringArray(R.array.score_estimate_array));
-        Spinner scoreEstimateSpinner = new Spinner(0, binding.scoreEstimate,false);
+        Spinner scoreEstimateSpinner = new Spinner(DatapointID.teleopScored.getID(), binding.scoreEstimate,false);
         scoreEstimateSpinner.updateSpinnerList(new ArrayList<>(scoreEstimatePost));
+
+        new SliderElement(DatapointID.teleopScoreAccuracy.getID(), binding.accuracySlider, undoStack);
+
+        new SliderElement(DatapointID.scouterConfidence.getID(), binding.confidenceSlider, undoStack);
 
         Button backButton = new Button(NonDataIDs.PostMatchBack.getID(), binding.returnToTeleop);
         backButton.setOnClickFunction(() -> ftm.postMatchBack());
 
         Button submitButton = new Button(NonDataIDs.PostMatchSubmit.getID(), binding.submitButton);
         submitButton.setOnClickFunction(() -> ftm.matchSubmit());
-
-        confidenceSlider = new SliderElement(DatapointID.scouterConfidence.getID(), binding.confidenceSlider);
     }
 
     public void updateTeamNumber(int teamNumber) {

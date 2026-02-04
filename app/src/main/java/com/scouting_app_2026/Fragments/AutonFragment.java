@@ -16,6 +16,7 @@ import com.scouting_app_2026.DatapointIDs.NonDataIDs;
 import com.scouting_app_2026.R;
 import com.scouting_app_2026.UIElements.Button;
 import com.scouting_app_2026.UIElements.ButtonTimeToggle;
+import com.scouting_app_2026.UIElements.Checkbox;
 import com.scouting_app_2026.UIElements.ImageButton;
 import com.scouting_app_2026.UIElements.Spinner;
 import com.scouting_app_2026.databinding.AutonFragmentBinding;
@@ -71,17 +72,22 @@ public class AutonFragment extends DataFragment {
         ButtonTimeToggle depotButtonAuton = new ButtonTimeToggle(DatapointID.autonDepot.getID(),
                 binding.depotButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
 
+        Checkbox hangAttemptAuton = new Checkbox(DatapointID.autonHangAttempted.getID(), binding.hangAttemptedCheckbox, false, true, undoStack);
+
+        Checkbox hangSuccessfulAuton = new Checkbox(DatapointID.autonHangSuccessful.getID(), binding.hangSuccessfulCheckbox, false, true, undoStack);
+
 
         ImageButton undoButton = new ImageButton(NonDataIDs.AutonUndo.getID(), binding.undoButton);
-        undoButton.setOnClickFunction(undoButton::undo);
+        undoButton.setOnClickFunction(undoStack::undo);
 
         ImageButton redoButton = new ImageButton(NonDataIDs.AutonRedo.getID(), binding.redoButton);
-        redoButton.setOnClickFunction(undoButton::redo);
+        redoButton.setOnClickFunction(undoStack::redo);
 
         Button backButton = new Button(NonDataIDs.AutonBack.getID(), binding.backButton);
         backButton.setOnClickFunction(() -> ftm.autonBack());
 
         Button nextButton = new Button(NonDataIDs.AutonNext.getID(), binding.nextButton);
+
         nextButton.setOnClickFunction(() -> ftm.autonNext());
         nextButton.setOnClickFunction(() -> ((TeleopFragment) Objects.requireNonNull(
                 getParentFragmentManager().findFragmentByTag("TeleopFragment"))).teleopOpen());

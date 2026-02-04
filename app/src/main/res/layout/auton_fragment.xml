@@ -29,7 +29,7 @@
             app:layout_constraintVertical_bias="0.50" />
 
         <CheckBox
-            android:id="@+id/depot_attempted_checkbox"
+            android:id="@+id/hang_successful_checkbox"
             android:layout_width="100sp"
             android:layout_height="100sp"
             android:background="?android:attr/listChoiceIndicatorMultiple"

@@ -15,6 +15,7 @@ import com.scouting_app_2026.DatapointIDs.NonDataIDs;
 import com.scouting_app_2026.R;
 import com.scouting_app_2026.UIElements.Button;
 import com.scouting_app_2026.UIElements.ButtonTimeToggle;
+import com.scouting_app_2026.UIElements.Checkbox;
 import com.scouting_app_2026.UIElements.ImageButton;
 import com.scouting_app_2026.databinding.TeleopFragmentBinding;
 
@@ -61,12 +62,13 @@ public class TeleopFragment extends DataFragment {
         ButtonTimeToggle defendingButtonTeleop = new ButtonTimeToggle(DatapointID.teleopDefense.getID(),
                 binding.defendingButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
 
+        Checkbox hangAttemptedTeleop = new Checkbox(DatapointID.teleopHangAttempted.getID(), binding.hangAttemptedCheckbox, false, true, undoStack);
 
         ImageButton undoButton = new ImageButton(NonDataIDs.TeleopUndo.getID(), binding.undoButton);
-        undoButton.setOnClickFunction(undoButton::undo);
+        undoButton.setOnClickFunction(undoStack::undo);
 
         ImageButton redoButton = new ImageButton(NonDataIDs.TeleopRedo.getID(), binding.redoButton);
-        redoButton.setOnClickFunction(undoButton::redo);
+        redoButton.setOnClickFunction(undoStack::redo);
 
         Button backButton = new Button(NonDataIDs.TeleopNext.getID(), binding.backButton);
         backButton.setOnClickFunction(() -> ftm.teleopBack());
