@@ -249,7 +249,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void autonStop() {
-        currentState = gameState.autonStopped;
+        if (currentState == gameState.autonStarted) {
+            currentState = gameState.autonStopped;
+        }
     }
 
     public void teleopStart() {
