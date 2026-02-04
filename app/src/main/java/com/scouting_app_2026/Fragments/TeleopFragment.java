@@ -17,6 +17,7 @@ import com.scouting_app_2026.UIElements.Button;
 import com.scouting_app_2026.UIElements.ButtonTimeToggle;
 import com.scouting_app_2026.UIElements.Checkbox;
 import com.scouting_app_2026.UIElements.ImageButton;
+import com.scouting_app_2026.UIElements.RadioGroup;
 import com.scouting_app_2026.databinding.TeleopFragmentBinding;
 
 import java.util.Calendar;
@@ -63,6 +64,9 @@ public class TeleopFragment extends DataFragment {
                 binding.defendingButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
 
         Checkbox hangAttemptedTeleop = new Checkbox(DatapointID.teleopHangAttempted.getID(), binding.hangAttemptedCheckbox, false, true, undoStack);
+
+        RadioGroup startsTeleopButtons = new RadioGroup(NonDataIDs.TeamColor.getID(), binding.teamStartTeleop);
+        undoStack.addElement(startsTeleopButtons);
 
         ImageButton undoButton = new ImageButton(NonDataIDs.TeleopUndo.getID(), binding.undoButton);
         undoButton.setOnClickFunction(undoStack::undo);

@@ -13,6 +13,13 @@ public class SliderElement extends UIElement {
         this.undoStack.addElement(this);
     }
 
+    public SliderElement(int datapointID, Slider slider) {
+        super(datapointID);
+        this.slider = slider;
+        this.slider.addOnChangeListener((slider1, value, fromUser) -> SliderElement.this.clicked());
+        this.undoStack = null;
+    }
+
     @Override
     public void clicked() {
         super.clicked();

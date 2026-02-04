@@ -50,7 +50,7 @@ public class AutonFragment extends DataFragment {
         undoStack.setMatchPhaseAuton();
 
         List<CharSequence> fuelScoredAuton = Arrays.asList(requireActivity().getResources().getStringArray(R.array.fuel_scored_auton));
-        Spinner fuelScoredSpinner = new Spinner(0, binding.fuelScoredAuton,false);
+        Spinner fuelScoredSpinner = new Spinner(DatapointID.autonNumScored.getID(), binding.fuelScoredAuton,false);
         fuelScoredSpinner.updateSpinnerList(new ArrayList<>(fuelScoredAuton));
 
 

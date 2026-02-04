@@ -286,11 +286,11 @@ public class PreAutonFragment extends DataFragment {
 
         switch(temp[temp.length-2]) {
             case "Red":
-                selectedColor = 1;
+                selectedColor = 0;
                 lockColor();
                 break;
             case "Blue":
-                selectedColor = 0;
+                selectedColor = 1;
                 lockColor();
                 break;
             default:

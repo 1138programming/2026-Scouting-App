@@ -31,8 +31,8 @@
 
         <Button
             android:id="@+id/collecting_button_teleop"
-            android:layout_width="260sp"
-            android:layout_height="120sp"
+            android:layout_width="240sp"
+            android:layout_height="100sp"
             android:layout_marginStart="20dp"
             android:text="@string/collecting_button_teleop"
             android:textColor="@color/background_default"
@@ -42,8 +42,8 @@
 
         <Button
             android:id="@+id/immobile_button_teleop"
-            android:layout_width="260sp"
-            android:layout_height="120sp"
+            android:layout_width="240sp"
+            android:layout_height="100sp"
             android:layout_marginTop="30dp"
             android:text="@string/immobile_button_teleop"
             android:textColor="@color/background_default"
@@ -53,8 +53,8 @@
 
         <Button
             android:id="@+id/scoring_button_teleop"
-            android:layout_width="260sp"
-            android:layout_height="120sp"
+            android:layout_width="240sp"
+            android:layout_height="100sp"
             android:text="@string/scoring_button_teleop"
             android:textColor="@color/background_default"
             android:textSize="38sp"
@@ -63,8 +63,8 @@
 
         <Button
             android:id="@+id/defending_button_teleop"
-            android:layout_width="260sp"
-            android:layout_height="120sp"
+            android:layout_width="240sp"
+            android:layout_height="100sp"
             android:layout_marginTop="30dp"
             android:text="@string/defending_button_teleop"
             android:textColor="@color/background_default"
@@ -74,8 +74,8 @@
 
         <Button
             android:id="@+id/outpost_button_teleop"
-            android:layout_width="260sp"
-            android:layout_height="120sp"
+            android:layout_width="240sp"
+            android:layout_height="100sp"
             android:text="@string/outpost_button_teleop"
             android:textColor="@color/background_default"
             android:textSize="38sp"
@@ -84,15 +84,58 @@
 
         <Button
             android:id="@+id/shuttling_button_teleop"
-            android:layout_width="260sp"
-            android:layout_height="120sp"
-            android:layout_marginTop="5dp"
+            android:layout_width="240sp"
+            android:layout_height="100sp"
+            android:layout_marginTop="75dp"
             android:layout_marginEnd="20dp"
             android:text="@string/shuttling_button_teleop"
             android:textColor="@color/background_default"
             android:textSize="38sp"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <RadioGroup
+            android:id="@+id/team_start_teleop"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="-20dp"
+            android:background="@drawable/toggle_background"
+            android:orientation="horizontal"
+            android:checkedButton = "@+id/team_blue_teleop"
+            app:layout_constraintBottom_toTopOf="@+id/shuttling_button_teleop"
+            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/locationTeleop">
+
+            <RadioButton
+                android:id="@+id/team_blue_teleop"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_background_red"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/team_color_red"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/team_red_teleop"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_background_blue"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/team_color_blue"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RadioGroup>
 
         <ImageView
             android:id="@+id/imageView"
@@ -115,6 +158,18 @@
             app:layout_constraintBottom_toTopOf="@+id/nextButton"
             app:layout_constraintStart_toStartOf="@+id/outpost_button_teleop"
             app:layout_constraintTop_toBottomOf="@+id/defending_button_teleop" />
+
+        <TextView
+            android:id="@+id/start_teleop_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-20dp"
+            android:text="@string/start_teleop_team"
+            android:textColor="@color/off_white"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toTopOf="@+id/collecting_button_teleop"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/locationTeleop" />
 
         <TextView
             android:id="@+id/mainTitle"
@@ -186,7 +241,7 @@
 
         <Button
             android:id="@+id/nextButton"
-            android:layout_width="260sp"
+            android:layout_width="240sp"
             android:layout_height="110sp"
             android:backgroundTint="@color/chaminade_orange"
             android:text="@string/next_button_title"
@@ -197,7 +252,7 @@
 
         <Button
             android:id="@+id/backButton"
-            android:layout_width="260sp"
+            android:layout_width="240sp"
             android:layout_height="110sp"
             android:backgroundTint="@color/chaminade_orange"
             android:text="@string/back_button_title"
