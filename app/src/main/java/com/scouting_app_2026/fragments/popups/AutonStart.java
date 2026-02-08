@@ -1,4 +1,6 @@
-package com.scouting_app_2026.Fragments.Popups;
+package com.scouting_app_2026.fragments.popups;
+
+import static com.scouting_app_2026.MainActivity.ftm;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,15 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.scouting_app_2026.Fragments.AutonFragment;
 import com.scouting_app_2026.MainActivity;
 import com.scouting_app_2026.UIElements.Button;
-
-import static com.scouting_app_2026.MainActivity.context;
-import static com.scouting_app_2026.MainActivity.ftm;
-
-import com.scouting_app_2026.DatapointIDs.NonDataIDs;
 import com.scouting_app_2026.databinding.AutonStartFragmentBinding;
+import com.scouting_app_2026.datapointIDs.NonDataIDs;
+import com.scouting_app_2026.fragments.AutonFragment;
 
 import java.util.Objects;
 
@@ -46,7 +44,7 @@ public class AutonStart extends Fragment {
                 NonDataIDs.AutonStartStart.getID(), binding.startButton);
         startButton.setOnClickFunction(() -> ((AutonFragment) Objects.requireNonNull(
                 getParentFragmentManager().findFragmentByTag("AutonFragment"))).startAuton());
-        startButton.setOnClickFunction(((MainActivity)context)::autonStart);
+        startButton.setOnClickFunction(((MainActivity)requireActivity())::autonStart);
         startButton.setOnClickFunction(() -> ftm.autonStartStart());
     }
 

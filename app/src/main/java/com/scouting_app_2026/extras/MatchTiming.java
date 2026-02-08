@@ -1,7 +1,6 @@
-package com.scouting_app_2026.Extras;
+package com.scouting_app_2026.extras;
 
 import static com.scouting_app_2026.MainActivity.autonLengthMs;
-import static com.scouting_app_2026.MainActivity.context;
 import static com.scouting_app_2026.MainActivity.teleopLengthMs;
 import static com.scouting_app_2026.MainActivity.timeBufferMs;
 
@@ -20,11 +19,11 @@ public class MatchTiming {
      * amount of time that has already passed (current time - when auton started)
      * @param task What you want run when auton ends
      */
-    public static void scheduleRunAfterAuto(Runnable task) {
+    public static void scheduleRunAfterAuto(Runnable task, MainActivity mainActivity) {
         long timeToWait = autonLengthMs + timeBufferMs
-                - (Calendar.getInstance(Locale.US).getTimeInMillis() - ((MainActivity)context).auton.getAutonStart());
+                - (Calendar.getInstance(Locale.US).getTimeInMillis() - mainActivity.auton.getAutonStart());
 
-        scheduler.schedule(runWithUpdate(task), timeToWait, TimeUnit.MILLISECONDS);
+        scheduler.schedule(runWithUpdate(task, mainActivity), timeToWait, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -32,17 +31,17 @@ public class MatchTiming {
      * amount of time that has already passed (current time - when teleop started)
      * @param task What you want to be run when teleop ends
      */
-    public static void scheduleRunAfterTeleop(Runnable task) {
+    public static void scheduleRunAfterTeleop(Runnable task, MainActivity mainActivity) {
         long timeToWait = teleopLengthMs + timeBufferMs
-                - (Calendar.getInstance(Locale.US).getTimeInMillis() - ((MainActivity)context).teleop.getTeleopStart());
+                - (Calendar.getInstance(Locale.US).getTimeInMillis() - mainActivity.teleop.getTeleopStart());
 
-        scheduler.schedule(runWithUpdate(task), timeToWait, TimeUnit.MILLISECONDS);
+        scheduler.schedule(runWithUpdate(task, mainActivity), timeToWait, TimeUnit.MILLISECONDS);
     }
 
-    private static Runnable runWithUpdate(Runnable task) {
+    private static Runnable runWithUpdate(Runnable task, MainActivity mainActivity) {
         return () -> {
             task.run();
-            ((MainActivity)context).updateFragments();
+            mainActivity.updateFragments();
         };
     }
 }

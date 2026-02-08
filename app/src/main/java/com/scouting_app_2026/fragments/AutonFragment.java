@@ -1,6 +1,5 @@
-package com.scouting_app_2026.Fragments;
+package com.scouting_app_2026.fragments;
 
-import static com.scouting_app_2026.MainActivity.context;
 import static com.scouting_app_2026.MainActivity.ftm;
 
 import android.os.Bundle;
@@ -11,15 +10,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.scouting_app_2026.DatapointIDs.DatapointID;
-import com.scouting_app_2026.DatapointIDs.NonDataIDs;
 import com.scouting_app_2026.R;
 import com.scouting_app_2026.UIElements.Button;
 import com.scouting_app_2026.UIElements.ButtonTimeToggle;
 import com.scouting_app_2026.UIElements.Checkbox;
 import com.scouting_app_2026.UIElements.ImageButton;
+import com.scouting_app_2026.UIElements.RadioGroup;
 import com.scouting_app_2026.UIElements.Spinner;
 import com.scouting_app_2026.databinding.AutonFragmentBinding;
+import com.scouting_app_2026.datapointIDs.DatapointID;
+import com.scouting_app_2026.datapointIDs.NonDataIDs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,31 +51,36 @@ public class AutonFragment extends DataFragment {
 
         List<CharSequence> fuelScoredAuton = Arrays.asList(requireActivity().getResources().getStringArray(R.array.fuel_scored_auton));
         Spinner fuelScoredSpinner = new Spinner(DatapointID.autonNumScored.getID(), binding.fuelScoredAuton,false);
-        fuelScoredSpinner.updateSpinnerList(new ArrayList<>(fuelScoredAuton));
+        fuelScoredSpinner.updateSpinnerList(new ArrayList<>(fuelScoredAuton), requireContext());
 
+        new RadioGroup(
+                new ArrayList<>(Arrays.asList(
+                    DatapointID.autonEnteredRed.getID(),
+                    DatapointID.autonEnteredNeutral.getID(),
+                    DatapointID.autonEnteredBlue.getID())),
+                binding.locationAuton,undoStack);
 
-        ButtonTimeToggle collectingButtonAuton = new ButtonTimeToggle(DatapointID.autonCollected.getID(),
+        new ButtonTimeToggle(DatapointID.autonCollected.getID(),
                 binding.collectingButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
 
-        ButtonTimeToggle shuttlingButtonAuton = new ButtonTimeToggle(DatapointID.autonShuttled.getID(),
+        new ButtonTimeToggle(DatapointID.autonShuttled.getID(),
                 binding.shuttlingButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
 
-        ButtonTimeToggle scoringButtonAuton = new ButtonTimeToggle(DatapointID.autonScored.getID(),
+        new ButtonTimeToggle(DatapointID.autonScored.getID(),
                 binding.scoringButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
 
-        ButtonTimeToggle immobileButtonAuton = new ButtonTimeToggle(DatapointID.autonImmobile.getID(),
+        new ButtonTimeToggle(DatapointID.autonImmobile.getID(),
                 binding.immobileButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
 
-        ButtonTimeToggle outpostButtonAuton = new ButtonTimeToggle(DatapointID.autonOutpost.getID(),
+        new ButtonTimeToggle(DatapointID.autonOutpost.getID(),
                 binding.outpostButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
 
-        ButtonTimeToggle depotButtonAuton = new ButtonTimeToggle(DatapointID.autonDepot.getID(),
+        new ButtonTimeToggle(DatapointID.autonDepot.getID(),
                 binding.depotButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
 
-        Checkbox hangAttemptAuton = new Checkbox(DatapointID.autonHangAttempted.getID(), binding.hangAttemptedCheckbox, false, true, undoStack);
+        new Checkbox(DatapointID.autonHangAttempted.getID(), binding.hangAttemptedCheckbox, false, true, undoStack);
 
-        Checkbox hangSuccessfulAuton = new Checkbox(DatapointID.autonHangSuccessful.getID(), binding.hangSuccessfulCheckbox, false, true, undoStack);
-
+        new Checkbox(DatapointID.autonHangSuccessful.getID(), binding.hangSuccessfulCheckbox, false, true, undoStack);
 
         ImageButton undoButton = new ImageButton(NonDataIDs.AutonUndo.getID(), binding.undoButton);
         undoButton.setOnClickFunction(undoStack::undo);
@@ -87,24 +92,29 @@ public class AutonFragment extends DataFragment {
         backButton.setOnClickFunction(() -> ftm.autonBack());
 
         Button nextButton = new Button(NonDataIDs.AutonNext.getID(), binding.nextButton);
-
         nextButton.setOnClickFunction(() -> ftm.autonNext());
         nextButton.setOnClickFunction(() -> ((TeleopFragment) Objects.requireNonNull(
-                getParentFragmentManager().findFragmentByTag("TeleopFragment"))).teleopOpen());
-    }
-
-    public void autonOpen() {
-        if(autonStart == null) {
-            ftm.showAutonStart();
-        }
+                getParentFragmentManager().findFragmentByTag("TeleopFragment"))).openTeleop());
     }
 
     /**
      * Called every time auton is opened to make sure the auton start
      * popup is shown before auton starts.
      */
+    public void openAuton() {
+        if(autonStart == null) {
+            ftm.showAutonStart();
+            undoStack.disableAll();
+        }
+    }
+
     public void startAuton() {
         this.autonStart = Calendar.getInstance(Locale.US).getTimeInMillis();
+        undoStack.enableAll();
+    }
+
+    public void endAuton() {
+        undoStack.disableAll();
     }
 
     public long getAutonStart() {
@@ -113,6 +123,10 @@ public class AutonFragment extends DataFragment {
 
     public void updateTeamNumber(int teamNumber) {
         binding.teamNumber.setText(String.valueOf(teamNumber));
+    }
+
+    public void robotDisabled() {
+
     }
 
     @NonNull

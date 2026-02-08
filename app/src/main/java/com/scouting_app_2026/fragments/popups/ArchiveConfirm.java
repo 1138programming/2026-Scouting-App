@@ -1,4 +1,4 @@
-package com.scouting_app_2026.Fragments.Popups;
+package com.scouting_app_2026.fragments.popups;
 
 import static com.scouting_app_2026.MainActivity.ftm;
 
@@ -11,10 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.scouting_app_2026.DatapointIDs.NonDataIDs;
-import com.scouting_app_2026.Fragments.ArchiveFragment;
 import com.scouting_app_2026.UIElements.Button;
 import com.scouting_app_2026.databinding.ArchiveConfirmSubmitBinding;
+import com.scouting_app_2026.datapointIDs.NonDataIDs;
+import com.scouting_app_2026.fragments.ArchiveFragment;
+
 import java.util.Objects;
 
 public class ArchiveConfirm extends Fragment {

@@ -1,4 +1,4 @@
-package com.scouting_app_2026.Extras;
+package com.scouting_app_2026.extras;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

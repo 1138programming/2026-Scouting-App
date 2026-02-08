@@ -67,4 +67,16 @@ public class Checkbox extends UIElement {
             checkbox.setEnabled(false);
         }
     }
+
+    @Override
+    public void enable() {
+        checkbox.setEnabled(true);
+    }
+
+    @Override
+    public void disable(boolean override) {
+        if(disableable || override) {
+            checkbox.setEnabled(false);
+        }
+    }
 }

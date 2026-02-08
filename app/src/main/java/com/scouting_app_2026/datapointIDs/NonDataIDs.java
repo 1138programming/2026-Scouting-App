@@ -1,4 +1,4 @@
-package com.scouting_app_2026.DatapointIDs;
+package com.scouting_app_2026.datapointIDs;
 
 public enum NonDataIDs {
     Default,

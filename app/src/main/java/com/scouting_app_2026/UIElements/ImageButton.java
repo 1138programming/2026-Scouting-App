@@ -5,7 +5,7 @@ import android.content.res.ColorStateList;
 import java.util.Objects;
 
 public class ImageButton extends UIElement {
-    private final android.widget.ImageButton binding;
+    private final android.widget.ImageButton button;
     private int color;
 
     /**
@@ -16,13 +16,13 @@ public class ImageButton extends UIElement {
      *
      * @param datapointID datapointID of the button (should be negative given that
      *                    the button doesn't store data)
-     * @param binding binding of the button
+     * @param button binding of the button
      */
-    public ImageButton(int datapointID, android.widget.ImageButton binding) {
+    public ImageButton(int datapointID, android.widget.ImageButton button) {
         super(datapointID);
-        this.binding = binding;
-        this.color = Objects.requireNonNull(binding.getBackgroundTintList()).getDefaultColor();
-        binding.setOnClickListener(view -> clicked());
+        this.button = button;
+        this.color = Objects.requireNonNull(button.getBackgroundTintList()).getDefaultColor();
+        button.setOnClickListener(view -> clicked());
     }
 
     public int getColor() {
@@ -31,8 +31,20 @@ public class ImageButton extends UIElement {
 
     public void setColor(int color) {
         this.color = color;
-        if(binding != null) {
-            binding.setBackgroundTintList(ColorStateList.valueOf(this.color));
+        if(button != null) {
+            button.setBackgroundTintList(ColorStateList.valueOf(this.color));
+        }
+    }
+
+    @Override
+    public void enable() {
+        button.setEnabled(true);
+    }
+
+    @Override
+    public void disable(boolean override) {
+        if(disableable || override) {
+            button.setEnabled(false);
         }
     }
 }

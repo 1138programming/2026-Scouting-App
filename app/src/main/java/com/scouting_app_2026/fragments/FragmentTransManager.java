@@ -1,6 +1,4 @@
-package com.scouting_app_2026.Fragments;
-
-import static com.scouting_app_2026.MainActivity.context;
+package com.scouting_app_2026.fragments;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -14,10 +12,14 @@ import java.util.Objects;
 
 public class FragmentTransManager {
     private FragmentTransaction ft;
-    private final FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
+    private final FragmentManager fm;
+    private final MainActivity mainActivity;
 
-    public FragmentTransManager(ArrayList<Fragment> fragments) {
-        ((MainActivity) context).setContentView(R.layout.activity_main);
+    public FragmentTransManager(ArrayList<Fragment> fragments, MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+
+        this.mainActivity.setContentView(R.layout.activity_main);
+        fm = mainActivity.getSupportFragmentManager();
 
         ft = fm.beginTransaction();
         for (Fragment fragment : fragments) {
@@ -43,7 +45,7 @@ public class FragmentTransManager {
         hideFragment("PreAutonFragment");
         showFragment("AutonFragment");
         ft.commitNow();
-        ((MainActivity)context).updateFragments();
+        mainActivity.updateFragments();
     }
 
     public void showAutonStart() {
@@ -58,14 +60,14 @@ public class FragmentTransManager {
         hideFragment("AutonFragment");
         showFragment("PreAutonFragment");
         ft.commitNow();
-        ((MainActivity)context).updateFragments();
+        mainActivity.updateFragments();
     }
 
     public void autonStartStart() {
         ft = fm.beginTransaction();
         hideFragment("AutonStartFragment");
         ft.commitNow();
-        ((MainActivity)context).updateFragments();
+        mainActivity.updateFragments();
     }
 
     public void autonBack() {
@@ -73,7 +75,7 @@ public class FragmentTransManager {
         hideFragment("AutonFragment");
         showFragment("PreAutonFragment");
         ft.commitNow();
-        ((MainActivity)context).updateFragments();
+        mainActivity.updateFragments();
     }
 
     public void autonNext() {
@@ -81,7 +83,7 @@ public class FragmentTransManager {
         hideFragment("AutonFragment");
         showFragment("TeleopFragment");
         ft.commitNow();
-        ((MainActivity)context).updateFragments();
+        mainActivity.updateFragments();
     }
 
     public void showTeleopStart() {
@@ -96,14 +98,14 @@ public class FragmentTransManager {
         hideFragment("TeleopFragment");
         showFragment("AutonFragment");
         ft.commitNow();
-        ((MainActivity)context).updateFragments();
+        mainActivity.updateFragments();
     }
 
     public void teleopStartStart() {
         ft = fm.beginTransaction();
         hideFragment("TeleopStartFragment");
         ft.commitNow();
-        ((MainActivity)context).updateFragments();
+        mainActivity.updateFragments();
     }
 
     public void teleopBack() {
@@ -111,7 +113,7 @@ public class FragmentTransManager {
         hideFragment("TeleopFragment");
         showFragment("AutonFragment");
         ft.commitNow();
-        ((MainActivity)context).updateFragments();
+        mainActivity.updateFragments();
     }
 
     public void teleopNext() {
@@ -119,7 +121,7 @@ public class FragmentTransManager {
         hideFragment("TeleopFragment");
         showFragment("PostMatchFragment");
         ft.commitNow();
-        ((MainActivity)context).updateFragments();
+        mainActivity.updateFragments();
     }
 
     public void postMatchBack() {
@@ -127,7 +129,7 @@ public class FragmentTransManager {
         hideFragment("PostMatchFragment");
         showFragment("TeleopFragment");
         ft.commitNow();
-        ((MainActivity)context).updateFragments();
+        mainActivity.updateFragments();
     }
 
     public void matchSubmit() {

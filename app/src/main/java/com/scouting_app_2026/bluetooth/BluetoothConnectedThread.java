@@ -1,7 +1,6 @@
-package com.scouting_app_2026.Bluetooth;
+package com.scouting_app_2026.bluetooth;
 
 import static com.scouting_app_2026.MainActivity.TAG;
-import static com.scouting_app_2026.MainActivity.context;
 
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
@@ -22,6 +21,7 @@ import java.util.Locale;
 
 public class BluetoothConnectedThread extends Thread {
     private final BluetoothSocket socket;
+    private final MainActivity mainActivity;
     private final InputStream inputStream;
     private final OutputStream outputStream;
     private ByteBuffer byteBuffer;
@@ -32,8 +32,9 @@ public class BluetoothConnectedThread extends Thread {
     /**
      * 
      */
-    public BluetoothConnectedThread(BluetoothSocket socket) {
+    public BluetoothConnectedThread(BluetoothSocket socket, MainActivity mainActivity) {
         this.socket = socket;
+        this.mainActivity = mainActivity;
 
         //creates temporary input and output stream objects
         InputStream tmpIn = null;
@@ -58,10 +59,9 @@ public class BluetoothConnectedThread extends Thread {
 
     @Override
     public void run() {
-        MainActivity main = (MainActivity)context;
-        main.setConnectedThread(this);
-        main.setConnectivity(true);
-        main.runOnUiThread(main::updateBtScoutingInfo);
+        mainActivity.setConnectedThread(this);
+        mainActivity.setConnectivity(true);
+        mainActivity.runOnUiThread(mainActivity::updateBtScoutingInfo);
     }
 
     private void resetByteBuffer(int capacity) {
@@ -146,7 +146,7 @@ public class BluetoothConnectedThread extends Thread {
             Log.e(TAG, "Communication exchange failed", e);
             cancel();
         }
-        Toast.makeText(context,"Successful Submit", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mainActivity,"Successful Submit", Toast.LENGTH_SHORT).show();
     }
     /**
      * @return Returns true if the data is up to date with the central computer
@@ -166,10 +166,10 @@ public class BluetoothConnectedThread extends Thread {
             read(byteLength);
             sendAck();
 
-            Log.d(TAG, "Murmur Hash: \"" + MurmurHash.makeHash((new UpdateScoutingInfo()).getDataFromFile().getBytes(StandardCharsets.UTF_8)) + "\"");
+            Log.d(TAG, "Murmur Hash: \"" + MurmurHash.makeHash((new UpdateScoutingInfo(mainActivity)).getDataFromFile().getBytes(StandardCharsets.UTF_8)) + "\"");
 
             return byteBuffer.put(buffer).getInt(0) ==
-                    MurmurHash.makeHash((new UpdateScoutingInfo()).getDataFromFile().getBytes(StandardCharsets.UTF_8));
+                    MurmurHash.makeHash((new UpdateScoutingInfo(mainActivity)).getDataFromFile().getBytes(StandardCharsets.UTF_8));
         }
         catch(CommErrorException e) {
             Log.e(TAG, "Communication exchange failed", e);
@@ -192,7 +192,7 @@ public class BluetoothConnectedThread extends Thread {
             read(listLength);
             sendAck();
 
-            (new UpdateScoutingInfo()).saveToFile(new String(buffer, StandardCharsets.UTF_8));
+            (new UpdateScoutingInfo(mainActivity)).saveToFile(new String(buffer, StandardCharsets.UTF_8));
         }
         catch(CommErrorException | IOException e) {
             Log.e(TAG, "Communication exchange failed", e);
@@ -215,7 +215,7 @@ public class BluetoothConnectedThread extends Thread {
         try {
             outputStream.flush();
             socket.close();
-            ((MainActivity) context).setConnectivity(false);
+            mainActivity.setConnectivity(false);
         }
         catch(IOException e) {
             Log.e(TAG, "failed flush stream and close socket: ", e);

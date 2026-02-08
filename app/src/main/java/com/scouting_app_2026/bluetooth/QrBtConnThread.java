@@ -1,4 +1,4 @@
-package com.scouting_app_2026.Bluetooth;
+package com.scouting_app_2026.bluetooth;
 
 import static com.scouting_app_2026.MainActivity.TAG;
 
@@ -29,12 +29,12 @@ public class QrBtConnThread extends Thread {
      * @param port The bluetooth port of the  on that device
      */
      @SuppressLint("MissingPermission")
-     public static void bluetoothConnect(String mac, int port) {
-        if(((MainActivity) MainActivity.context).permissionManager.permissionNotGranted(Manifest.permission.BLUETOOTH_CONNECT)) {
+     public static void bluetoothConnect(String mac, int port, MainActivity mainActivity) {
+        if(mainActivity.permissionManager.permissionNotGranted(Manifest.permission.BLUETOOTH_CONNECT)) {
             Log.e(TAG, "need permission for Bluetooth_Connect");
         }
         BluetoothSocket tmp;
-        BluetoothDevice device = ((BluetoothManager) MainActivity.context.getSystemService(Context.BLUETOOTH_SERVICE))
+        BluetoothDevice device = ((BluetoothManager) mainActivity.getSystemService(Context.BLUETOOTH_SERVICE))
                  .getAdapter().getRemoteDevice(mac);
 
         try {
@@ -58,7 +58,7 @@ public class QrBtConnThread extends Thread {
             // Unable to connect; close the socket and return.
             cancel();
         }
-        new BluetoothConnectedThread(socket).start();
+        new BluetoothConnectedThread(socket, mainActivity).start();
      }
 
      public static void cancel() {

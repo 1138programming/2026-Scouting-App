@@ -8,7 +8,7 @@ android:layout_height="match_parent"
 android:background="@color/background_default"
 android:foregroundTint="@color/black"
 android:clickable="true"
-tools:context=".Fragments.PreAutonFragment">
+tools:context=".fragments.PreAutonFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

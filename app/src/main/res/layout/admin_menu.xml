@@ -7,7 +7,7 @@
     android:background="@color/background_default"
     android:foregroundTint="@color/black"
     android:clickable="true"
-    tools:context="Fragments.ArchiveFragment">
+    tools:context="fragments.ArchiveFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

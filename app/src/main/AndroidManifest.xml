@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Bluetooth.CaptureAct"
+        <activity android:name=".bluetooth.CaptureAct"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"/>
 

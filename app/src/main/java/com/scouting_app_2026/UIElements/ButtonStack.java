@@ -1,12 +1,12 @@
 package com.scouting_app_2026.UIElements;
 
 
+import static com.scouting_app_2026.MainActivity.TAG;
+
 import android.content.res.ColorStateList;
 import android.util.Log;
 
-import static com.scouting_app_2026.MainActivity.TAG;
-
-import com.scouting_app_2026.DatapointIDs.NonDataIDs;
+import com.scouting_app_2026.datapointIDs.NonDataIDs;
 
 import java.util.ArrayList;
 

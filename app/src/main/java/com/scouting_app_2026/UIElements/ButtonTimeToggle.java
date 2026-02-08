@@ -2,22 +2,25 @@ package com.scouting_app_2026.UIElements;
 
 import android.content.res.ColorStateList;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ButtonTimeToggle extends UIElement {
-    private final android.widget.Button binding;
+    private final android.widget.Button button;
+    private final ArrayList<Runnable> onSelectFunctions = new ArrayList<>();
+    private final ArrayList<Runnable> onDeselectFunctions = new ArrayList<>();
     private final UndoStack undoStack;
     private final int normalColor;
     private final int altColor;
     private boolean colorSwapped = false;
 
-    public ButtonTimeToggle(int datapointID, android.widget.Button binding, UndoStack undoStack, int altColor) {
+    public ButtonTimeToggle(int datapointID, android.widget.Button button, UndoStack undoStack, int altColor) {
         super(datapointID);
-        this.binding = binding;
+        this.button = button;
         this.undoStack = undoStack;
-        normalColor = Objects.requireNonNull(binding.getBackgroundTintList()).getDefaultColor();
+        normalColor = Objects.requireNonNull(button.getBackgroundTintList()).getDefaultColor();
         this.altColor = altColor;
-        this.binding.setOnClickListener(View1 -> clicked());
+        this.button.setOnClickListener(View1 -> clicked());
     }
 
     @Override
@@ -25,8 +28,27 @@ public class ButtonTimeToggle extends UIElement {
         super.clicked();
 
         swapColors();
+        this.specialClicked();
 
         undoStack.addTimestamp(this);
+    }
+
+    /**
+     * Runs functions that are only run on select or deselect
+     */
+    private void specialClicked() {
+        // if the button was just selected then iterate through the onSelectFunctions and vice versa
+        for(Runnable onClickFunction : (colorSwapped ? onSelectFunctions : onDeselectFunctions)) {
+            onClickFunction.run();
+        }
+    }
+
+    public void setOnSelectFunction(Runnable onClickFunction) {
+        onSelectFunctions.add(onClickFunction);
+    }
+
+    public void setOnDeselectFunction(Runnable onClickFunction) {
+        onDeselectFunctions.add(onClickFunction);
     }
 
     @Override
@@ -55,6 +77,18 @@ public class ButtonTimeToggle extends UIElement {
     }
 
     private void setColor(int color) {
-        binding.setBackgroundTintList(ColorStateList.valueOf(color));
+        button.setBackgroundTintList(ColorStateList.valueOf(color));
+    }
+
+    @Override
+    public void enable() {
+        button.setEnabled(true);
+    }
+
+    @Override
+    public void disable(boolean override) {
+        if(disableable || override) {
+            button.setEnabled(false);
+        }
     }
 }

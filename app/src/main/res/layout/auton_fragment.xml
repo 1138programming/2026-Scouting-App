@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_default"
     android:clickable="true"
-    tools:context=".Fragments.AutonFragment">
+    tools:context=".fragments.AutonFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -274,7 +274,7 @@
                 android:gravity="center"
                 android:text="@string/red_auton"
                 android:textColor="@color/red_text_toggle"
-                android:textSize="24sp" />
+                android:textSize="36sp" />
 
             <RadioButton
                 android:id="@+id/middle_auton"
@@ -285,12 +285,12 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="1dp"
                 android:layout_weight="1"
-                android:background="@drawable/start_toggle_purple"
+                android:background="@drawable/start_toggle_blue_white"
                 android:button="@null"
                 android:gravity="center"
                 android:text="@string/middle_auton"
-                android:textColor="@color/purple_text_toggle"
-                android:textSize="24sp" />
+                android:textColor="@color/blue_white_text_toggle"
+                android:textSize="36sp" />
 
             <RadioButton
                 android:id="@+id/blue_auton"
@@ -305,7 +305,7 @@
                 android:gravity="center"
                 android:text="@string/blue_auton"
                 android:textColor="@color/blue_text_toggle"
-                android:textSize="24sp" />
+                android:textSize="36sp" />
         </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

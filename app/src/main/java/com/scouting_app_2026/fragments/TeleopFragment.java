@@ -1,4 +1,4 @@
-package com.scouting_app_2026.Fragments;
+package com.scouting_app_2026.fragments;
 
 import static com.scouting_app_2026.MainActivity.ftm;
 
@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.scouting_app_2026.DatapointIDs.DatapointID;
-import com.scouting_app_2026.DatapointIDs.NonDataIDs;
 import com.scouting_app_2026.R;
 import com.scouting_app_2026.UIElements.Button;
 import com.scouting_app_2026.UIElements.ButtonTimeToggle;
@@ -19,7 +17,11 @@ import com.scouting_app_2026.UIElements.Checkbox;
 import com.scouting_app_2026.UIElements.ImageButton;
 import com.scouting_app_2026.UIElements.RadioGroup;
 import com.scouting_app_2026.databinding.TeleopFragmentBinding;
+import com.scouting_app_2026.datapointIDs.DatapointID;
+import com.scouting_app_2026.datapointIDs.NonDataIDs;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -44,23 +46,30 @@ public class TeleopFragment extends DataFragment {
 
         undoStack.setMatchPhaseTeleop();
 
+        new RadioGroup(
+                new ArrayList<>(Arrays.asList(
+                        DatapointID.teleopEnteredRed.getID(),
+                        DatapointID.teleopEnteredNeutral.getID(),
+                        DatapointID.teleopEnteredBlue.getID())),
+                binding.locationTeleop,undoStack);
 
-        ButtonTimeToggle collectingButtonTeleop = new ButtonTimeToggle(DatapointID.teleopCollected.getID(),
+
+        new ButtonTimeToggle(DatapointID.teleopCollected.getID(),
                 binding.collectingButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
 
-        ButtonTimeToggle shuttlingButtonTeleop = new ButtonTimeToggle(DatapointID.teleopShuttled.getID(),
+        new ButtonTimeToggle(DatapointID.teleopShuttled.getID(),
                 binding.shuttlingButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
 
-        ButtonTimeToggle scoringButtonTeleop = new ButtonTimeToggle(DatapointID.teleopScored.getID(),
+        new ButtonTimeToggle(DatapointID.teleopScored.getID(),
                 binding.scoringButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
 
-        ButtonTimeToggle immobileButtonTeleop = new ButtonTimeToggle(DatapointID.teleopScored.getID(),
+        new ButtonTimeToggle(DatapointID.teleopScored.getID(),
                 binding.immobileButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
 
-        ButtonTimeToggle outpostButtonTeleop = new ButtonTimeToggle(DatapointID.teleopOutpost.getID(),
+        new ButtonTimeToggle(DatapointID.teleopOutpost.getID(),
                 binding.outpostButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
 
-        ButtonTimeToggle defendingButtonTeleop = new ButtonTimeToggle(DatapointID.teleopDefense.getID(),
+        new ButtonTimeToggle(DatapointID.teleopDefense.getID(),
                 binding.defendingButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
 
         new Checkbox(DatapointID.teleopHangAttempted.getID(), binding.hangAttemptedCheckbox, false, true, undoStack);
@@ -85,13 +94,19 @@ public class TeleopFragment extends DataFragment {
      * Called every time teleop is opened to make sure the teleop start
      * popup is shown before teleop starts.
      */
-    public void teleopOpen() {
+    public void openTeleop() {
         if(teleopStart == null) {
             ftm.showTeleopStart();
+            undoStack.disableAll();
         }
     }
     public void startTeleop() {
         this.teleopStart = Calendar.getInstance(Locale.US).getTimeInMillis();
+        undoStack.enableAll();
+    }
+
+    public void endTeleop() {
+        undoStack.disableAll();
     }
     public long getTeleopStart() {
         return this.teleopStart;

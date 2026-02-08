@@ -1,6 +1,4 @@
-package com.scouting_app_2026.Fragments.Popups;
-
-import static com.scouting_app_2026.MainActivity.context;
+package com.scouting_app_2026.fragments.popups;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,9 +27,9 @@ public class BlockerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.layout.setOnClickListener(View1 -> Toast.makeText(context,
+        binding.layout.setOnClickListener(View1 -> Toast.makeText(requireContext(),
                 "This part of the  ", Toast.LENGTH_LONG).show());
-        binding.layout.setOnClickListener(View1 -> ((MainActivity)context).updateFragments());
+        binding.layout.setOnClickListener(View1 -> ((MainActivity)requireActivity()).updateFragments());
     }
 
     @NonNull
