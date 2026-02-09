@@ -336,7 +336,17 @@ public class PreAutonFragment extends DataFragment {
         this.scouterIndex = scouterNameSpinner.getSelectedIndex();
         this.matchIndex = matchNumberSpinner.getSelectedIndex();
     }
-    
+
+    public int getPos() {
+        String color = teamColorButtons.getValue();
+        if(color.equals("RED")) {
+            return 0; //
+        }
+        else {
+            return 2;
+        }
+    }
+
     public int getScouterIndex() {
         return scouterIndex;
     }

@@ -29,6 +29,7 @@ public class UndoStack {
     private Stack<UIElement> redoStack = new Stack<>();
     private final Stack<Integer> redoTimestamps = new Stack<>();
     private final HashMap<Integer, UIElement> allElements = new HashMap<>();
+    private final ArrayList<UIElement> disableOnlyElements = new ArrayList<>();
     private final MainActivity mainActivity;
     private boolean matchPhaseAuton;
 
@@ -40,12 +41,17 @@ public class UndoStack {
         allElements.put(element.getID(), element);
     }
 
+    public void addDisableOnlyElement(UIElement element) {
+        disableOnlyElements.add(element);
+    }
+
     public UIElement getElement(int datapointID) {
         return allElements.get(datapointID);
     }
 
     public void addTimestamp(UIElement element) {
         if(!allElements.containsKey(element.getID())) {
+            Log.e(TAG, "Element not added to undoStack", new Throwable().fillInStackTrace());
             addElement(element);
         }
 
@@ -143,16 +149,25 @@ public class UndoStack {
         for(UIElement element : allElements.values()) {
             element.disable(false);
         }
+        for(UIElement element : disableOnlyElements) {
+            element.disable(false);
+        }
     }
 
     public void disableAll() {
         for(UIElement element : allElements.values()) {
             element.disable(true);
         }
+        for(UIElement element : disableOnlyElements) {
+            element.disable(true);
+        }
     }
 
     public void enableAll() {
         for(UIElement element : allElements.values()) {
+            element.enable();
+        }
+        for(UIElement element : disableOnlyElements) {
             element.enable();
         }
     }

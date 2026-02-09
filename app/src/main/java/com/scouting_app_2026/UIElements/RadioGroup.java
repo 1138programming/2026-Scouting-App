@@ -75,6 +75,22 @@ public class RadioGroup extends UIElement {
         else return ((android.widget.RadioButton)radioGroup.findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
     }
 
+    @Override
+    public void disable(boolean override) {
+        if(disableable || override) {
+            radioGroup.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void enable() {
+        radioGroup.setEnabled(true);
+    }
+
+    public void setSelected(int childIndex) {
+        radioGroup.check(radioGroup.getChildAt(childIndex).getId());
+    }
+
     public class RadioButton extends UIElement {
         private final android.widget.RadioButton radioButton;
         private RadioButton(int datapointID, android.widget.RadioButton radioButton, UndoStack undoStack) {
@@ -117,6 +133,18 @@ public class RadioGroup extends UIElement {
         @Override
         public boolean getIndependent() {
             return false;
+        }
+
+        @Override
+        public void disable(boolean override) {
+            if(disableable || override) {
+                radioButton.setEnabled(false);
+            }
+        }
+
+        @Override
+        public void enable() {
+            radioButton.setEnabled(true);
         }
     }
 

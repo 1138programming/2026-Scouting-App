@@ -2,6 +2,8 @@ package com.scouting_app_2026.UIElements;
 
 import android.content.res.ColorStateList;
 
+import com.scouting_app_2026.R;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -10,15 +12,17 @@ public class ButtonTimeToggle extends UIElement {
     private final ArrayList<Runnable> onSelectFunctions = new ArrayList<>();
     private final ArrayList<Runnable> onDeselectFunctions = new ArrayList<>();
     private final UndoStack undoStack;
-    private final int normalColor;
-    private final int altColor;
+    private final ColorStateList normalColor;
+    private final ColorStateList altColor;
     private boolean colorSwapped = false;
 
-    public ButtonTimeToggle(int datapointID, android.widget.Button button, UndoStack undoStack, int altColor) {
+    public ButtonTimeToggle(int datapointID, android.widget.Button button, UndoStack undoStack, ColorStateList altColor) {
         super(datapointID);
         this.button = button;
         this.undoStack = undoStack;
-        normalColor = Objects.requireNonNull(button.getBackgroundTintList()).getDefaultColor();
+        this.undoStack.addElement(this);
+        button.setBackgroundTintList(button.getBackgroundTintList());
+        normalColor = button.getBackgroundTintList();
         this.altColor = altColor;
         this.button.setOnClickListener(View1 -> clicked());
     }
@@ -69,10 +73,10 @@ public class ButtonTimeToggle extends UIElement {
     private void swapColors() {
         colorSwapped = !colorSwapped;
         if (colorSwapped) {
-            setColor(altColor);
+            button.setBackgroundTintList(altColor);
         }
         else {
-            setColor(normalColor);
+            button.setBackgroundTintList(normalColor);
         }
     }
 

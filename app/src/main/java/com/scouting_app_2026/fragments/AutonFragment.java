@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.scouting_app_2026.MainActivity;
 import com.scouting_app_2026.R;
 import com.scouting_app_2026.UIElements.Button;
 import com.scouting_app_2026.UIElements.ButtonTimeToggle;
@@ -29,7 +30,8 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class AutonFragment extends DataFragment {
-    AutonFragmentBinding binding;
+    private AutonFragmentBinding binding;
+    private RadioGroup robotLocation;
     private Long autonStart;
 
     public AutonFragment() {
@@ -52,8 +54,9 @@ public class AutonFragment extends DataFragment {
         List<CharSequence> fuelScoredAuton = Arrays.asList(requireActivity().getResources().getStringArray(R.array.fuel_scored_auton));
         Spinner fuelScoredSpinner = new Spinner(DatapointID.autonNumScored.getID(), binding.fuelScoredAuton,false);
         fuelScoredSpinner.updateSpinnerList(new ArrayList<>(fuelScoredAuton), requireContext());
+        undoStack.addDisableOnlyElement(fuelScoredSpinner);
 
-        new RadioGroup(
+        robotLocation = new RadioGroup(
                 new ArrayList<>(Arrays.asList(
                     DatapointID.autonEnteredRed.getID(),
                     DatapointID.autonEnteredNeutral.getID(),
@@ -61,22 +64,25 @@ public class AutonFragment extends DataFragment {
                 binding.locationAuton,undoStack);
 
         new ButtonTimeToggle(DatapointID.autonCollected.getID(),
-                binding.collectingButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
+                binding.collectingButtonAuton, undoStack, requireActivity().getColorStateList(R.color.green_button_toggle));
 
         new ButtonTimeToggle(DatapointID.autonShuttled.getID(),
-                binding.shuttlingButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
+                binding.shuttlingButtonAuton, undoStack, requireActivity().getColorStateList(R.color.green_button_toggle));
 
         new ButtonTimeToggle(DatapointID.autonScored.getID(),
-                binding.scoringButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
+                binding.scoringButtonAuton, undoStack, requireActivity().getColorStateList(R.color.green_button_toggle));
 
-        new ButtonTimeToggle(DatapointID.autonImmobile.getID(),
-                binding.immobileButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
+        ButtonTimeToggle immobileButton = new ButtonTimeToggle(DatapointID.autonImmobile.getID(),
+                binding.immobileButtonAuton, undoStack, requireActivity().getColorStateList(R.color.red_button_toggle));
+        immobileButton.setOnSelectFunction(undoStack::disableScouting);
+        immobileButton.setOnDeselectFunction(undoStack::enableAll);
+        immobileButton.disableable(false);
 
         new ButtonTimeToggle(DatapointID.autonOutpost.getID(),
-                binding.outpostButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
+                binding.outpostButtonAuton, undoStack, requireActivity().getColorStateList(R.color.green_button_toggle));
 
         new ButtonTimeToggle(DatapointID.autonDepot.getID(),
-                binding.depotButtonAuton, undoStack, requireActivity().getColor(R.color.dark_red));
+                binding.depotButtonAuton, undoStack, requireActivity().getColorStateList(R.color.green_button_toggle));
 
         new Checkbox(DatapointID.autonHangAttempted.getID(), binding.hangAttemptedCheckbox, false, true, undoStack);
 
@@ -84,9 +90,13 @@ public class AutonFragment extends DataFragment {
 
         ImageButton undoButton = new ImageButton(NonDataIDs.AutonUndo.getID(), binding.undoButton);
         undoButton.setOnClickFunction(undoStack::undo);
+        undoStack.addDisableOnlyElement(undoButton);
+        undoButton.disableable(false);
 
         ImageButton redoButton = new ImageButton(NonDataIDs.AutonRedo.getID(), binding.redoButton);
         redoButton.setOnClickFunction(undoStack::redo);
+        undoStack.addDisableOnlyElement(redoButton);
+        redoButton.disableable(false);
 
         Button backButton = new Button(NonDataIDs.AutonBack.getID(), binding.backButton);
         backButton.setOnClickFunction(() -> ftm.autonBack());
@@ -111,10 +121,26 @@ public class AutonFragment extends DataFragment {
     public void startAuton() {
         this.autonStart = Calendar.getInstance(Locale.US).getTimeInMillis();
         undoStack.enableAll();
+
+        robotLocation.setSelected(((MainActivity)requireActivity()).getAutonStartPos());
     }
 
     public void endAuton() {
         undoStack.disableAll();
+    }
+
+    public int getAutonPos() {
+        String color = robotLocation.getValue();
+        switch(color) {
+            case "Red":
+                return 0;
+            case "Middle":
+                return 1;
+            case "Right":
+                return 2;
+            default:
+                return -1;
+        }
     }
 
     public long getAutonStart() {
@@ -123,10 +149,6 @@ public class AutonFragment extends DataFragment {
 
     public void updateTeamNumber(int teamNumber) {
         binding.teamNumber.setText(String.valueOf(teamNumber));
-    }
-
-    public void robotDisabled() {
-
     }
 
     @NonNull

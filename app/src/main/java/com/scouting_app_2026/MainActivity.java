@@ -232,13 +232,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateFragments() {
-        if((auton.isVisible() && currentState != gameState.autonStarted) ||
-                (teleop.isVisible() && currentState != gameState.teleopStarted)) {
-            runOnUiThread(ftm::showBlocker);
-        }
-        else {
-            ftm.hideBlocker();
-        }
+//        if((auton.isVisible() && currentState != gameState.autonStarted) ||
+//                (teleop.isVisible() && currentState != gameState.teleopStarted)) {
+//            runOnUiThread(ftm::showBlocker);
+//        }
+//        else {
+//            ftm.hideBlocker();
+//        }
     }
 
     public void autonStart() {
@@ -250,7 +250,11 @@ public class MainActivity extends AppCompatActivity {
         if(currentState == gameState.autonStarted) {
             currentState = gameState.autonStopped;
         }
-        auton.endAuton();
+        runOnUiThread(auton::endAuton);
+    }
+
+    public int getAutonStartPos() {
+        return preAuton.getPos();
     }
 
     public void teleopStart() {
@@ -260,7 +264,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void teleopStop() {
         currentState = gameState.postMatch;
-        teleop.endTeleop();
+        runOnUiThread(teleop::endTeleop);
+    }
+
+    public int getTeleopStartPos() {
+        return auton.getAutonPos();
     }
 
     @SuppressLint("MissingPermission")

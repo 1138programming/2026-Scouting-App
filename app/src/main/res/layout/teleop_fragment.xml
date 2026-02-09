@@ -20,7 +20,7 @@
             android:layout_height="110sp"
             android:layout_marginEnd="15dp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
-            android:backgroundTint="@color/chaminade_orange"
+            android:backgroundTint="@color/orange_button_toggle"
             android:button="@null"
             android:checked="false"
             app:layout_constraintBottom_toBottomOf="@+id/hang_attempted"
@@ -37,6 +37,7 @@
             android:text="@string/collecting_button_teleop"
             android:textColor="@color/background_default"
             android:textSize="38sp"
+            android:backgroundTint="@color/orange_button_toggle"
             app:layout_constraintStart_toStartOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="@+id/shuttling_button_teleop" />
 
@@ -48,6 +49,7 @@
             android:text="@string/immobile_button_teleop"
             android:textColor="@color/background_default"
             android:textSize="38sp"
+            android:backgroundTint="@color/orange_button_toggle"
             app:layout_constraintEnd_toEndOf="@+id/shuttling_button_teleop"
             app:layout_constraintTop_toBottomOf="@+id/shuttling_button_teleop" />
 
@@ -58,6 +60,7 @@
             android:text="@string/scoring_button_teleop"
             android:textColor="@color/background_default"
             android:textSize="38sp"
+            android:backgroundTint="@color/orange_button_toggle"
             app:layout_constraintStart_toStartOf="@+id/collecting_button_teleop"
             app:layout_constraintTop_toTopOf="@+id/immobile_button_teleop" />
 
@@ -69,6 +72,7 @@
             android:text="@string/defending_button_teleop"
             android:textColor="@color/background_default"
             android:textSize="38sp"
+            android:backgroundTint="@color/orange_button_toggle"
             app:layout_constraintEnd_toEndOf="@+id/immobile_button_teleop"
             app:layout_constraintTop_toBottomOf="@+id/immobile_button_teleop" />
 
@@ -79,6 +83,7 @@
             android:text="@string/outpost_button_teleop"
             android:textColor="@color/background_default"
             android:textSize="38sp"
+            android:backgroundTint="@color/orange_button_toggle"
             app:layout_constraintStart_toStartOf="@+id/scoring_button_teleop"
             app:layout_constraintTop_toTopOf="@+id/defending_button_teleop" />
 
@@ -91,6 +96,7 @@
             android:text="@string/shuttling_button_teleop"
             android:textColor="@color/background_default"
             android:textSize="38sp"
+            android:backgroundTint="@color/orange_button_toggle"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -203,7 +209,7 @@
             android:src="@drawable/undo_arrow_outline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/chaminade_orange" />
+            app:tint="@color/orange_button_toggle" />
 
         <TextView
             android:id="@+id/undo_title"
@@ -226,7 +232,7 @@
             android:src="@drawable/redo_arrow_outline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/chaminade_orange" />
+            app:tint="@color/orange_button_toggle" />
 
         <TextView
             android:id="@+id/redo_title"

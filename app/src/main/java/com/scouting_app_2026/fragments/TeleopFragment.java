@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.scouting_app_2026.MainActivity;
 import com.scouting_app_2026.R;
 import com.scouting_app_2026.UIElements.Button;
 import com.scouting_app_2026.UIElements.ButtonTimeToggle;
@@ -27,6 +28,7 @@ import java.util.Locale;
 
 public class TeleopFragment extends DataFragment {
     private TeleopFragmentBinding binding;
+    private RadioGroup robotLocation;
     private Long teleopStart;
 
     public TeleopFragment() {
@@ -46,7 +48,7 @@ public class TeleopFragment extends DataFragment {
 
         undoStack.setMatchPhaseTeleop();
 
-        new RadioGroup(
+        robotLocation = new RadioGroup(
                 new ArrayList<>(Arrays.asList(
                         DatapointID.teleopEnteredRed.getID(),
                         DatapointID.teleopEnteredNeutral.getID(),
@@ -55,22 +57,25 @@ public class TeleopFragment extends DataFragment {
 
 
         new ButtonTimeToggle(DatapointID.teleopCollected.getID(),
-                binding.collectingButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
+                binding.collectingButtonTeleop, undoStack, requireActivity().getColorStateList(R.color.green_button_toggle));
 
         new ButtonTimeToggle(DatapointID.teleopShuttled.getID(),
-                binding.shuttlingButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
+                binding.shuttlingButtonTeleop, undoStack, requireActivity().getColorStateList(R.color.green_button_toggle));
 
         new ButtonTimeToggle(DatapointID.teleopScored.getID(),
-                binding.scoringButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
+                binding.scoringButtonTeleop, undoStack, requireActivity().getColorStateList(R.color.green_button_toggle));
 
-        new ButtonTimeToggle(DatapointID.teleopScored.getID(),
-                binding.immobileButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
+        ButtonTimeToggle immobileButton = new ButtonTimeToggle(DatapointID.teleopImmobile.getID(),
+                binding.immobileButtonTeleop, undoStack, requireActivity().getColorStateList(R.color.red_button_toggle));
+        immobileButton.setOnSelectFunction(undoStack::disableScouting);
+        immobileButton.setOnDeselectFunction(undoStack::enableAll);
+        immobileButton.disableable(false);
 
         new ButtonTimeToggle(DatapointID.teleopOutpost.getID(),
-                binding.outpostButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
+                binding.outpostButtonTeleop, undoStack, requireActivity().getColorStateList(R.color.green_button_toggle));
 
         new ButtonTimeToggle(DatapointID.teleopDefense.getID(),
-                binding.defendingButtonTeleop, undoStack, requireActivity().getColor(R.color.dark_red));
+                binding.defendingButtonTeleop, undoStack, requireActivity().getColorStateList(R.color.blue_button_toggle));
 
         new Checkbox(DatapointID.teleopHangAttempted.getID(), binding.hangAttemptedCheckbox, false, true, undoStack);
 
@@ -79,9 +84,13 @@ public class TeleopFragment extends DataFragment {
 
         ImageButton undoButton = new ImageButton(NonDataIDs.TeleopUndo.getID(), binding.undoButton);
         undoButton.setOnClickFunction(undoStack::undo);
+        undoStack.addDisableOnlyElement(undoButton);
+        undoButton.disableable(false);
 
         ImageButton redoButton = new ImageButton(NonDataIDs.TeleopRedo.getID(), binding.redoButton);
         redoButton.setOnClickFunction(undoStack::redo);
+        undoStack.addDisableOnlyElement(redoButton);
+        redoButton.disableable(false);
 
         Button backButton = new Button(NonDataIDs.TeleopNext.getID(), binding.backButton);
         backButton.setOnClickFunction(() -> ftm.teleopBack());
@@ -103,6 +112,8 @@ public class TeleopFragment extends DataFragment {
     public void startTeleop() {
         this.teleopStart = Calendar.getInstance(Locale.US).getTimeInMillis();
         undoStack.enableAll();
+
+        robotLocation.setSelected(((MainActivity)requireActivity()).getTeleopStartPos());
     }
 
     public void endTeleop() {

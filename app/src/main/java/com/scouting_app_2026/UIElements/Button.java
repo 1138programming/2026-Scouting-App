@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class Button extends UIElement {
     private final android.widget.Button button;
-    private final UndoStack undostack;
+    private final UndoStack undoStack;
     private final boolean dataTracking;
     private final int titleLength;
     private int currValue;
@@ -30,8 +30,9 @@ public class Button extends UIElement {
     public Button(int datapointID, @Nullable android.widget.Button button, UndoStack undoStack) {
         super(datapointID);
         this.button = button;
-        this.undostack = undoStack;
+        this.undoStack = undoStack;
         this.dataTracking = true;
+        this.undoStack.addElement(this);
         if(this.button != null) {
             this.titleLength = this.button.length() - 1;
             this.color = Objects.requireNonNull(this.button.getBackgroundTintList()).getDefaultColor();
@@ -55,7 +56,7 @@ public class Button extends UIElement {
     public Button(int datapointID, @Nullable android.widget.Button button) {
         super(datapointID);
         this.button = button;
-        this.undostack = null;
+        this.undoStack = null;
         this.dataTracking = false;
         if(this.button != null) {
             this.titleLength = this.button.length() - 1;
@@ -70,7 +71,7 @@ public class Button extends UIElement {
     @Override
     public void clicked() {
         if(increment()) {
-            undostack.addTimestamp(this);
+            undoStack.addTimestamp(this);
         }
         super.clicked();
     }
@@ -194,5 +195,9 @@ public class Button extends UIElement {
         if(disableable || override) {
             button.setEnabled(false);
         }
+    }
+
+    public boolean isEnabled() {
+        return button.isEnabled();
     }
 }

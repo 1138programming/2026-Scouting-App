@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- When disabled, use this color -->
+    <item android:state_enabled="false" android:color="#30B6B7B5" />
+    <!-- Default color (must be last) -->
+    <item android:color="@color/dark_red" />
+</selector>

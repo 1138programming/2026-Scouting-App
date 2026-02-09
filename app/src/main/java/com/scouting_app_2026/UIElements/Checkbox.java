@@ -14,6 +14,7 @@ public class Checkbox extends UIElement {
         this.checkbox = checkbox;
         this.locking = locking;
         this.undoStack = undoStack;
+        this.undoStack.addElement(this);
         checkbox.setOnClickListener(view -> this.clicked());
         if(startingState) checkbox.performClick();
     }
@@ -70,13 +71,17 @@ public class Checkbox extends UIElement {
 
     @Override
     public void enable() {
-        checkbox.setEnabled(true);
+        if(!checkbox.isChecked()) {
+            checkbox.setEnabled(true);
+        }
     }
 
     @Override
     public void disable(boolean override) {
         if(disableable || override) {
-            checkbox.setEnabled(false);
+            if(!checkbox.isChecked()) {
+                checkbox.setEnabled(false);
+            }
         }
     }
 }

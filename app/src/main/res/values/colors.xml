@@ -6,7 +6,7 @@
     <color name="invisible">#00000000</color>
     <color name="simple_light_grey">#777777</color>
     <color name="background_default">#002347</color>
-    <color name="dark_green_default">#209940</color>
+    <color name="green">#209940</color>
     <color name="algae_blue_green">#47ba87</color>
     <color name="blue_white">#F0FFFF</color>
     <color name="black_overlay">#66000000</color>
@@ -19,4 +19,5 @@
     <color name="dark_gray">#242526</color>
     <color name="purple">#800080</color>
     <color name="yellow">#FFFF00</color>
+    <color name="light_blue">#45B6FE</color>
 </resources>
