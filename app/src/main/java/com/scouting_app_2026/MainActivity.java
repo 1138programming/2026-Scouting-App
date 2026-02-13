@@ -174,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(resetFragment);
 
         ftm = new FragmentTransManager(fragments, this);
+        currentState = gameState.preAuton;
+        MatchTiming.cancel();
     }
     public void sendSavedData(File file) {
         if(connectivity) {

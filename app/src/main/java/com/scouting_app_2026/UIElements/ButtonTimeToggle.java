@@ -2,10 +2,8 @@ package com.scouting_app_2026.UIElements;
 
 import android.content.res.ColorStateList;
 
-import com.scouting_app_2026.R;
-
 import java.util.ArrayList;
-import java.util.Objects;
+
 
 public class ButtonTimeToggle extends UIElement {
     private final android.widget.Button button;
@@ -58,11 +56,13 @@ public class ButtonTimeToggle extends UIElement {
     @Override
     public void undo() {
         swapColors();
+        specialClicked();
     }
 
     @Override
     public void redo() {
         swapColors();
+        specialClicked();
     }
 
     @Override

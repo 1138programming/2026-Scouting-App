@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class Button extends UIElement {
     private final android.widget.Button button;
-    private final UndoStack undoStack;
+    private final UndoStack undostack;
     private final boolean dataTracking;
     private final int titleLength;
     private int currValue;
@@ -22,7 +22,7 @@ public class Button extends UIElement {
      * This constructor is used to create an independent button and takes a
      * binding since it's the only datapoint for the given button binding. It
      * is also a data button so it takes an UndoStack.
-     * 
+     *
      * @param datapointID datapointID of the button
      * @param button binding of the button
      * @param undoStack undoStack of the given fragment
@@ -30,9 +30,8 @@ public class Button extends UIElement {
     public Button(int datapointID, @Nullable android.widget.Button button, UndoStack undoStack) {
         super(datapointID);
         this.button = button;
-        this.undoStack = undoStack;
+        this.undostack = undoStack;
         this.dataTracking = true;
-        this.undoStack.addElement(this);
         if(this.button != null) {
             this.titleLength = this.button.length() - 1;
             this.color = Objects.requireNonNull(this.button.getBackgroundTintList()).getDefaultColor();
@@ -44,19 +43,19 @@ public class Button extends UIElement {
     }
 
     /**
-     * This constructor is used to create an independent button and takes a 
+     * This constructor is used to create an independent button and takes a
      * binding since it's the only datapoint for the given button binding. It
-     * doesn't take an UndoStack as it doesn't track data and is for UI purposes 
+     * doesn't take an UndoStack as it doesn't track data and is for UI purposes
      * only.
-     * 
-     * @param datapointID datapointID of the button (should be negative given that 
+     *
+     * @param datapointID datapointID of the button (should be negative given that
      *                    the button doesn't store data)
      * @param button binding of the button
      */
     public Button(int datapointID, @Nullable android.widget.Button button) {
         super(datapointID);
         this.button = button;
-        this.undoStack = null;
+        this.undostack = null;
         this.dataTracking = false;
         if(this.button != null) {
             this.titleLength = this.button.length() - 1;
@@ -67,11 +66,11 @@ public class Button extends UIElement {
             this.titleLength = 0;
         }
     }
-    
+
     @Override
     public void clicked() {
         if(increment()) {
-            undoStack.addTimestamp(this);
+            undostack.addTimestamp(this);
         }
         super.clicked();
     }
@@ -195,9 +194,5 @@ public class Button extends UIElement {
         if(disableable || override) {
             button.setEnabled(false);
         }
-    }
-
-    public boolean isEnabled() {
-        return button.isEnabled();
     }
 }

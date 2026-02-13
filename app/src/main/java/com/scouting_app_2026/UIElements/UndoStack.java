@@ -57,6 +57,7 @@ public class UndoStack {
 
         inputStack.add(element);
         timestamps.add((int) (Calendar.getInstance(Locale.US).getTimeInMillis()-(mainActivity.getCurrStartTime())));
+
         redoStack = new Stack<>();
     }
 

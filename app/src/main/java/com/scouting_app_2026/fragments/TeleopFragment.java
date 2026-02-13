@@ -79,7 +79,7 @@ public class TeleopFragment extends DataFragment {
 
         new Checkbox(DatapointID.teleopHangAttempted.getID(), binding.hangAttemptedCheckbox, false, true, undoStack);
 
-        RadioGroup firstActiveHub = new RadioGroup(DatapointID.autonRedWin.getID(), binding.teamStartTeleop);
+        RadioGroup firstActiveHub = new RadioGroup(DatapointID.firstActiveHub.getID(), binding.teamStartTeleop);
         undoStack.addElement(firstActiveHub);
 
         ImageButton undoButton = new ImageButton(NonDataIDs.TeleopUndo.getID(), binding.undoButton);

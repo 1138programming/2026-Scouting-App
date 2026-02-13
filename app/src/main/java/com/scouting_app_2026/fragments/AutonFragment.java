@@ -136,7 +136,7 @@ public class AutonFragment extends DataFragment {
                 return 0;
             case "Middle":
                 return 1;
-            case "Right":
+            case "Blue":
                 return 2;
             default:
                 return -1;
