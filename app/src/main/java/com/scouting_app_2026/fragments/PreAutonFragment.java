@@ -115,7 +115,7 @@ public class PreAutonFragment extends DataFragment {
     }
 
     /* When the fragment is completely created, we test so see
-    * if we are connected and if so we send send our basic info. */
+    * if we are connected and if so we send our basic info. */
     @Override
     public void onStart() {
         super.onStart();
@@ -340,7 +340,7 @@ public class PreAutonFragment extends DataFragment {
     public int getPos() {
         String color = teamColorButtons.getValue();
         if(color.equals("RED")) {
-            return 0; //
+            return 0;
         }
         else {
             return 2;
