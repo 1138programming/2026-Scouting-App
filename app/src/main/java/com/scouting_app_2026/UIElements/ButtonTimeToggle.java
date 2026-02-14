@@ -32,11 +32,11 @@ public class ButtonTimeToggle extends UIElement {
 
     private void onClick(boolean stopping) {
         super.clicked();
+        undoStack.addTimestamp(this, stopping);
 
         swapColors();
         this.specialClicked();
 
-        undoStack.addTimestamp(this, stopping);
     }
 
     /**

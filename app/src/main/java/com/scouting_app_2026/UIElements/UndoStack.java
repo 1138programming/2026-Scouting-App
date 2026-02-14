@@ -112,7 +112,7 @@ public class UndoStack {
 
         MatchTransaction<? extends UIElement> transaction = inputStack.pop();
 
-        if(transaction.undo()) {
+        if(!transaction.undo()) {
             this.undo();
         }
         redoStack.push(transaction);
@@ -129,7 +129,7 @@ public class UndoStack {
 
         MatchTransaction<? extends UIElement> transaction = redoStack.pop();
 
-        if(transaction.redo()) {
+        if(!transaction.redo()) {
             this.redo();
         }
         inputStack.push(transaction);
