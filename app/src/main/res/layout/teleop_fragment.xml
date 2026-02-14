@@ -290,7 +290,7 @@
                 android:background="@drawable/start_toggle_red"
                 android:button="@null"
                 android:gravity="center"
-                android:text="@string/red_auton"
+                android:text="@string/red_pos"
                 android:textColor="@color/red_text_toggle"
                 android:textSize="36sp" />
 
@@ -306,7 +306,7 @@
                 android:background="@drawable/start_toggle_blue_white"
                 android:button="@null"
                 android:gravity="center"
-                android:text="@string/middle_auton"
+                android:text="@string/neutral_pos"
                 android:textColor="@color/blue_white_text_toggle"
                 android:textSize="36sp" />
 
@@ -321,7 +321,7 @@
                 android:background="@drawable/start_toggle_blue"
                 android:button="@null"
                 android:gravity="center"
-                android:text="@string/blue_auton"
+                android:text="@string/blue_pos"
                 android:textColor="@color/blue_text_toggle"
                 android:textSize="36sp" />
         </RadioGroup>

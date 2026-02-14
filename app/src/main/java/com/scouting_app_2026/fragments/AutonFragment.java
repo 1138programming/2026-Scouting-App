@@ -134,7 +134,7 @@ public class AutonFragment extends DataFragment {
         switch(color) {
             case "Red":
                 return 0;
-            case "Middle":
+            case "Neutral":
                 return 1;
             case "Blue":
                 return 2;

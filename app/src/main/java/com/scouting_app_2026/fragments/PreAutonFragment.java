@@ -137,13 +137,13 @@ public class PreAutonFragment extends DataFragment {
         ArrayList<CharSequence> matchNumbers = new ArrayList<>();
         //creates spinner for match number
         for(int i = 1; i<=qualNumber; i++) {
-            matchNumbers.add("q" + i);
+            matchNumbers.add("Q" + i);
         }
         for(int i = 1; i<=playoffsNumber; i++) {
-            matchNumbers.add("p"+i);
+            matchNumbers.add("P"+i);
         }
         for(int i = 1; i<=finalsNumber; i++) {
-            matchNumbers.add("f"+i);
+            matchNumbers.add("F"+i);
         }
         return matchNumbers;
     }

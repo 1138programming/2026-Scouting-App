@@ -36,7 +36,7 @@ public class Checkbox extends UIElement {
         if (locking) {
             if(checkbox.isChecked()) {
                 checkbox.setEnabled(false);
-                undoStack.addTimestamp(this);
+                undoStack.addTimestamp(this, true);
             }
         }
     }

@@ -70,7 +70,7 @@ public class Button extends UIElement {
     @Override
     public void clicked() {
         if(increment()) {
-            undostack.addTimestamp(this);
+            undostack.addTimestamp(this, true);
         }
         super.clicked();
     }

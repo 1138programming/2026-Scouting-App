@@ -24,10 +24,8 @@ import java.util.Stack;
  *
  */
 public class UndoStack {
-    private final Stack<UIElement> inputStack = new Stack<>();
-    private final Stack<Integer> timestamps = new Stack<>();
-    private Stack<UIElement> redoStack = new Stack<>();
-    private final Stack<Integer> redoTimestamps = new Stack<>();
+    private final Stack<MatchTransaction<? extends UIElement>> inputStack = new Stack<>();
+    private Stack<MatchTransaction<? extends UIElement>> redoStack = new Stack<>();
     private final HashMap<Integer, UIElement> allElements = new HashMap<>();
     private final ArrayList<UIElement> disableOnlyElements = new ArrayList<>();
     private final MainActivity mainActivity;
@@ -49,14 +47,14 @@ public class UndoStack {
         return allElements.get(datapointID);
     }
 
-    public void addTimestamp(UIElement element) {
+    public void addTimestamp(UIElement element, boolean stopping) {
         if(!allElements.containsKey(element.getID())) {
             Log.e(TAG, "Element not added to undoStack", new Throwable().fillInStackTrace());
             addElement(element);
         }
 
-        inputStack.add(element);
-        timestamps.add((int) (Calendar.getInstance(Locale.US).getTimeInMillis()-(mainActivity.getCurrStartTime())));
+        int timestamp = (int)((Calendar.getInstance(Locale.US).getTimeInMillis() - (mainActivity.getCurrStartTime())));
+        inputStack.add(new MatchTransaction<>(element, timestamp, stopping));
 
         redoStack = new Stack<>();
     }
@@ -64,38 +62,36 @@ public class UndoStack {
     public JSONArray getTimestamps(JSONObject datapointTemplate) {
         JSONManager manager = new JSONManager(datapointTemplate);
 
-        for(UIElement element : inputStack) {
-            Log.d(TAG, String.valueOf(element.getID()));
+        for(MatchTransaction<? extends UIElement> transaction : inputStack) {
+            Log.d(TAG, String.valueOf(transaction.getDatapointID()));
         }
 
-        ArrayList<ButtonTimeToggle> buttonToggleList = new ArrayList<>();
-        ArrayList<Integer> toggleStartTimestamps = new ArrayList<>();
+//        ArrayList<ButtonTimeToggle> buttonToggleList = new ArrayList<>();
+        ArrayList<MatchTransaction<? extends UIElement>> buttonToggleTransactions = new ArrayList<>();
 
         //saves each timestamped datapoint to the JSON
-        for(UIElement element : inputStack) {
-            if(element instanceof ButtonTimeToggle) {
-                if(buttonToggleList.contains(element)) {
-                    int index = buttonToggleList.indexOf(element);
-                    manager.addDatapoint(buttonToggleList.remove(index).getID(),
-                            String.valueOf(Math.abs(timestamps.pop()-toggleStartTimestamps.get(index))),
-                            toggleStartTimestamps.remove(index));
+        for(MatchTransaction<? extends UIElement> currTransaction : inputStack) {
+            if(currTransaction.getElement() instanceof ButtonTimeToggle) {
+                if(arrayContains(buttonToggleTransactions, currTransaction.getElement())) {
+                    int index = indexOf(buttonToggleTransactions, currTransaction.getElement());
+                    manager.addDatapoint(currTransaction.getDatapointID(),
+                            String.valueOf(buttonToggleTransactions.remove(index).getTimestamp()-currTransaction.getTimestamp()),
+                            currTransaction.getTimestamp());
                 }
                 else {
-                    buttonToggleList.add((ButtonTimeToggle) element);
-                    toggleStartTimestamps.add(timestamps.pop());
+                    buttonToggleTransactions.add(currTransaction);
                 }
             }
             else {
-                manager.addDatapoint(element.getID(), element.getValue(), timestamps.pop());
+                manager.addDatapoint(currTransaction.getDatapointID(), currTransaction.getElement().getValue(), currTransaction.getTimestamp());
             }
         }
-        if(!buttonToggleList.isEmpty()) {
+        if(!buttonToggleTransactions.isEmpty()) {
             int periodTimeLength = matchPhaseAuton ? autonLengthMs : teleopLengthMs;
-            for(ButtonTimeToggle button : buttonToggleList) {
-                int index = buttonToggleList.indexOf(button);
-                manager.addDatapoint(button.getID(),
-                        String.valueOf((periodTimeLength-toggleStartTimestamps.get(index))),
-                        toggleStartTimestamps.get(index));
+            for(MatchTransaction<? extends UIElement> currTransaction : buttonToggleTransactions) {
+                manager.addDatapoint(currTransaction.getDatapointID(),
+                        String.valueOf((periodTimeLength-currTransaction.getTimestamp())),
+                        currTransaction.getTimestamp());
             }
         }
 
@@ -114,14 +110,16 @@ public class UndoStack {
     public void undo() {
         if(inputStack.isEmpty()) return;
 
-        UIElement element = inputStack.pop();
+        MatchTransaction<? extends UIElement> transaction = inputStack.pop();
 
-        element.undo();
-        redoStack.push(element);
-        redoTimestamps.push(timestamps.pop());
-        Toast.makeText(mainActivity, "Undid " + reversedDatapointIDs.get(element.getID()), Toast.LENGTH_SHORT).show();
+        if(transaction.undo()) {
+            this.undo();
+        }
+        redoStack.push(transaction);
+        Toast.makeText(mainActivity, "Undid " + reversedDatapointIDs.get(transaction.getDatapointID()), Toast.LENGTH_SHORT).show();
 
     }
+
 
     /**
      *
@@ -129,12 +127,13 @@ public class UndoStack {
     public void redo() {
         if(redoStack.isEmpty()) return;
 
-        UIElement element = redoStack.pop();
+        MatchTransaction<? extends UIElement> transaction = redoStack.pop();
 
-        element.redo();
-        inputStack.push(element);
-        timestamps.push(redoTimestamps.pop());
-        Toast.makeText(mainActivity, "Redid " + reversedDatapointIDs.get(element.getID()), Toast.LENGTH_SHORT).show();
+        if(transaction.redo()) {
+            this.redo();
+        }
+        inputStack.push(transaction);
+        Toast.makeText(mainActivity, "Redid " + reversedDatapointIDs.get(transaction.getDatapointID()), Toast.LENGTH_SHORT).show();
 
     }
 
@@ -171,5 +170,21 @@ public class UndoStack {
         for(UIElement element : disableOnlyElements) {
             element.enable();
         }
+    }
+
+    private boolean arrayContains(ArrayList<MatchTransaction<? extends UIElement>> transactions, UIElement element) {
+        for(MatchTransaction<? extends UIElement> transaction : transactions) {
+            if(transaction.getElement().equals(element)) return true;
+        }
+        return false;
+    }
+
+    private int indexOf(ArrayList<MatchTransaction<? extends UIElement>> transactions, UIElement element) {
+        for(int i = 0; i < transactions.size(); i++) {
+            if(transactions.get(i).getElement().equals(element)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

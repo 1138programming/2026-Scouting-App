@@ -106,9 +106,9 @@
     <string name="hang_failed_title">Hang Failed:</string>
     <string name="hub_accuracy">Hub Accuracy:</string>
     <string name="confidence_estimate">Confidence:</string>
-    <string name="red_auton">Red</string>
-    <string name="middle_auton">Middle</string>
-    <string name="blue_auton">Blue</string>
+    <string name="red_pos">Red</string>
+    <string name="neutral_pos">Neutral</string>
+    <string name="blue_pos">Blue</string>
 
     <string-array name="hang_spinner_options">
         <item>Not Attempted</item>

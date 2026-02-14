@@ -101,7 +101,7 @@ public class RadioGroup extends UIElement {
             this.radioButton = radioButton;
             radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if(!stackChange && isChecked) {
-                    undoStack.addTimestamp(this);
+                    undoStack.addTimestamp(this, true);
                     radioInputStack.push(this);
                 }
             });

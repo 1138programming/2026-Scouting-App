@@ -27,12 +27,16 @@ public class ButtonTimeToggle extends UIElement {
 
     @Override
     public void clicked() {
+        onClick(true);
+    }
+
+    private void onClick(boolean stopping) {
         super.clicked();
 
         swapColors();
         this.specialClicked();
 
-        undoStack.addTimestamp(this);
+        undoStack.addTimestamp(this, stopping);
     }
 
     /**
@@ -93,6 +97,8 @@ public class ButtonTimeToggle extends UIElement {
     public void disable(boolean override) {
         if(disableable || override) {
             button.setEnabled(false);
+
+            if(!override && colorSwapped) onClick(false);
         }
     }
 }
