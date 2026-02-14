@@ -47,6 +47,9 @@ public class PreAutonFragment extends DataFragment {
     private boolean successfulDeviceNameParse = false;
     private int selectedColor;
     private int driverStationNumber;
+    private int qualNum = 100;
+    private int playoffNum = 13;
+    private int finalsNum = 3;
     private ArrayList<Integer> scouterIDs = new ArrayList<>(List.of(-1));
 
     public PreAutonFragment() {
@@ -79,9 +82,9 @@ public class PreAutonFragment extends DataFragment {
         }
 
         matchNumberSpinner = new Spinner(NonDataIDs.MatchNumber.getID(), binding.matchNumberSpinner, false);
-        matchNumberSpinner.updateSpinnerList(generateMatches(100,13,3), requireContext());
         matchNumberSpinner.setOnClickFunction(() -> ((MainActivity) requireContext()).updateTabletInformation());
         matchNumberSpinner.setOnClickFunction(this::updateIndices);
+        updateMatches();
         if(matchIndex < matchNumberSpinner.getLength()) {
             matchNumberSpinner.setIndex(matchIndex);
         }
@@ -133,19 +136,28 @@ public class PreAutonFragment extends DataFragment {
 
     /** Generates an ArrayList filled with the necessary qualifying
      * and playoffs matches for an entire comp. */
-    private ArrayList<CharSequence> generateMatches(int qualNumber, int playoffsNumber, int finalsNumber) {
+    private ArrayList<CharSequence> generateMatches(int qualNumber, int playoffsNumber, int finalsNumber, int replayLevel) {
         ArrayList<CharSequence> matchNumbers = new ArrayList<>();
+        StringBuilder temp;
         //creates spinner for match number
         for(int i = 1; i<=qualNumber; i++) {
-            matchNumbers.add("Q" + i);
+            matchNumbers.add(addReplays("Q", i, replayLevel));
         }
         for(int i = 1; i<=playoffsNumber; i++) {
-            matchNumbers.add("P"+i);
+            matchNumbers.add(addReplays("P", i, replayLevel));
         }
         for(int i = 1; i<=finalsNumber; i++) {
-            matchNumbers.add("F"+i);
+            matchNumbers.add(addReplays("F", i, replayLevel));
         }
         return matchNumbers;
+    }
+
+    private String addReplays(String prefix, int matchNumber, int replayLevel) {
+        StringBuilder temp = new StringBuilder(prefix + matchNumber);
+        for(int j = 0; j < replayLevel; j++) {
+            temp.append("r");
+        }
+        return temp.toString();
     }
 
     public void updateTeamColor() {
@@ -220,7 +232,23 @@ public class PreAutonFragment extends DataFragment {
         for(CharSequence i : list.get(3)) {
             matches.add(Integer.valueOf(i.toString()));
         }
-        matchNumberSpinner.updateSpinnerList(generateMatches(matches.get(0), matches.get(1), matches.get(2)), requireContext());
+        updateMatches(matches.get(0), matches.get(1), matches.get(2));
+    }
+
+    public void updateMatches() {
+        int replayLevel = ((MainActivity)requireActivity()).getReplayLevel();
+
+        matchNumberSpinner.updateSpinnerList(generateMatches(qualNum, playoffNum, finalsNum, replayLevel), requireContext());
+    }
+
+    private void updateMatches(int quals, int playoffs, int finals) {
+        int replayLevel = ((MainActivity)requireActivity()).getReplayLevel();
+
+        this.qualNum = quals;
+        this.playoffNum = playoffs;
+        this.finalsNum = finals;
+
+        matchNumberSpinner.updateSpinnerList(generateMatches(quals, playoffs, finals, replayLevel), requireContext());
     }
 
     public void setBtStatus(boolean status) {
@@ -249,7 +277,7 @@ public class PreAutonFragment extends DataFragment {
             baseJson.put("ScouterID", -1);
         }
 
-        baseJson.put("MatchID", matchNumberSpinner.getValue());
+        baseJson.put("MatchID", getMatch());
         try {
             baseJson.put("TeamID", teamNumberSpinner.getValue());
         } catch (NullPointerException e) {
@@ -356,5 +384,11 @@ public class PreAutonFragment extends DataFragment {
     }
     public void decrementMatchIndex() {
         matchIndex--;
+    }
+
+    private String getMatch() {
+        String matchValue = matchNumberSpinner.getValue();
+
+        return matchValue.toLowerCase();
     }
 }

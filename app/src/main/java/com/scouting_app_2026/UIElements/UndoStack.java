@@ -3,10 +3,8 @@ package com.scouting_app_2026.UIElements;
 import static com.scouting_app_2026.MainActivity.TAG;
 import static com.scouting_app_2026.MainActivity.autonLengthMs;
 import static com.scouting_app_2026.MainActivity.teleopLengthMs;
-import static com.scouting_app_2026.datapointIDs.ReversedDatapointIDs.reversedDatapointIDs;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.scouting_app_2026.JSON.JSONManager;
 import com.scouting_app_2026.MainActivity;
@@ -75,8 +73,8 @@ public class UndoStack {
                 if(arrayContains(buttonToggleTransactions, currTransaction.getElement())) {
                     int index = indexOf(buttonToggleTransactions, currTransaction.getElement());
                     manager.addDatapoint(currTransaction.getDatapointID(),
-                            String.valueOf(buttonToggleTransactions.remove(index).getTimestamp()-currTransaction.getTimestamp()),
-                            currTransaction.getTimestamp());
+                            String.valueOf(currTransaction.getTimestamp()-buttonToggleTransactions.remove(index).getTimestamp()),
+                            buttonToggleTransactions.remove(index).getTimestamp());
                 }
                 else {
                     buttonToggleTransactions.add(currTransaction);
@@ -116,8 +114,8 @@ public class UndoStack {
             this.undo();
         }
         redoStack.push(transaction);
-        Toast.makeText(mainActivity, "Undid " + reversedDatapointIDs.get(transaction.getDatapointID()), Toast.LENGTH_SHORT).show();
 
+//        Toast.makeText(mainActivity, "Undid " + reversedDatapointIDs.get(transaction.getDatapointID()), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -133,8 +131,8 @@ public class UndoStack {
             this.redo();
         }
         inputStack.push(transaction);
-        Toast.makeText(mainActivity, "Redid " + reversedDatapointIDs.get(transaction.getDatapointID()), Toast.LENGTH_SHORT).show();
 
+//        Toast.makeText(mainActivity, "Redid " + reversedDatapointIDs.get(transaction.getDatapointID()), Toast.LENGTH_SHORT).show();
     }
 
     public void setMatchPhaseAuton() {

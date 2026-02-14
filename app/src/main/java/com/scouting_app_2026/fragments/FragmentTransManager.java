@@ -45,7 +45,6 @@ public class FragmentTransManager {
         hideFragment("PreAutonFragment");
         showFragment("AutonFragment");
         ft.commitNow();
-        mainActivity.updateFragments();
     }
 
     public void showAutonStart() {
@@ -60,14 +59,12 @@ public class FragmentTransManager {
         hideFragment("AutonFragment");
         showFragment("PreAutonFragment");
         ft.commitNow();
-        mainActivity.updateFragments();
     }
 
     public void autonStartStart() {
         ft = fm.beginTransaction();
         hideFragment("AutonStartFragment");
         ft.commitNow();
-        mainActivity.updateFragments();
     }
 
     public void autonBack() {
@@ -75,7 +72,6 @@ public class FragmentTransManager {
         hideFragment("AutonFragment");
         showFragment("PreAutonFragment");
         ft.commitNow();
-        mainActivity.updateFragments();
     }
 
     public void autonNext() {
@@ -83,7 +79,6 @@ public class FragmentTransManager {
         hideFragment("AutonFragment");
         showFragment("TeleopFragment");
         ft.commitNow();
-        mainActivity.updateFragments();
     }
 
     public void showTeleopStart() {
@@ -98,14 +93,12 @@ public class FragmentTransManager {
         hideFragment("TeleopFragment");
         showFragment("AutonFragment");
         ft.commitNow();
-        mainActivity.updateFragments();
     }
 
     public void teleopStartStart() {
         ft = fm.beginTransaction();
         hideFragment("TeleopStartFragment");
         ft.commitNow();
-        mainActivity.updateFragments();
     }
 
     public void teleopBack() {
@@ -113,7 +106,6 @@ public class FragmentTransManager {
         hideFragment("TeleopFragment");
         showFragment("AutonFragment");
         ft.commitNow();
-        mainActivity.updateFragments();
     }
 
     public void teleopNext() {
@@ -121,7 +113,6 @@ public class FragmentTransManager {
         hideFragment("TeleopFragment");
         showFragment("PostMatchFragment");
         ft.commitNow();
-        mainActivity.updateFragments();
     }
 
     public void postMatchBack() {
@@ -129,7 +120,6 @@ public class FragmentTransManager {
         hideFragment("PostMatchFragment");
         showFragment("TeleopFragment");
         ft.commitNow();
-        mainActivity.updateFragments();
     }
 
     public void matchSubmit() {
@@ -205,6 +195,47 @@ public class FragmentTransManager {
         ft = fm.beginTransaction();
         hideFragment("ArchiveFragment");
         showFragment("PreAutonFragment");
+        ft.commitNow();
+    }
+
+    public void adminFragmentOpen() {
+        ft = fm.beginTransaction();
+        hideFragment("PreAutonFragment");
+        hideFragment("MenuFragment");
+        showFragment("AdminFragment");
+        ft.commitNow();
+    }
+
+    public void adminFragmentBack() {
+        ft = fm.beginTransaction();
+        hideFragment("AdminFragment");
+        showFragment("PreAutonFragment");
+        ft.commitNow();
+    }
+
+    public void menuPractice() {
+        ft = fm.beginTransaction();
+        hideFragment("MenuFragment");
+        showFragment("PracticeConfirm");
+        ft.commitNow();
+    }
+
+    public void practiceClose() {
+        ft = fm.beginTransaction();
+        hideFragment("PracticeConfirm");
+        ft.commitNow();
+    }
+
+    public void menuReplay() {
+        ft = fm.beginTransaction();
+        hideFragment("MenuFragment");
+        showFragment("ReplayConfirm");
+        ft.commitNow();
+    }
+
+    public void replayClose() {
+        ft = fm.beginTransaction();
+        hideFragment("ReplayConfirm");
         ft.commitNow();
     }
 }

@@ -113,6 +113,8 @@ public class TeleopFragment extends DataFragment {
         this.teleopStart = Calendar.getInstance(Locale.US).getTimeInMillis();
         undoStack.enableAll();
 
+        ((MainActivity)requireActivity()).teleopStart();    
+
         robotLocation.setSelected(((MainActivity)requireActivity()).getTeleopStartPos());
     }
 

@@ -44,7 +44,6 @@ public class AutonStart extends Fragment {
                 NonDataIDs.AutonStartStart.getID(), binding.startButton);
         startButton.setOnClickFunction(() -> ((AutonFragment) Objects.requireNonNull(
                 getParentFragmentManager().findFragmentByTag("AutonFragment"))).startAuton());
-        startButton.setOnClickFunction(((MainActivity)requireActivity())::autonStart);
         startButton.setOnClickFunction(() -> ftm.autonStartStart());
     }
 

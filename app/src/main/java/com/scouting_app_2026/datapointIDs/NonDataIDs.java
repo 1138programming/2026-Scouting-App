@@ -35,7 +35,9 @@ public enum NonDataIDs {
     ArchiveCancel,
     ArchiveConfirm,
     ResetCancel,
-    ResetConfirm;
+    ResetConfirm,
+    PracticeClose,
+    PracticeConfirm;
 
     public int getID() {
         return -ordinal();

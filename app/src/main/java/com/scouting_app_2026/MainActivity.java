@@ -22,6 +22,7 @@ import com.scouting_app_2026.JSON.UpdateScoutingInfo;
 import com.scouting_app_2026.bluetooth.BluetoothConnectedThread;
 import com.scouting_app_2026.extras.MatchTiming;
 import com.scouting_app_2026.extras.PermissionManager;
+import com.scouting_app_2026.fragments.AdminFragment;
 import com.scouting_app_2026.fragments.ArchiveFragment;
 import com.scouting_app_2026.fragments.AutonFragment;
 import com.scouting_app_2026.fragments.DataFragment;
@@ -31,9 +32,10 @@ import com.scouting_app_2026.fragments.PreAutonFragment;
 import com.scouting_app_2026.fragments.TeleopFragment;
 import com.scouting_app_2026.fragments.popups.ArchiveConfirm;
 import com.scouting_app_2026.fragments.popups.AutonStart;
-import com.scouting_app_2026.fragments.popups.BlockerFragment;
 import com.scouting_app_2026.fragments.popups.ConfirmSubmit;
 import com.scouting_app_2026.fragments.popups.MenuFragment;
+import com.scouting_app_2026.fragments.popups.PracticeConfirm;
+import com.scouting_app_2026.fragments.popups.ReplayConfirm;
 import com.scouting_app_2026.fragments.popups.ResetFragment;
 import com.scouting_app_2026.fragments.popups.TeleopStart;
 
@@ -59,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     public PreAutonFragment preAuton = new PreAutonFragment();
     public AutonFragment auton = new AutonFragment();
     public TeleopFragment teleop = new TeleopFragment();
-    public BlockerFragment blockerFragment = new BlockerFragment();
     public AutonStart autonStart = new AutonStart();
     public TeleopStart teleopStart = new TeleopStart();
     public PostMatchFragment postMatch = new PostMatchFragment();
@@ -68,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
     public ArchiveConfirm archiveConfirmSubmit = new ArchiveConfirm();
     public MenuFragment menuFragment = new MenuFragment();
     public ResetFragment resetFragment = new ResetFragment();
+    public PracticeConfirm practiceConfirm = new PracticeConfirm();
+    public ReplayConfirm replayConfirm = new ReplayConfirm();
+    public AdminFragment adminFragment = new AdminFragment();
     public final PermissionManager permissionManager = new PermissionManager(this);
     private enum gameState {
         preAuton,
@@ -83,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String datapointEventValue = "";
     public static final int defaultTimestamp = 0;
     private boolean connectivity = false;
+    private boolean practice = false;
+    private int replayLevel = 0;
 
     /**
      * Updates the variable that tracks Bluetooth Connectivity
@@ -104,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(preAuton);
         fragments.add(auton);
         fragments.add(teleop);
-        fragments.add(blockerFragment);
         fragments.add(autonStart);
         fragments.add(teleopStart);
         fragments.add(postMatch);
@@ -113,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(confirmSubmit);
         fragments.add(resetFragment);
         fragments.add(menuFragment);
+        fragments.add(practiceConfirm);
+        fragments.add(replayConfirm);
+        fragments.add(adminFragment);
 
         ftm = new FragmentTransManager(fragments, this);
     }
@@ -147,6 +155,11 @@ public class MainActivity extends AppCompatActivity {
         return preAuton.getBaseJSON();
     }
     public void recreateFragments() {
+        currentState = gameState.preAuton;
+        MatchTiming.cancel();
+        practice = false;
+        replayLevel = 0;
+
         fragments.clear();
         preAuton = new PreAutonFragment(preAuton.getScouterIndex(), preAuton.getMatchIndex()+1);
         fragments.add(preAuton);
@@ -154,8 +167,6 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(auton);
         teleop = new TeleopFragment();
         fragments.add(teleop);
-        blockerFragment = new BlockerFragment();
-        fragments.add(blockerFragment);
         autonStart = new AutonStart();
         fragments.add(autonStart);
         teleopStart = new TeleopStart();
@@ -172,10 +183,14 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(menuFragment);
         resetFragment = new ResetFragment();
         fragments.add(resetFragment);
+        practiceConfirm = new PracticeConfirm();
+        fragments.add(practiceConfirm);
+        replayConfirm = new ReplayConfirm();
+        fragments.add(replayConfirm);
+        adminFragment = new AdminFragment();
+        fragments.add(adminFragment);
 
         ftm = new FragmentTransManager(fragments, this);
-        currentState = gameState.preAuton;
-        MatchTiming.cancel();
     }
     public void sendSavedData(File file) {
         if(connectivity) {
@@ -190,6 +205,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void sendMatchData() {
+        if(practice) return;
+
         JSONObject jsonFile = new JSONObject();
         JSONArray jsonArray;
         JSONArray jsonCollection = new JSONArray();
@@ -231,16 +248,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Tried to get time while game is not active.");
                 return -1;
         }
-    }
-
-    public void updateFragments() {
-//        if((auton.isVisible() && currentState != gameState.autonStarted) ||
-//                (teleop.isVisible() && currentState != gameState.teleopStarted)) {
-//            runOnUiThread(ftm::showBlocker);
-//        }
-//        else {
-//            ftm.hideBlocker();
-//        }
     }
 
     public void autonStart() {
@@ -287,6 +294,24 @@ public class MainActivity extends AppCompatActivity {
         auton.updateTeamNumber(teamNumber);
         teleop.updateTeamNumber(teamNumber);
         postMatch.updateTeamNumber(teamNumber);
+    }
+
+    public void togglePractice() {
+        practice = !practice;
+        menuFragment.updatePractice(practice);
+    }
+
+    public boolean getPractice() {
+        return practice;
+    }
+
+    public int getReplayLevel() {
+        return replayLevel;
+    }
+
+    public void increaseReplayLevel() {
+        replayLevel++;
+        preAuton.updateMatches();
     }
 
     @Override

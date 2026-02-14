@@ -39,6 +39,8 @@
     <string name="menu_connect_title">Connect</string>
     <string name="menu_reset_title">Reset</string>
     <string name="menu_archive_title">Archive</string>
+    <string name="menu_practice_title">Practice</string>
+    <string name="menu_replay_title">Replay</string>
     <string name="menu_admin_title">Admin</string>
 
     <!-- Admin Menu -->
@@ -104,7 +106,7 @@
     <string name="hang_spinner_title">Hang Successful?</string>
     <string name="score_estimate">Score Estimate:</string>
     <string name="hang_failed_title">Hang Failed:</string>
-    <string name="hub_accuracy">Hub Accuracy:</string>
+    <string name="hub_accuracy">Hub Accuracy: (%)</string>
     <string name="confidence_estimate">Confidence:</string>
     <string name="red_pos">Red</string>
     <string name="neutral_pos">Neutral</string>
@@ -136,6 +138,10 @@
     <string name="cancel_button_title">Cancel</string>
     <string name="confirm_reset_title">Are you sure you want to reset?</string>
     <string name="confirm_reset_button">Reset</string>
+    <string name="confirm_practice_title">Are you sure you want to practice scout this match?</string>
+    <string name="confirm_practice_button">Practice</string>
+    <string name="confirm_replay_title">Are you sure you want to make this match a replay?</string>
+    <string name="confirm_replay_button">Replay</string>
 
     <!-- Bluetooth -->
     <string name="connected_status_title">Connected</string>

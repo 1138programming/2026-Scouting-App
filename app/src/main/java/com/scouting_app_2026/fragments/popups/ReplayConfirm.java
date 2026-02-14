@@ -13,22 +13,15 @@ import androidx.fragment.app.Fragment;
 
 import com.scouting_app_2026.MainActivity;
 import com.scouting_app_2026.UIElements.Button;
-import com.scouting_app_2026.databinding.TeleopStartFragmentBinding;
+import com.scouting_app_2026.databinding.ConfirmReplayFragmentBinding;
 import com.scouting_app_2026.datapointIDs.NonDataIDs;
-import com.scouting_app_2026.fragments.TeleopFragment;
 
-import java.util.Objects;
-
-public class TeleopStart extends Fragment {
-    TeleopStartFragmentBinding binding;
-
-    public TeleopStart() {
-
-    }
+public class ReplayConfirm extends Fragment {
+    ConfirmReplayFragmentBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.binding = TeleopStartFragmentBinding.inflate(inflater,container,false);
+        this.binding = ConfirmReplayFragmentBinding.inflate(inflater,container,false);
         return this.binding.getRoot();
     }
 
@@ -36,20 +29,19 @@ public class TeleopStart extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button backButton = new Button(
-                NonDataIDs.TeleopStartBack.getID(), binding.backButton);
-        backButton.setOnClickFunction(() -> ftm.teleopStartBack());
+        Button cancelButton = new Button(
+                NonDataIDs.PracticeClose.getID(), binding.cancelButton);
+        cancelButton.setOnClickFunction(() -> ftm.replayClose());
 
         Button startButton = new Button(
-                NonDataIDs.TeleopStartStart.getID(), binding.startButton);
-        startButton.setOnClickFunction(() -> ((TeleopFragment) Objects.requireNonNull(
-                getParentFragmentManager().findFragmentByTag("TeleopFragment"))).startTeleop());
-        startButton.setOnClickFunction(() -> ftm.teleopStartStart());
+                NonDataIDs.PracticeConfirm.getID(), binding.confirmButton);
+        startButton.setOnClickFunction(() -> ftm.replayClose());
+        startButton.setOnClickFunction(((MainActivity)requireActivity())::increaseReplayLevel);
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "TeleopStartFragment";
+        return "ReplayConfirm";
     }
 }

@@ -122,6 +122,8 @@ public class AutonFragment extends DataFragment {
         this.autonStart = Calendar.getInstance(Locale.US).getTimeInMillis();
         undoStack.enableAll();
 
+        ((MainActivity)requireActivity()).autonStart();
+
         robotLocation.setSelected(((MainActivity)requireActivity()).getAutonStartPos());
     }
 
