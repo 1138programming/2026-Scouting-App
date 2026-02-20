@@ -37,7 +37,8 @@ public enum NonDataIDs {
     ResetCancel,
     ResetConfirm,
     PracticeClose,
-    PracticeConfirm;
+    PracticeConfirm,
+    AdminCompIDSpinner;
 
     public int getID() {
         return -ordinal();

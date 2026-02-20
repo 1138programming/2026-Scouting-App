@@ -99,6 +99,7 @@ public class UpdateScoutingInfo {
         String[] listsSplit = fileData.split("\n");
         String[] teamList = listsSplit[1].split(",");
         String[] matchBreakdown = listsSplit[2].split(",");
+        String compID = listsSplit[3];
 
         Arrays.sort(teamList, (s, s2) -> {
             int i = Integer.parseInt(s);
@@ -110,6 +111,7 @@ public class UpdateScoutingInfo {
             Arrays.sort(scoutersWithNum);
 
         ArrayList<ArrayList<CharSequence>> retVal = new ArrayList<>();
+            retVal.add(new ArrayList<>());
             retVal.add(new ArrayList<>());
             retVal.add(new ArrayList<>());
             retVal.add(new ArrayList<>());
@@ -126,6 +128,7 @@ public class UpdateScoutingInfo {
         for(String matchNumber : matchBreakdown) {
             retVal.get(3).add(matchNumber);
         }
+        retVal.get(4).add(compID);
         return retVal;
     }
 }

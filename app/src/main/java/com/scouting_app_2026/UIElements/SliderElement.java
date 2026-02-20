@@ -24,7 +24,7 @@ public class SliderElement extends UIElement {
 
     @Override
     public String getValue() {
-        return Float.toString(slider.getValue());
+        return Integer.toString((int)slider.getValue());
     }
 
     public void setLabels(String[] labels) {

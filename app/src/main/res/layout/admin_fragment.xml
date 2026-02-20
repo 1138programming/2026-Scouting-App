@@ -7,7 +7,7 @@
     android:background="@color/background_default"
     android:foregroundTint="@color/black"
     android:clickable="true"
-    tools:context="fragments.ArchiveFragment">
+    tools:context="fragments.AdminFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -50,19 +50,25 @@
             app:layout_constraintStart_toEndOf="@+id/manualOverrideTitle"
             app:layout_constraintTop_toTopOf="@+id/manualOverrideTitle" />
 
-<!--        <CheckBox-->
-<!--            android:id="@+id/manualOverrideCheckbox"-->
-<!--            android:layout_width="120sp"-->
-<!--            android:layout_height="120sp"-->
-<!--            android:background="?android:attr/listChoiceIndicatorMultiple"-->
-<!--            android:backgroundTint="@color/chaminade_orange"-->
-<!--            android:button="@null"-->
-<!--            android:checked="false"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/manualOverrideTitle"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/manualOverrideTitle"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/manualOverrideTitle" />-->
+        <TextView
+            android:id="@+id/compIDTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="@string/compids_title"
+            android:textColor="@color/off_white"
+            android:textSize="45sp"
+            app:layout_constraintStart_toStartOf="@+id/manualOverrideTitle"
+            app:layout_constraintTop_toBottomOf="@+id/manualOverrideTitle" />
 
+        <Spinner
+            android:id="@+id/compIDSpinner"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/compIDTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/compIDTitle"
+            app:layout_constraintTop_toTopOf="@+id/compIDTitle" />
 
         <Button
             android:id="@+id/closeMenu"

@@ -27,8 +27,7 @@ public class DataFragment extends Fragment {
         undoStack = new UndoStack((MainActivity)requireActivity());
     }
 
-    public JSONArray getFragmentMatchData() throws JSONException {
-        return undoStack.getTimestamps(((MainActivity)requireActivity()).getBaseJSON());
-
+    public JSONArray getFragmentMatchData() {
+        return undoStack.getTimestamps();
     }
 }

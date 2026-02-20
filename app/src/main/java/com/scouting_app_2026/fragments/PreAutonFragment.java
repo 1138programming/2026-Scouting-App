@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 
+import com.scouting_app_2026.JSON.TemplateContext;
 import com.scouting_app_2026.MainActivity;
 import com.scouting_app_2026.R;
 import com.scouting_app_2026.UIElements.Button;
@@ -76,18 +77,10 @@ public class PreAutonFragment extends DataFragment {
 
         scouterNameSpinner = new Spinner(NonDataIDs.ScouterName.getID(), binding.nameOfScouterSpinner, true);
         scouterNameSpinner.setOnClickFunction(() -> ((MainActivity) requireContext()).updateTabletInformation());
-        scouterNameSpinner.setOnClickFunction(this::updateIndices);
-        if(scouterIndex < scouterNameSpinner.getLength()) {
-            scouterNameSpinner.setIndex(scouterIndex);
-        }
 
         matchNumberSpinner = new Spinner(NonDataIDs.MatchNumber.getID(), binding.matchNumberSpinner, false);
         matchNumberSpinner.setOnClickFunction(() -> ((MainActivity) requireContext()).updateTabletInformation());
-        matchNumberSpinner.setOnClickFunction(this::updateIndices);
         updateMatches();
-        if(matchIndex < matchNumberSpinner.getLength()) {
-            matchNumberSpinner.setIndex(matchIndex);
-        }
 
         teamColorButtons = new RadioGroup(NonDataIDs.TeamColor.getID(), binding.teamColorSwitch);
         teamColorButtons.setOnClickFunction(this::updateTeamColor);
@@ -124,6 +117,16 @@ public class PreAutonFragment extends DataFragment {
         super.onStart();
         ((MainActivity) requireActivity()).updateBtScoutingInfo();
         attemptDeviceNameParse();
+
+        if(scouterIndex < scouterNameSpinner.getLength()) {
+            scouterNameSpinner.setIndex(scouterIndex);
+        }
+        scouterNameSpinner.setOnClickFunction(this::updateScouterIndex);
+
+        if(matchIndex < matchNumberSpinner.getLength()) {
+            matchNumberSpinner.setIndex(matchIndex);
+        }
+        matchNumberSpinner.setOnClickFunction(this::updateMatchIndex);
     }
 
     /* Makes it so the toString() function for this class
@@ -237,8 +240,9 @@ public class PreAutonFragment extends DataFragment {
 
     public void updateMatches() {
         int replayLevel = ((MainActivity)requireActivity()).getReplayLevel();
-
+        int currIndex = matchNumberSpinner.getSelectedIndex();
         matchNumberSpinner.updateSpinnerList(generateMatches(qualNum, playoffNum, finalsNum, replayLevel), requireContext());
+        matchNumberSpinner.setIndex(currIndex);
     }
 
     private void updateMatches(int quals, int playoffs, int finals) {
@@ -266,22 +270,21 @@ public class PreAutonFragment extends DataFragment {
         return scouterNameSpinner.getValue() + " Match #"+matchNumberSpinner.getValue();
     }
 
-    public JSONObject getBaseJSON() throws JSONException {
-        JSONObject baseJson = new JSONObject();
+    public void updateTemplateContext() {
+        TemplateContext context = TemplateContext.getInstance();
 
         int scouterNameIndex = scouterNameSpinner.getSelectedIndex();
         if(scouterNameIndex >= 0) {
-            baseJson.put("ScouterID", scouterIDs.get(scouterNameIndex).toString());
+            context.setScouterID(scouterIDs.get(scouterNameIndex));
         }
         else {
-            baseJson.put("ScouterID", -1);
+            context.setScouterID(-1);
         }
 
-        baseJson.put("MatchID", getMatch());
-        try {
-            baseJson.put("TeamID", teamNumberSpinner.getValue());
-        } catch (NullPointerException e) {
-            baseJson.put("TeamID", "0");
+        context.setMatchID(getMatch());
+        String teamNumber = teamNumberSpinner.getValue();
+        if(!teamNumber.isEmpty()) {
+            context.setTeamID(Integer.parseInt(teamNumber));
         }
 
         if(successfulDeviceNameParse) {
@@ -300,21 +303,19 @@ public class PreAutonFragment extends DataFragment {
              */
 
             int allianceID = (selectedColor == 1) ? driverStationNumber : driverStationNumber + 3;
-            baseJson.put("AllianceID", allianceID);
+            context.setAllianceID(allianceID);
         }
         else {
 
             String allianceName = teamColorButtons.getValue();
             switch (allianceName) {
                 case "RED":
-                    baseJson.put("AllianceID", 7);
+                    context.setAllianceID(7);
                     break;
                 case "BLUE":
-                    baseJson.put("AllianceID", 8);
+                    context.setAllianceID(8);
             }
         }
-
-        return baseJson;
     }
 
     private void attemptDeviceNameParse() {
@@ -328,7 +329,7 @@ public class PreAutonFragment extends DataFragment {
                 throw new NumberFormatException("Drive station number is outside range");
             }
         } catch (NumberFormatException e) {
-            Log.e(TAG, "Unable to parse device name");
+            Log.e(TAG, "Unable to parse device name: ", e);
             successfulDeviceNameParse = false;
         }
         else {
@@ -360,8 +361,11 @@ public class PreAutonFragment extends DataFragment {
         binding.teamColorSwitch.getChildAt(1).setEnabled(false);
     }
 
-    private void updateIndices() {
+    private void updateScouterIndex() {
         this.scouterIndex = scouterNameSpinner.getSelectedIndex();
+    }
+
+    private void updateMatchIndex() {
         this.matchIndex = matchNumberSpinner.getSelectedIndex();
     }
 

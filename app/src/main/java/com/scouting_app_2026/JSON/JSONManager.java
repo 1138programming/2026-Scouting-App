@@ -10,23 +10,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JSONManager {
-    private final JSONObject jsonTemplate;
     private final JSONArray masterJSON = new JSONArray();
-    public JSONManager(JSONObject jsonTemplate) {
-        this.jsonTemplate = jsonTemplate;
+    public JSONManager() {
+
     }
 
     public void addDatapoint(int datapointID, String value, int timestamp) {
-        JSONObject temp;
-        try {
-            temp = new JSONObject(jsonTemplate.toString());
-        } catch (JSONException e) {
-            Log.wtf(TAG, "Something horrible has gone wrong when creating new template JSON");
-            return;
-        }
+        TemplateContext context =  TemplateContext.getInstance();
+        JSONObject temp = new JSONObject();
 
         try {
+            temp.put("CompID", context.getCompID());
+            temp.put("MatchID", context.getMatchID());
             temp.put("DatapointID", datapointID);
+            temp.put("ScouterID", context.getScouterID());
+            temp.put("TeamID", context.getTeamID());
+            temp.put("AllianceID", context.getAllianceID());
             temp.put("DatapointValue", value);
             temp.put("DatapointTimestamp", timestamp);
         }

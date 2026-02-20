@@ -35,17 +35,12 @@ public class Spinner extends UIElement {
     }
 
     @Override
-    public void clicked() {
-        super.clicked();
-    }
-
-    @Override
     public String getValue() {
         try {
             return spinner.getSelectedItem().toString();
         }
-        catch(Exception e) {
-            Log.e(TAG, "Failed to get value from Spinner: ", e);
+        catch(NullPointerException e) {
+            Log.e(TAG, "Spinner is empty");
             return "";
         }
     }

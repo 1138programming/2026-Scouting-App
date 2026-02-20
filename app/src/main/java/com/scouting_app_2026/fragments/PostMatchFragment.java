@@ -78,18 +78,4 @@ public class PostMatchFragment extends DataFragment {
     public String toString() {
         return "PostMatchFragment";
     }
-
-    @Override
-    public JSONArray getFragmentMatchData() throws JSONException {
-        JSONManager jsonManager = new JSONManager(((MainActivity)requireActivity()).getBaseJSON());
-        JSONArray jsonCollection = super.getFragmentMatchData();
-
-        JSONArray jsonArray = jsonManager.getJSON();
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            jsonCollection.put(jsonArray.getJSONObject(i));
-        }
-
-        return jsonCollection;
-    }
 }

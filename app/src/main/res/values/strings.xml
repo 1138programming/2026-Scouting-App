@@ -18,7 +18,7 @@
     <string name="next_button_title">Next</string>
     <string name="back_button_title">Back</string>
 
-    <!-- Pre-Auton Page TODO hints might need to be removed-->
+    <!-- Pre-Auton Page -->
     <string name="pre_auton_title">Pre-Auton</string>
     <string name="name_prompt_title">Name of Scouter</string>
     <string name="match_number_title">Match Number</string>
@@ -148,4 +148,10 @@
     <string name="disconnected_status_title">Disconnected</string>
     <string name="archive_title">Menu</string>
 
+    <!-- Admin -->
+    <string name="compids_title">Competition ID:</string>
+    <array name="compids_array">
+        <item>2026capoh</item>
+        <item>2026casac</item>
+    </array>
 </resources>

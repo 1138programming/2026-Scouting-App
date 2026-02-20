@@ -57,39 +57,48 @@ public class UndoStack {
         redoStack = new Stack<>();
     }
 
-    public JSONArray getTimestamps(JSONObject datapointTemplate) {
-        JSONManager manager = new JSONManager(datapointTemplate);
+    public JSONArray getTimestamps() {
+        JSONManager manager = new JSONManager();
 
-        for(MatchTransaction<? extends UIElement> transaction : inputStack) {
-            Log.d(TAG, String.valueOf(transaction.getDatapointID()));
-        }
+//        for(MatchTransaction<? extends UIElement> transaction : inputStack) {
+//            Log.d(TAG, String.valueOf(transaction.getDatapointID()));
+//        }
 
-//        ArrayList<ButtonTimeToggle> buttonToggleList = new ArrayList<>();
-        ArrayList<MatchTransaction<? extends UIElement>> buttonToggleTransactions = new ArrayList<>();
+        HashMap<UIElement, MatchTransaction<? extends UIElement>> openToggles = new HashMap<>();
 
         //saves each timestamped datapoint to the JSON
         for(MatchTransaction<? extends UIElement> currTransaction : inputStack) {
-            if(currTransaction.getElement() instanceof ButtonTimeToggle) {
-                if(arrayContains(buttonToggleTransactions, currTransaction.getElement())) {
-                    int index = indexOf(buttonToggleTransactions, currTransaction.getElement());
-                    manager.addDatapoint(currTransaction.getDatapointID(),
-                            String.valueOf(currTransaction.getTimestamp()-buttonToggleTransactions.remove(index).getTimestamp()),
-                            buttonToggleTransactions.remove(index).getTimestamp());
+            UIElement currElement = currTransaction.getElement();
+
+            if(currElement instanceof ButtonTimeToggle) {
+                //check if a certain toggle is currently open
+                if(openToggles.containsKey(currElement)) {
+                    //find and remove the start transaction
+                    MatchTransaction<? extends UIElement> startTransaction = openToggles.remove(currElement);
+
+                    assert startTransaction != null;
+                    int duration = currTransaction.getTimestamp() - startTransaction.getTimestamp();
+
+                    manager.addDatapoint(
+                            currTransaction.getDatapointID(),
+                            String.valueOf(duration),
+                            startTransaction.getTimestamp());
                 }
                 else {
-                    buttonToggleTransactions.add(currTransaction);
+                    openToggles.put(currElement, currTransaction);
                 }
             }
             else {
-                manager.addDatapoint(currTransaction.getDatapointID(), currTransaction.getElement().getValue(), currTransaction.getTimestamp());
+                manager.addDatapoint(currTransaction.getDatapointID(), currElement.getValue(), currTransaction.getTimestamp());
             }
         }
-        if(!buttonToggleTransactions.isEmpty()) {
+        if(!openToggles.isEmpty()) {
             int periodTimeLength = matchPhaseAuton ? autonLengthMs : teleopLengthMs;
-            for(MatchTransaction<? extends UIElement> currTransaction : buttonToggleTransactions) {
-                manager.addDatapoint(currTransaction.getDatapointID(),
-                        String.valueOf((periodTimeLength-currTransaction.getTimestamp())),
-                        currTransaction.getTimestamp());
+            for(MatchTransaction<? extends UIElement> remaining : openToggles.values()) {
+                manager.addDatapoint(
+                        remaining.getDatapointID(),
+                        String.valueOf((periodTimeLength-remaining.getTimestamp())),
+                        remaining.getTimestamp());
             }
         }
 
@@ -171,15 +180,12 @@ public class UndoStack {
     }
 
     private boolean arrayContains(ArrayList<MatchTransaction<? extends UIElement>> transactions, UIElement element) {
-        for(MatchTransaction<? extends UIElement> transaction : transactions) {
-            if(transaction.getElement().equals(element)) return true;
-        }
-        return false;
+        return indexOf(transactions, element) != -1;
     }
 
     private int indexOf(ArrayList<MatchTransaction<? extends UIElement>> transactions, UIElement element) {
         for(int i = 0; i < transactions.size(); i++) {
-            if(transactions.get(i).getElement().equals(element)) {
+            if(transactions.get(i).getElement() == element) {
                 return i;
             }
         }
