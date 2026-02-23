@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_default"
+    android:foregroundTint="@color/black"
+    android:clickable="true"
+    tools:context="fragments.QrCodeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/mainTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/qr_code_title"
+            android:textColor="@color/off_white"
+            android:textSize="96sp"
+            android:textStyle="normal|bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/QRcode"
+            android:layout_width="700sp"
+            android:layout_height="700sp"
+            android:background="@drawable/qrcode_border"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.40" />
+
+        <TextView
+            android:id="@+id/errorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/qr_code_error"
+            android:textColor="@color/black"
+            android:textSize="64sp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@+id/QRcode"
+            app:layout_constraintEnd_toEndOf="@+id/QRcode"
+            app:layout_constraintStart_toStartOf="@+id/QRcode"
+            app:layout_constraintTop_toTopOf="@+id/QRcode" />
+
+        <Button
+            android:id="@+id/closeMenu"
+            android:layout_width="280sp"
+            android:layout_height="140sp"
+            android:layout_marginBottom="40dp"
+            android:text="@string/back_button"
+            android:textColor="@color/background_default"
+            android:textSize="58sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

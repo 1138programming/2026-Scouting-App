@@ -4,7 +4,6 @@ import static com.scouting_app_2026.MainActivity.TAG;
 
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.scouting_app_2026.JSON.MurmurHash;
 import com.scouting_app_2026.JSON.UpdateScoutingInfo;
@@ -146,7 +145,6 @@ public class BluetoothConnectedThread extends Thread {
             Log.e(TAG, "Communication exchange failed", e);
             cancel();
         }
-        Toast.makeText(mainActivity,"Successful Submit", Toast.LENGTH_SHORT).show();
     }
     /**
      * @return Returns true if the data is up to date with the central computer

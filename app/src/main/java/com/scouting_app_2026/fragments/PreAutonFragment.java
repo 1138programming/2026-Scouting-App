@@ -200,7 +200,7 @@ public class PreAutonFragment extends DataFragment {
     public byte[] getTabletInformation() {
         StringBuilder tabletInfo = new StringBuilder();
 
-        String driverStationPos = (selectedColor == 1) ? "Red " : "Blue ";
+        String driverStationPos = (selectedColor == 0) ? "Red " : "Blue ";
         driverStationPos = driverStationPos + driverStationNumber;
 
         tabletInfo.append(scouterNameSpinner.getValue());
@@ -256,14 +256,9 @@ public class PreAutonFragment extends DataFragment {
     }
 
     public void setBtStatus(boolean status) {
-        if(status) {
-            binding.btConnectionStatus.setText(getResources().getString(R.string.connected_status_title), TextView.BufferType.NORMAL);
-            Toast.makeText(requireContext(), "connected", Toast.LENGTH_LONG).show();
-        }
-        else {
-            binding.btConnectionStatus.setText(getResources().getString(R.string.disconnected_status_title), TextView.BufferType.NORMAL);
-            Toast.makeText(requireContext(), "disconnected", Toast.LENGTH_LONG).show();
-        }
+        binding.btConnectionStatus.setText(
+                getResources().getString(status ? R.string.connected_status_title : R.string.disconnected_status_title),
+                TextView.BufferType.NORMAL);
     }
 
     public String getFileTitle() {
@@ -289,8 +284,8 @@ public class PreAutonFragment extends DataFragment {
 
         if(successfulDeviceNameParse) {
             /*
-                selectedColor = 1 -> red
-                selectedColor = 0 -> blue
+                selectedColor = 0 -> red
+                selectedColor = 1 -> blue
 
                 allianceID = 1 -> red 1
                 allianceID = 2 -> red 2
@@ -302,7 +297,7 @@ public class PreAutonFragment extends DataFragment {
                 allianceID = 8 -> blue (generic)
              */
 
-            int allianceID = (selectedColor == 1) ? driverStationNumber : driverStationNumber + 3;
+            int allianceID = (selectedColor == 0) ? driverStationNumber : driverStationNumber + 3;
             context.setAllianceID(allianceID);
         }
         else {

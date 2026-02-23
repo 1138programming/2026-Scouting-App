@@ -30,6 +30,7 @@ import com.scouting_app_2026.fragments.DataFragment;
 import com.scouting_app_2026.fragments.FragmentTransManager;
 import com.scouting_app_2026.fragments.PostMatchFragment;
 import com.scouting_app_2026.fragments.PreAutonFragment;
+import com.scouting_app_2026.fragments.QrCodeFragment;
 import com.scouting_app_2026.fragments.TeleopFragment;
 import com.scouting_app_2026.fragments.popups.ArchiveConfirm;
 import com.scouting_app_2026.fragments.popups.AutonStart;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     public ResetFragment resetFragment = new ResetFragment();
     public PracticeConfirm practiceConfirm = new PracticeConfirm();
     public ReplayConfirm replayConfirm = new ReplayConfirm();
+    public QrCodeFragment qrCodeFragment = new QrCodeFragment();
     public AdminFragment adminFragment = new AdminFragment();
     public final PermissionManager permissionManager = new PermissionManager(this);
     private enum gameState {
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean connectivity = false;
     private boolean practice = false;
     private int replayLevel = 0;
+    private String qrCodeContents = "";
 
     /**
      * Updates the variable that tracks Bluetooth Connectivity
@@ -105,6 +108,11 @@ public class MainActivity extends AppCompatActivity {
      */
     private void updateConnectivity() {
         runOnUiThread(() -> preAuton.setBtStatus(connectivity));
+
+        if(!connectivity) {
+            clearQrCode();
+        }
+        qrCodeFragment.updateQrCode();
     }
 
     private void addFragmentsToManager() {
@@ -121,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(menuFragment);
         fragments.add(practiceConfirm);
         fragments.add(replayConfirm);
+        fragments.add(qrCodeFragment);
         fragments.add(adminFragment);
 
         ftm = new FragmentTransManager(fragments, this);
@@ -188,11 +197,14 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(practiceConfirm);
         replayConfirm = new ReplayConfirm();
         fragments.add(replayConfirm);
+        qrCodeFragment = new QrCodeFragment();
+        fragments.add(qrCodeFragment);
         adminFragment = new AdminFragment();
         fragments.add(adminFragment);
 
         ftm = new FragmentTransManager(fragments, this);
         updateTabletInformation();
+        updateConnectivity();
     }
     public void sendSavedData(File file) {
         if(connectivity) {
@@ -314,6 +326,18 @@ public class MainActivity extends AppCompatActivity {
     public void increaseReplayLevel() {
         replayLevel++;
         preAuton.updateMatches();
+    }
+
+    public void setQrCode(String contents) {
+        this.qrCodeContents = contents;
+    }
+
+    public void clearQrCode() {
+        qrCodeContents = "";
+    }
+
+    public String getQrCodeContents() {
+        return qrCodeContents;
     }
 
     @Override

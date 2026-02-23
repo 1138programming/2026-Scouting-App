@@ -86,16 +86,28 @@
             app:layout_constraintTop_toBottomOf="@+id/menu_practice_button" />
 
         <TextView
-            android:id="@+id/menu_admin_button"
+            android:id="@+id/menu_qr_code_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/menu_admin_title"
+            android:text="@string/qr_code_title"
             android:textSize="50sp"
             android:textColor="@color/black"
             android:paddingHorizontal="10dp"
             android:background="@drawable/menu_outline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menu_replay_button" />
+
+        <TextView
+            android:id="@+id/menu_admin_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/menu_outline"
+            android:paddingHorizontal="10dp"
+            android:text="@string/menu_admin_title"
+            android:textColor="@color/black"
+            android:textSize="50sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menu_qr_code_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

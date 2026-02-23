@@ -1,5 +1,7 @@
 package com.scouting_app_2026.fragments;
 
+import android.view.View;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,12 +15,10 @@ import java.util.Objects;
 public class FragmentTransManager {
     private FragmentTransaction ft;
     private final FragmentManager fm;
-    private final MainActivity mainActivity;
 
     public FragmentTransManager(ArrayList<Fragment> fragments, MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
 
-        this.mainActivity.setContentView(R.layout.activity_main);
+        mainActivity.setContentView(R.layout.activity_main);
         fm = mainActivity.getSupportFragmentManager();
 
         ft = fm.beginTransaction();
@@ -236,6 +236,21 @@ public class FragmentTransManager {
     public void replayClose() {
         ft = fm.beginTransaction();
         hideFragment("ReplayConfirm");
+        ft.commitNow();
+    }
+
+    public void qrCodeOpen() {
+        ft = fm.beginTransaction();
+        hideFragment("MenuFragment");
+        hideFragment("PreAutonFragment");
+        showFragment("QrCodeFragment");
+        ft.commitNow();
+    }
+
+    public void qrCodeClose() {
+        ft = fm.beginTransaction();
+        hideFragment("QrCodeFragment");
+        showFragment("PreAutonFragment");
         ft.commitNow();
     }
 }
