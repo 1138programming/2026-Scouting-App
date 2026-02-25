@@ -225,17 +225,22 @@ public class MainActivity extends AppCompatActivity {
         JSONArray jsonArray;
         JSONArray jsonCollection = new JSONArray();
         try {
-            for (Fragment fragment : fragments) {
-                if(fragment instanceof DataFragment) {
-                    jsonArray = ((DataFragment)fragment).getFragmentMatchData();
-                    Log.d(TAG, jsonArray.toString());
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        jsonCollection.put(jsonArray.getJSONObject(i));
+            if (preAuton.isNoShow()) {
+                jsonCollection = preAuton.getFragmentMatchData();
+            }
+            else {
+                for (Fragment fragment : fragments) {
+                    if (fragment instanceof DataFragment) {
+                        jsonArray = ((DataFragment) fragment).getFragmentMatchData();
+                        Log.d(TAG, jsonArray.toString());
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            jsonCollection.put(jsonArray.getJSONObject(i));
+                        }
                     }
                 }
-            }
 
-            jsonFile.put("scoutingData",jsonCollection);
+            }
+            jsonFile.put("scoutingData", jsonCollection);
         }
         catch (JSONException e) {
             Log.e(TAG, "Failed to compile match data from each fragment to send.\n" + e);

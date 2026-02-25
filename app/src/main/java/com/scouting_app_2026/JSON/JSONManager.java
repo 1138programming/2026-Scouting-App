@@ -22,12 +22,12 @@ public class JSONManager {
         try {
             temp.put("CompID", context.getCompID());
             temp.put("MatchID", context.getMatchID());
-            temp.put("DatapointID", datapointID);
+            temp.put("DatapointID", Integer.toString(datapointID));
             temp.put("ScouterID", context.getScouterID());
             temp.put("TeamID", context.getTeamID());
             temp.put("AllianceID", context.getAllianceID());
             temp.put("DatapointValue", value);
-            temp.put("DatapointTimestamp", timestamp);
+            temp.put("DatapointTimestamp", Integer.toString(timestamp));
         }
         catch (JSONException e) {
             Log.e(TAG, "Failed to add datapoint", e);

@@ -385,6 +385,9 @@ public class PreAutonFragment extends DataFragment {
         matchIndex--;
     }
 
+    public boolean isNoShow() {
+        return binding.noShowCheckbox.isChecked();
+    }
     private String getMatch() {
         String matchValue = matchNumberSpinner.getValue();
 

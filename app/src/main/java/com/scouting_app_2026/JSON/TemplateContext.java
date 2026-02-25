@@ -30,8 +30,8 @@ public class TemplateContext {
         this.compID = compID;
     }
 
-    public int getScouterID() {
-        return scouterID;
+    public String getScouterID() {
+        return Integer.toString(scouterID);
     }
 
     public void setScouterID(int scouterID) {
@@ -46,16 +46,16 @@ public class TemplateContext {
         this.matchID = matchID;
     }
 
-    public int getTeamID() {
-        return teamID;
+    public String getTeamID() {
+        return Integer.toString(teamID);
     }
 
     public void setTeamID(int teamID) {
         this.teamID = teamID;
     }
 
-    public int getAllianceID() {
-        return allianceID;
+    public String getAllianceID() {
+        return Integer.toString(allianceID);
     }
 
     public void setAllianceID(int allianceID) {
