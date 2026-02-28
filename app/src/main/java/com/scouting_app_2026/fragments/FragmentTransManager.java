@@ -25,10 +25,12 @@ public class FragmentTransManager {
         for (Fragment fragment : fragments) {
             ft.add(R.id.main_fragment, fragment, fragment.toString());
         }
-        ft.show(fragments.get(0));
-        for(int i = 1; i < fragments.size(); i++) {
+        for(int i = 0; i < fragments.size(); i++) {
             ft.hide(fragments.get(i));
         }
+        ft.commitNow();
+        ft = fm.beginTransaction();
+        showFragment("PreAutonFragment");
         ft.commitNow();
     }
 

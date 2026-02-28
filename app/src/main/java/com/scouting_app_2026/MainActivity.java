@@ -171,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
         replayLevel = 0;
 
         fragments.clear();
+        qrCodeFragment = new QrCodeFragment();
+        fragments.add(qrCodeFragment);
         preAuton = new PreAutonFragment(preAuton.getScouterIndex(), preAuton.getMatchIndex()+1);
         fragments.add(preAuton);
         auton = new AutonFragment();
@@ -197,8 +199,6 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(practiceConfirm);
         replayConfirm = new ReplayConfirm();
         fragments.add(replayConfirm);
-        qrCodeFragment = new QrCodeFragment();
-        fragments.add(qrCodeFragment);
         adminFragment = new AdminFragment();
         fragments.add(adminFragment);
 
