@@ -25,7 +25,7 @@ public class UpdateScoutingInfo {
     boolean dirExists = true;
 
     public UpdateScoutingInfo(MainActivity mainActivity) {
-        this.folderDir = new File(mainActivity.getFilesDir().getPath() + "/scoutingData");
+        this.folderDir = new File(mainActivity.getFilesDir().getPath() + "/settings");
 
         if (!folderDir.isDirectory()) {
             if (!folderDir.mkdir()) {

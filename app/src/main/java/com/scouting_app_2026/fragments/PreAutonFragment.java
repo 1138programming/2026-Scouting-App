@@ -52,6 +52,7 @@ public class PreAutonFragment extends DataFragment {
     private int playoffNum = 13;
     private int finalsNum = 3;
     private ArrayList<Integer> scouterIDs = new ArrayList<>(List.of(-1));
+    private boolean currentFlippedStatus = false;
 
     public PreAutonFragment() {
         this.scouterIndex = 0;
@@ -102,9 +103,19 @@ public class PreAutonFragment extends DataFragment {
             undoStack.addElement(startingPositionGroup);
 
         Button nextButton = new Button(NonDataIDs.PreAutonNext.getID(), binding.nextButton);
-        nextButton.setOnClickFunction(() -> ftm.preAutonNext());
-        nextButton.setOnClickFunction(() -> ((AutonFragment) Objects.requireNonNull(
-                getParentFragmentManager().findFragmentByTag("AutonFragment"))).openAuton());
+        nextButton.setOnClickFunction(() -> {
+            boolean noShow = noShowCheckbox.isChecked();
+            if(noShow) {
+                ftm.preAutonPost();
+            }
+            else {
+                ftm.preAutonNext();
+                ((AutonFragment) Objects.requireNonNull(
+                        getParentFragmentManager().findFragmentByTag("AutonFragment"))).openAuton();
+            }
+            ((PostMatchFragment) Objects.requireNonNull(
+                    getParentFragmentManager().findFragmentByTag("PostMatchFragment"))).setNoShow(noShow);
+        });
 
         ImageButton button = new ImageButton(NonDataIDs.ArchiveHamburger.getID(), binding.archiveButton);
         button.setOnClickFunction(() -> ftm.preAutonMenu());
@@ -364,13 +375,24 @@ public class PreAutonFragment extends DataFragment {
         this.matchIndex = matchNumberSpinner.getSelectedIndex();
     }
 
-    public int getPos() {
-        String color = teamColorButtons.getValue();
-        if(color.equals("RED")) {
-            return 0;
-        }
-        else {
-            return 2;
+    public String getPos() {
+        return teamColorButtons.getValue();
+    }
+
+    public void flipField(boolean fieldFlipped) {
+
+        if(currentFlippedStatus != fieldFlipped) {
+            currentFlippedStatus = fieldFlipped;
+
+            ArrayList<android.widget.RadioButton> colorButtons = teamColorButtons.getButtons();
+            int id = teamColorButtons.getSelected();
+            teamColorButtons.unselect();
+
+            teamColorButtons.removeAllButton();
+            for(int i = colorButtons.size()-1; i >= 0; i--) {
+                teamColorButtons.addButton(colorButtons.get(i));
+            }
+            teamColorButtons.setSelected(id == 0 ? 1 : 0);
         }
     }
 

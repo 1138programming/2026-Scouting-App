@@ -43,7 +43,7 @@ public class ImageButton extends UIElement {
 
     @Override
     public void disable(boolean override) {
-        if(disableable || override) {
+        if(!alwaysActive && (disableable || override)) {
             button.setEnabled(false);
         }
     }

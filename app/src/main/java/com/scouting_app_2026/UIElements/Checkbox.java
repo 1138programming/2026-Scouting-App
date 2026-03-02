@@ -78,7 +78,7 @@ public class Checkbox extends UIElement {
 
     @Override
     public void disable(boolean override) {
-        if(disableable || override) {
+        if(!alwaysActive && (disableable || override)) {
             if(!checkbox.isChecked()) {
                 checkbox.setEnabled(false);
             }

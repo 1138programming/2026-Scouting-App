@@ -1,5 +1,7 @@
 package com.scouting_app_2026.fragments;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 import static com.scouting_app_2026.MainActivity.ftm;
 
 import android.os.Bundle;
@@ -33,6 +35,7 @@ public class AutonFragment extends DataFragment {
     private AutonFragmentBinding binding;
     private RadioGroup robotLocation;
     private Long autonStart;
+    private boolean currentFlippedStatus = false;
 
     public AutonFragment() {
 
@@ -54,13 +57,14 @@ public class AutonFragment extends DataFragment {
         List<CharSequence> fuelScoredAuton = Arrays.asList(requireActivity().getResources().getStringArray(R.array.fuel_scored_auton));
         Spinner fuelScoredSpinner = new Spinner(DatapointID.autonNumScored.getID(), binding.fuelScoredAuton,false);
         fuelScoredSpinner.updateSpinnerList(new ArrayList<>(fuelScoredAuton), requireContext());
-        undoStack.addDisableOnlyElement(fuelScoredSpinner);
+        fuelScoredSpinner.alwaysActive(true);
+        undoStack.addElement(fuelScoredSpinner);
 
         robotLocation = new RadioGroup(
                 new ArrayList<>(Arrays.asList(
-                    DatapointID.autonEnteredRed.getID(),
+                    DatapointID.autonEnteredBlue.getID(),
                     DatapointID.autonEnteredNeutral.getID(),
-                    DatapointID.autonEnteredBlue.getID())),
+                    DatapointID.autonEnteredRed.getID())),
                 binding.locationAuton,undoStack);
 
         new ButtonTimeToggle(DatapointID.autonCollected.getID(),
@@ -105,6 +109,8 @@ public class AutonFragment extends DataFragment {
         nextButton.setOnClickFunction(() -> ftm.autonNext());
         nextButton.setOnClickFunction(() -> ((TeleopFragment) Objects.requireNonNull(
                 getParentFragmentManager().findFragmentByTag("TeleopFragment"))).openTeleop());
+
+        undoStack.disableAll();
     }
 
     /**
@@ -114,7 +120,6 @@ public class AutonFragment extends DataFragment {
     public void openAuton() {
         if(autonStart == null) {
             ftm.showAutonStart();
-            undoStack.disableAll();
         }
     }
 
@@ -131,18 +136,8 @@ public class AutonFragment extends DataFragment {
         undoStack.disableAll();
     }
 
-    public int getAutonPos() {
-        String color = robotLocation.getValue();
-        switch(color) {
-            case "Red":
-                return 0;
-            case "Neutral":
-                return 1;
-            case "Blue":
-                return 2;
-            default:
-                return -1;
-        }
+    public String getAutonPos() {
+        return robotLocation.getValue();
     }
 
     public long getAutonStart() {
@@ -151,6 +146,31 @@ public class AutonFragment extends DataFragment {
 
     public void updateTeamNumber(int teamNumber) {
         binding.teamNumber.setText(String.valueOf(teamNumber));
+    }
+
+    public void flipField(boolean fieldFlipped) {
+        if(fieldFlipped) {
+            binding.imageView.setVisibility(INVISIBLE);
+            binding.reversedImage.setVisibility(VISIBLE);
+        }
+        else {
+            binding.imageView.setVisibility(VISIBLE);
+            binding.reversedImage.setVisibility(INVISIBLE);
+        }
+        flipRadioButtons(fieldFlipped);
+    }
+
+    public void flipRadioButtons(boolean fieldFlipped) {
+        ArrayList<android.widget.RadioButton> radioButtons = robotLocation.getButtons();
+
+        if(currentFlippedStatus != fieldFlipped) {
+            currentFlippedStatus = fieldFlipped;
+
+            robotLocation.removeAllButton();
+            for(int i = radioButtons.size()-1; i >= 0; i--) {
+                robotLocation.addButton(radioButtons.get(i));
+            }
+        }
     }
 
     @NonNull

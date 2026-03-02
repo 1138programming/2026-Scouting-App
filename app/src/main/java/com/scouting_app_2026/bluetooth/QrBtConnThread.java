@@ -4,6 +4,7 @@ import static com.scouting_app_2026.MainActivity.TAG;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothSocket;
@@ -33,9 +34,11 @@ public class QrBtConnThread extends Thread {
         if(mainActivity.permissionManager.permissionNotGranted(Manifest.permission.BLUETOOTH_CONNECT)) {
             Log.e(TAG, "need permission for Bluetooth_Connect");
         }
+        BluetoothAdapter adapter = ((BluetoothManager)mainActivity.getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter();
+        adapter.cancelDiscovery();
+
         BluetoothSocket tmp;
-        BluetoothDevice device = ((BluetoothManager) mainActivity.getSystemService(Context.BLUETOOTH_SERVICE))
-                 .getAdapter().getRemoteDevice(mac);
+        BluetoothDevice device =  adapter.getRemoteDevice(mac);
 
         try {
             Method method = device.getClass().getMethod("createInsecureRfcommSocket", int.class);

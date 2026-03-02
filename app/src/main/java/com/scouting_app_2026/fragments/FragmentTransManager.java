@@ -1,7 +1,5 @@
 package com.scouting_app_2026.fragments;
 
-import android.view.View;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -46,6 +44,13 @@ public class FragmentTransManager {
         ft = fm.beginTransaction();
         hideFragment("PreAutonFragment");
         showFragment("AutonFragment");
+        ft.commitNow();
+    }
+
+    public void preAutonPost() {
+        ft = fm.beginTransaction();
+        hideFragment("PreAutonFragment");
+        showFragment("PostMatchFragment");
         ft.commitNow();
     }
 
@@ -117,10 +122,17 @@ public class FragmentTransManager {
         ft.commitNow();
     }
 
-    public void postMatchBack() {
+    public void postMatchTeleop() {
         ft = fm.beginTransaction();
         hideFragment("PostMatchFragment");
         showFragment("TeleopFragment");
+        ft.commitNow();
+    }
+
+    public void postMatchPreAuton() {
+        ft = fm.beginTransaction();
+        hideFragment("PostMatchFragment");
+        showFragment("PreAutonFragment");
         ft.commitNow();
     }
 
@@ -252,6 +264,21 @@ public class FragmentTransManager {
     public void qrCodeClose() {
         ft = fm.beginTransaction();
         hideFragment("QrCodeFragment");
+        showFragment("PreAutonFragment");
+        ft.commitNow();
+    }
+
+    public void settingsOpen() {
+        ft = fm.beginTransaction();
+        hideFragment("MenuFragment");
+        hideFragment("PreAutonFragment");
+        showFragment("SettingsFragment");
+        ft.commitNow();
+    }
+
+    public void settingsClose() {
+        ft = fm.beginTransaction();
+        hideFragment("SettingsFragment");
         showFragment("PreAutonFragment");
         ft.commitNow();
     }

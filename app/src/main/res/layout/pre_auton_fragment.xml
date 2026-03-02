@@ -195,27 +195,10 @@ tools:context=".fragments.PreAutonFragment">
             app:layout_constraintStart_toEndOf="@+id/teamColorTitle"
             app:layout_constraintTop_toTopOf="@+id/teamColorTitle">
 
-
-            <RadioButton
-                android:id="@+id/team_red"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="1dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginBottom="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/toggle_background_red"
-                android:button="@null"
-                android:gravity="center"
-                android:text="@string/team_color_red"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
             <RadioButton
                 android:id="@+id/team_blue"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
                 android:layout_weight="1"
@@ -223,6 +206,20 @@ tools:context=".fragments.PreAutonFragment">
                 android:button="@null"
                 android:gravity="center"
                 android:text="@string/team_color_blue"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/team_red"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/toggle_background_red"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/team_color_red"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
         </RadioGroup>

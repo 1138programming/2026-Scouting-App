@@ -3,6 +3,7 @@ package com.scouting_app_2026.UIElements;
 import static com.scouting_app_2026.MainActivity.TAG;
 import static com.scouting_app_2026.MainActivity.autonLengthMs;
 import static com.scouting_app_2026.MainActivity.teleopLengthMs;
+import static com.scouting_app_2026.MainActivity.timeBufferMs;
 
 import android.util.Log;
 
@@ -10,7 +11,6 @@ import com.scouting_app_2026.JSON.JSONManager;
 import com.scouting_app_2026.MainActivity;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -94,6 +94,7 @@ public class UndoStack {
         }
         if(!openToggles.isEmpty()) {
             int periodTimeLength = matchPhaseAuton ? autonLengthMs : teleopLengthMs;
+            periodTimeLength+=timeBufferMs;
             for(MatchTransaction<? extends UIElement> remaining : openToggles.values()) {
                 manager.addDatapoint(
                         remaining.getDatapointID(),

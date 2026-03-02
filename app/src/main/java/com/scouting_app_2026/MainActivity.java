@@ -31,6 +31,7 @@ import com.scouting_app_2026.fragments.FragmentTransManager;
 import com.scouting_app_2026.fragments.PostMatchFragment;
 import com.scouting_app_2026.fragments.PreAutonFragment;
 import com.scouting_app_2026.fragments.QrCodeFragment;
+import com.scouting_app_2026.fragments.SettingsFragment;
 import com.scouting_app_2026.fragments.TeleopFragment;
 import com.scouting_app_2026.fragments.popups.ArchiveConfirm;
 import com.scouting_app_2026.fragments.popups.AutonStart;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     public PracticeConfirm practiceConfirm = new PracticeConfirm();
     public ReplayConfirm replayConfirm = new ReplayConfirm();
     public QrCodeFragment qrCodeFragment = new QrCodeFragment();
+    public SettingsFragment settingsFragment = new SettingsFragment();
     public AdminFragment adminFragment = new AdminFragment();
     public final PermissionManager permissionManager = new PermissionManager(this);
     private enum gameState {
@@ -130,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(practiceConfirm);
         fragments.add(replayConfirm);
         fragments.add(qrCodeFragment);
+        fragments.add(settingsFragment);
         fragments.add(adminFragment);
 
         ftm = new FragmentTransManager(fragments, this);
@@ -199,6 +202,8 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(practiceConfirm);
         replayConfirm = new ReplayConfirm();
         fragments.add(replayConfirm);
+        settingsFragment = new SettingsFragment();
+        fragments.add(settingsFragment);
         adminFragment = new AdminFragment();
         fragments.add(adminFragment);
 
@@ -282,7 +287,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int getAutonStartPos() {
-        return preAuton.getPos();
+        String pos = preAuton.getPos();
+
+        if(settingsFragment.getFieldFlipped()) {
+            if(pos.equals("RED")) {
+                return 0;
+            }
+            else {
+                return 2;
+            }
+        }
+        else {
+            if(pos.equals("BLUE")) {
+                return 0;
+            }
+            else {
+                return 2;
+            }
+        }
     }
 
     public void teleopStart() {
@@ -296,7 +318,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int getTeleopStartPos() {
-        return auton.getAutonPos();
+        String pos = auton.getAutonPos();
+
+        if(pos.equals("Neutral")) {
+            return 1;
+        }
+        else {
+            if(settingsFragment.getFieldFlipped()) {
+                if(pos.equals("Red")) {
+                    return 0;
+                }
+                else {
+                    return 2;
+                }
+            }
+            else {
+                if(pos.equals("Blue")) {
+                    return 0;
+                }
+                else {
+                    return 2;
+                }
+            }
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -343,6 +387,12 @@ public class MainActivity extends AppCompatActivity {
 
     public String getQrCodeContents() {
         return qrCodeContents;
+    }
+
+    public void flipField(boolean fieldFlipped) {
+        preAuton.flipField(fieldFlipped);
+        auton.flipField(fieldFlipped);
+        teleop.flipField(fieldFlipped);
     }
 
     @Override

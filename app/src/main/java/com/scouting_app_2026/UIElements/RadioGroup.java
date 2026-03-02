@@ -3,6 +3,7 @@ package com.scouting_app_2026.UIElements;
 import static com.scouting_app_2026.MainActivity.TAG;
 
 import android.util.Log;
+import android.widget.RadioButton;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;
@@ -91,6 +92,28 @@ public class RadioGroup extends UIElement {
         radioGroup.check(radioGroup.getChildAt(childIndex).getId());
     }
 
+    public int getSelected() {
+        return radioGroup.getCheckedRadioButtonId();
+    }
+
+    public ArrayList<android.widget.RadioButton> getButtons() {
+        ArrayList<android.widget.RadioButton> radioButtons = new ArrayList<>();
+
+        for(int i = 0; i <radioGroup.getChildCount(); i++) {
+            radioButtons.add((android.widget.RadioButton) radioGroup.getChildAt(i));
+        }
+
+        return radioButtons;
+    }
+
+    public void removeAllButton() {
+        radioGroup.removeAllViews();
+    }
+
+    public void addButton(android.widget.RadioButton button) {
+        radioGroup.addView(button);
+    }
+
     public class RadioButton extends UIElement {
         private final android.widget.RadioButton radioButton;
         private RadioButton(int datapointID, android.widget.RadioButton radioButton, UndoStack undoStack) {
@@ -137,7 +160,7 @@ public class RadioGroup extends UIElement {
 
         @Override
         public void disable(boolean override) {
-            if(disableable || override) {
+            if(!alwaysActive && (disableable || override)) {
                 radioButton.setEnabled(false);
             }
         }

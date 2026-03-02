@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class UIElement {
     protected int datapointID;
     protected boolean disableable = true;
+    protected boolean alwaysActive = false;
     private final ArrayList<Runnable> onClickFunctions = new ArrayList<>();
 
     /**
@@ -55,5 +56,9 @@ public class UIElement {
 
     public void disableable(boolean disableable) {
         this.disableable = disableable;
+    }
+
+    public void alwaysActive(boolean alwaysActive) {
+        this.alwaysActive = alwaysActive;
     }
 }

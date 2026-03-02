@@ -95,7 +95,7 @@ public class ButtonTimeToggle extends UIElement {
 
     @Override
     public void disable(boolean override) {
-        if(disableable || override) {
+        if(!alwaysActive && (disableable || override)) {
             button.setEnabled(false);
 
             if(!override && colorSwapped) onClick(false);

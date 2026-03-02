@@ -37,6 +37,7 @@ public class MenuFragment extends Fragment {
         practice,
         replay,
         qrcode,
+        settings,
         outside
     }
 
@@ -78,6 +79,7 @@ public class MenuFragment extends Fragment {
         binding.menuPracticeButton.setOnClickListener(View1 -> menuSelected(MenuOptions.practice));
         binding.menuReplayButton.setOnClickListener(View1 -> menuSelected(MenuOptions.replay));
         binding.menuQrCodeButton.setOnClickListener(View1 -> menuSelected(MenuOptions.qrcode));
+        binding.menuSettingsButton.setOnClickListener(View1 -> menuSelected(MenuOptions.settings));
         binding.backgroundDetect.setOnClickListener(View1 -> menuSelected(MenuOptions.outside));
     }
 
@@ -120,6 +122,9 @@ public class MenuFragment extends Fragment {
                 break;
             case qrcode:
                 ftm.qrCodeOpen();
+                break;
+            case settings:
+                ftm.settingsOpen();
                 break;
             case outside:
                 ftm.menuClose();

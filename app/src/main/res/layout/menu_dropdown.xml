@@ -97,6 +97,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menu_replay_button" />
 
+
+        <TextView
+            android:id="@+id/menu_settings_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/menu_outline"
+            android:paddingHorizontal="10dp"
+            android:text="@string/menu_settings_title"
+            android:textColor="@color/black"
+            android:textSize="50sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menu_qr_code_button" />
+
         <TextView
             android:id="@+id/menu_admin_button"
             android:layout_width="match_parent"
@@ -107,7 +120,7 @@
             android:textColor="@color/black"
             android:textSize="50sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/menu_qr_code_button" />
+            app:layout_constraintTop_toBottomOf="@+id/menu_settings_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

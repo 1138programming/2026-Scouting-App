@@ -6,7 +6,7 @@
     <string name="empty"></string>
 
     <!-- App Version -->
-    <string name="app_version">26.0.3</string>
+    <string name="app_version">26.0.8</string>
 
     <!-- Undo and Redo Buttons -->
     <string name="undo_title">Undo</string>
@@ -27,7 +27,7 @@
         <string name="team_color_red">RED</string>
         <string name="team_color_blue">BLUE</string>
     <string name="team_prompt_title">Team Number</string>
-    <string name="field_image_desc">Image of field from top down view.</string>
+    <string name="field_image_desc">Image of field from top-down view.</string>
         <!-- Starting Position Buttons -->
         <string name="start_outpost">Outpost</string>
         <string name="start_middle">Middle</string>
@@ -41,6 +41,7 @@
     <string name="menu_archive_title">Archive</string>
     <string name="menu_practice_title">Practice</string>
     <string name="menu_replay_title">Replay</string>
+    <string name="menu_settings_title">Settings</string>
     <string name="menu_admin_title">Admin</string>
 
     <!-- Admin Menu -->
@@ -156,4 +157,13 @@
         <item>2026capoh</item>
         <item>2026casac</item>
     </array>
+
+    <!--  Settings  -->
+    <string name="settings_title">Settings</string>
+    <string name="field_orientation_title">Field Orientation:</string>
+    <string name="flip_button">Flip</string>
+    <string name="handedness_title">Hand:</string>
+    <string name="left_title">Left</string>
+    <string name="right_title">Right</string>
+    <string name="close_settings">Close</string>
 </resources>

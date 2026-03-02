@@ -30,6 +30,7 @@ import java.util.List;
 
 public class PostMatchFragment extends DataFragment {
     private PostMatchFragmentBinding binding;
+    private boolean noShow = false;
 
     public PostMatchFragment() {
 
@@ -61,7 +62,14 @@ public class PostMatchFragment extends DataFragment {
         new SliderElement(DatapointID.scouterConfidence.getID(), binding.confidenceSlider, undoStack);
 
         Button backButton = new Button(NonDataIDs.PostMatchBack.getID(), binding.returnToTeleop);
-        backButton.setOnClickFunction(() -> ftm.postMatchBack());
+        backButton.setOnClickFunction(() -> {
+            if(noShow) {
+                ftm.postMatchPreAuton();
+            }
+            else {
+                ftm.postMatchTeleop();
+            }
+        });
 
         Button submitButton = new Button(NonDataIDs.PostMatchSubmit.getID(), binding.submitButton);
         submitButton.setOnClickFunction(() -> ftm.matchSubmit());
@@ -77,5 +85,9 @@ public class PostMatchFragment extends DataFragment {
     @Override
     public String toString() {
         return "PostMatchFragment";
+    }
+
+    public void setNoShow(boolean noShow) {
+        this.noShow = noShow;
     }
 }

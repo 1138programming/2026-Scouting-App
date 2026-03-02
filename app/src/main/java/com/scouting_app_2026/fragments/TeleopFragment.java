@@ -1,5 +1,7 @@
 package com.scouting_app_2026.fragments;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 import static com.scouting_app_2026.MainActivity.ftm;
 
 import android.os.Bundle;
@@ -30,6 +32,7 @@ public class TeleopFragment extends DataFragment {
     private TeleopFragmentBinding binding;
     private RadioGroup robotLocation;
     private Long teleopStart;
+    private boolean currentFlippedStatus = false;
 
     public TeleopFragment() {
 
@@ -50,9 +53,9 @@ public class TeleopFragment extends DataFragment {
 
         robotLocation = new RadioGroup(
                 new ArrayList<>(Arrays.asList(
-                        DatapointID.teleopEnteredRed.getID(),
+                        DatapointID.teleopEnteredBlue.getID(),
                         DatapointID.teleopEnteredNeutral.getID(),
-                        DatapointID.teleopEnteredBlue.getID())),
+                        DatapointID.teleopEnteredRed.getID())),
                 binding.locationTeleop,undoStack);
 
 
@@ -80,6 +83,7 @@ public class TeleopFragment extends DataFragment {
         new Checkbox(DatapointID.teleopHangAttempted.getID(), binding.hangAttemptedCheckbox, false, true, undoStack);
 
         RadioGroup firstActiveHub = new RadioGroup(DatapointID.firstActiveHub.getID(), binding.teamStartTeleop);
+        firstActiveHub.alwaysActive(true);
         undoStack.addElement(firstActiveHub);
 
         ImageButton undoButton = new ImageButton(NonDataIDs.TeleopUndo.getID(), binding.undoButton);
@@ -97,6 +101,8 @@ public class TeleopFragment extends DataFragment {
 
         Button submitButton = new Button(NonDataIDs.TeleopBack.getID(), binding.nextButton);
         submitButton.setOnClickFunction(() -> ftm.teleopNext());
+
+        undoStack.disableAll();
     }
 
     /**
@@ -106,7 +112,6 @@ public class TeleopFragment extends DataFragment {
     public void openTeleop() {
         if(teleopStart == null) {
             ftm.showTeleopStart();
-            undoStack.disableAll();
         }
     }
     public void startTeleop() {
@@ -128,6 +133,33 @@ public class TeleopFragment extends DataFragment {
     public void updateTeamNumber(int teamNumber) {
         binding.teamNumber.setText(String.valueOf(teamNumber));
     }
+
+    public void flipField(boolean fieldFlipped) {
+        if(fieldFlipped) {
+            binding.imageView.setVisibility(INVISIBLE);
+            binding.reversedImage.setVisibility(VISIBLE);
+        }
+        else {
+            binding.imageView.setVisibility(VISIBLE);
+            binding.reversedImage.setVisibility(INVISIBLE);
+        }
+        flipRadioButtons(fieldFlipped);
+    }
+
+    public void flipRadioButtons(boolean fieldFlipped) {
+        ArrayList<android.widget.RadioButton> radioButtons = robotLocation.getButtons();
+
+        if(currentFlippedStatus != fieldFlipped) {
+            currentFlippedStatus = fieldFlipped;
+
+            robotLocation.removeAllButton();
+            for(int i = radioButtons.size()-1; i >= 0; i--) {
+                robotLocation.addButton(radioButtons.get(i));
+            }
+        }
+    }
+
+
 
     @NonNull
     @Override
