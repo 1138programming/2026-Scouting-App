@@ -276,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void autonStart() {
         currentState = gameState.autonStarted;
+        updateTabletInformation();
         MatchTiming.scheduleRunAfterAuto(this::autonStop, this);
     }
 
@@ -309,11 +310,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void teleopStart() {
         currentState = gameState.teleopStarted;
+        updateTabletInformation();
         MatchTiming.scheduleRunAfterTeleop(this::teleopStop, this);
     }
 
     public void teleopStop() {
         currentState = gameState.postMatch;
+        updateTabletInformation();
         runOnUiThread(teleop::endTeleop);
     }
 
@@ -393,6 +396,22 @@ public class MainActivity extends AppCompatActivity {
         preAuton.flipField(fieldFlipped);
         auton.flipField(fieldFlipped);
         teleop.flipField(fieldFlipped);
+    }
+
+    public String getCurrentState() {
+        switch(currentState) {
+            case preAuton:
+                return "Pre-Auton";
+            case autonStarted:
+            case autonStopped:
+                return "Auton";
+            case teleopStarted:
+                return "Teleop";
+            case postMatch:
+                return "PostMatch";
+            default:
+                return "Nothing";
+        }
     }
 
     @Override
