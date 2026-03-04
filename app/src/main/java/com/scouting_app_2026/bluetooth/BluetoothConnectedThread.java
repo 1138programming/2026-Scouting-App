@@ -1,6 +1,8 @@
 package com.scouting_app_2026.bluetooth;
 
 import static com.scouting_app_2026.MainActivity.TAG;
+import static com.scouting_app_2026.bluetooth.commands.CommandType.CHECK_LISTS;
+import static com.scouting_app_2026.bluetooth.commands.CommandType.SEND_INFORMATION;
 
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.util.Log;
 import com.scouting_app_2026.JSON.MurmurHash;
 import com.scouting_app_2026.JSON.UpdateScoutingInfo;
 import com.scouting_app_2026.MainActivity;
+import com.scouting_app_2026.bluetooth.commands.BluetoothCommand;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,17 +20,21 @@ import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class BluetoothConnectedThread extends Thread {
     private final BluetoothSocket socket;
     private final MainActivity mainActivity;
     private final InputStream inputStream;
     private final OutputStream outputStream;
+    private final BlockingQueue<BluetoothCommand> commandQueue = new LinkedBlockingQueue<>();
     private ByteBuffer byteBuffer;
     private byte[] buffer;
     private final String ack = "ACK";
-    private int timeoutMs = 10000;
+    private int timeoutMs = 20000;
     private final byte[] byteAck = ack.getBytes(StandardCharsets.UTF_8);
+    private volatile boolean running = true;
     /**
      * 
      */
@@ -61,6 +68,29 @@ public class BluetoothConnectedThread extends Thread {
         mainActivity.setConnectedThread(this);
         mainActivity.setConnectivity(true);
         mainActivity.runOnUiThread(mainActivity::updateBtScoutingInfo);
+
+        while(running) {
+            try {
+                BluetoothCommand command = commandQueue.take();
+
+                switch (command.type) {
+                    case SEND_INFORMATION:
+                        handleSendInformation(command.bytes, command.code);
+                        Log.d(TAG, "handleSendInformation");
+                        break;
+
+                    case CHECK_LISTS:
+                        handleCheckLists();
+                        Log.d(TAG, "handleCheckLists");
+                        break;
+                }
+
+            } catch (Exception e) {
+                Log.e(TAG, "Error in BT thread", e);
+                cancel();
+                break;
+            }
+        }
     }
 
     private void resetByteBuffer(int capacity) {
@@ -74,15 +104,14 @@ public class BluetoothConnectedThread extends Thread {
      * */
     private void read(int numBytes) throws CommErrorException {
         buffer = new byte[numBytes];
-        int bytesRead = 0;
         long readStart = Calendar.getInstance(Locale.US).getTimeInMillis();
         try {
-            while (bytesRead == 0) {
-                bytesRead = inputStream.read(buffer);
+            while (inputStream.available() < numBytes) {
+                if (Calendar.getInstance(Locale.US).getTimeInMillis() - readStart > timeoutMs) {
+                    throw new CommErrorException();
+                }
             }
-            if((Calendar.getInstance(Locale.US).getTimeInMillis() - readStart) > timeoutMs) {
-                throw new CommErrorException();
-            }
+            inputStream.read(buffer);
         } catch (IOException e) {
             Log.e(TAG, "Failure to read:", e);
             throw new CommErrorException();
@@ -114,6 +143,7 @@ public class BluetoothConnectedThread extends Thread {
     private void write(byte[] bytes) throws CommErrorException{
         try {
             outputStream.write(bytes);
+            outputStream.flush();
         }
         catch(IOException e) {
             Log.e(TAG, "Failure to write:", e);
@@ -125,14 +155,17 @@ public class BluetoothConnectedThread extends Thread {
      * @param code used to specify what information is going to be sent or received <p>
      * &nbsp;&nbsp;1 - send match data<p>
      * &nbsp;&nbsp;2 - send tablet information<p>
-     *     -1 - check if lists of teams and matches are up to date <p>
-     *     -2 - update lists of scouters, teams, and matches <p>
+     * &nbsp;-1 - check if lists of teams and matches are up to date <p>
+     * &nbsp;-2 - update lists of scouters, teams, and matches <p>
      *      {@code IMPORTANT} numbers -1 and -2 shouldn't be used with this function.
      *             Use {@link BluetoothConnectedThread#checkLists()}  and {@link BluetoothConnectedThread#updateLists()} instead as needed
      * sends information
      *
      */
     public void sendInformation(byte[] bytes, int code) {
+        commandQueue.offer(new BluetoothCommand(SEND_INFORMATION, bytes, code));
+    }
+    private void handleSendInformation(byte[] bytes, int code) {
         try {
             write(new byte[]{(byte)code});
             readAck();
@@ -147,10 +180,12 @@ public class BluetoothConnectedThread extends Thread {
         }
     }
     /**
-     * @return Returns true if the data is up to date with the central computer
-     * and false if there is a difference;
+     *
      */
-    public boolean checkLists() {
+    public void checkLists() {
+        commandQueue.offer(new BluetoothCommand(CHECK_LISTS, null, -1));
+    }
+    private void handleCheckLists() {
         int byteLength;
         try {
             write(new byte[]{-1});
@@ -166,19 +201,19 @@ public class BluetoothConnectedThread extends Thread {
 
             Log.d(TAG, "Murmur Hash: \"" + MurmurHash.makeHash((new UpdateScoutingInfo(mainActivity)).getDataFromFile().getBytes(StandardCharsets.UTF_8)) + "\"");
 
-            return byteBuffer.put(buffer).getInt(0) ==
-                    MurmurHash.makeHash((new UpdateScoutingInfo(mainActivity)).getDataFromFile().getBytes(StandardCharsets.UTF_8));
+            int receivedHash = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN) .getInt();
+            if(receivedHash != MurmurHash.makeHash((new UpdateScoutingInfo(mainActivity)).getDataFromFile().getBytes(StandardCharsets.UTF_8))) {
+                updateLists();
+            }
+            mainActivity.runOnUiThread(mainActivity::updateLists);
         }
         catch(CommErrorException e) {
             Log.e(TAG, "Communication exchange failed", e);
             cancel();
-            return false;
         }
     }
-    /**
-     * 
-     */
-    public void updateLists() {
+
+    private void updateLists() {
         int listLength;
         try {
             write(new byte[]{-2});
@@ -210,10 +245,14 @@ public class BluetoothConnectedThread extends Thread {
      * used to flush stream and close socket
      */
     public void cancel() {
+        mainActivity.setConnectivity(false);
+        running = false;
+        interrupt();
         try {
+            inputStream.close();
             outputStream.flush();
+            outputStream.close();
             socket.close();
-            mainActivity.setConnectivity(false);
         }
         catch(IOException e) {
             Log.e(TAG, "failed flush stream and close socket: ", e);

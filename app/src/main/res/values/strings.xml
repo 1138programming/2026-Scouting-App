@@ -6,7 +6,7 @@
     <string name="empty"></string>
 
     <!-- App Version -->
-    <string name="app_version">26.0.9</string>
+    <string name="app_version">26.1.0</string>
 
     <!-- Undo and Redo Buttons -->
     <string name="undo_title">Undo</string>
@@ -68,7 +68,7 @@
     <string name="net_button_title">Net</string>
     <string name="leave_checkbox_title">Leave (Taxi):</string>
     <string name="fuel_scored">Fuel Scored:</string>
-    <string name="hang_attempted">Hang Attempted:</string>
+    <string name="hang_attempted">Hang Started?</string>
     <string name="hang_successful">Hang Successful:</string>
 
     <string name="collecting_button_auton">Collecting</string>

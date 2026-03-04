@@ -157,9 +157,14 @@ public class MainActivity extends AppCompatActivity {
         connectedThread.sendInformation(info, 2);
     }
     public void updateBtScoutingInfo() {
-        if (!Objects.isNull(connectedThread) && !connectedThread.checkLists()) {
-            connectedThread.updateLists();
+        if (!Objects.isNull(connectedThread)) {
+            connectedThread.checkLists();
         }
+        else {
+            updateLists();
+        }
+    }
+    public void updateLists() {
         ArrayList<ArrayList<CharSequence>> splitData = (new UpdateScoutingInfo(this)).getSplitFileData();
         if (!splitData.isEmpty() && !splitData.get(0).isEmpty()) {
             preAuton.setScoutingInfo(splitData);

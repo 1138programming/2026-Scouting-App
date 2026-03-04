@@ -17,88 +17,107 @@
             android:id="@+id/hang_attempted_checkbox"
             android:layout_width="110sp"
             android:layout_height="110sp"
-            android:layout_marginEnd="15dp"
             android:background="?android:attr/listChoiceIndicatorMultiple"
             android:backgroundTint="@color/orange_button_toggle"
             android:button="@null"
             android:checked="false"
             app:layout_constraintBottom_toBottomOf="@+id/hang_attempted"
-            app:layout_constraintEnd_toEndOf="@+id/shuttling_button_teleop"
+            app:layout_constraintEnd_toEndOf="@+id/active_button_column"
             app:layout_constraintStart_toEndOf="@+id/hang_attempted"
             app:layout_constraintTop_toTopOf="@+id/hang_attempted"
             app:layout_constraintVertical_bias="0.50" />
 
-        <Button
-            android:id="@+id/outpost_button_teleop"
-            android:layout_width="240sp"
-            android:layout_height="100sp"
-            android:text="@string/outpost_button_teleop"
-            android:textColor="@color/background_default"
-            android:textSize="38sp"
-            android:backgroundTint="@color/orange_button_toggle"
-            android:layout_marginStart="20dp"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/scoring_button_teleop" />
-
-        <Button
-            android:id="@+id/collecting_button_teleop"
-            android:layout_width="240sp"
-            android:layout_height="100sp"
-            android:text="@string/collecting_button_teleop"
-            android:textColor="@color/background_default"
-            android:textSize="38sp"
-            android:backgroundTint="@color/orange_button_toggle"
-            android:layout_marginTop="30dp"
-            app:layout_constraintEnd_toEndOf="@+id/scoring_button_teleop"
-            app:layout_constraintTop_toBottomOf="@+id/scoring_button_teleop" />
-
-        <Button
-            android:id="@+id/defending_button_teleop"
-            android:layout_width="240sp"
-            android:layout_height="100sp"
-            android:text="@string/defending_button_teleop"
-            android:textColor="@color/background_default"
-            android:textSize="38sp"
-            android:backgroundTint="@color/orange_button_toggle"
-            android:layout_marginTop="30dp"
-            app:layout_constraintEnd_toEndOf="@+id/outpost_button_teleop"
-            app:layout_constraintTop_toBottomOf="@+id/outpost_button_teleop" />
-
-        <Button
-            android:id="@+id/scoring_button_teleop"
-            android:layout_width="240sp"
-            android:layout_height="100sp"
-            android:text="@string/scoring_button_teleop"
-            android:textColor="@color/background_default"
-            android:textSize="38sp"
-            android:backgroundTint="@color/orange_button_toggle"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/active_button_column"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="75dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginHorizontal="20dp"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"/>
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-        <Button
-            android:id="@+id/immobile_button_teleop"
-            android:layout_width="240sp"
-            android:layout_height="100sp"
-            android:text="@string/immobile_button_teleop"
-            android:textColor="@color/background_default"
-            android:textSize="38sp"
-            android:backgroundTint="@color/orange_button_toggle"
-            app:layout_constraintStart_toStartOf="@+id/defending_button_teleop"
-            app:layout_constraintTop_toTopOf="@+id/shuttling_button_teleop" />
+            <Button
+                android:id="@+id/scoring_button_teleop"
+                android:layout_width="240sp"
+                android:layout_height="110sp"
+                android:backgroundTint="@color/orange_button_toggle"
+                android:text="@string/scoring_button_teleop"
+                android:textColor="@color/background_default"
+                android:textSize="38sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/shuttling_button_teleop"
-            android:layout_width="240sp"
-            android:layout_height="100sp"
-            android:backgroundTint="@color/orange_button_toggle"
-            android:text="@string/shuttling_button_teleop"
-            android:textColor="@color/background_default"
-            android:textSize="38sp"
-            android:layout_marginTop="30dp"
-            app:layout_constraintStart_toStartOf="@+id/collecting_button_teleop"
-            app:layout_constraintTop_toBottomOf="@+id/collecting_button_teleop" />
+            <Button
+                android:id="@+id/collecting_button_teleop"
+                android:layout_width="240sp"
+                android:layout_height="110sp"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/orange_button_toggle"
+                android:text="@string/collecting_button_teleop"
+                android:textColor="@color/background_default"
+                android:textSize="38sp"
+                app:layout_constraintStart_toStartOf="@id/collecting_button_teleop"
+                app:layout_constraintTop_toBottomOf="@+id/scoring_button_teleop" />
+
+            <Button
+                android:id="@+id/shuttling_button_teleop"
+                android:layout_width="240sp"
+                android:layout_height="110sp"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/orange_button_toggle"
+                android:text="@string/shuttling_button_teleop"
+                android:textColor="@color/background_default"
+                android:textSize="38sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/collecting_button_teleop" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/extra_button_column"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="75dp"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+            <Button
+                android:id="@+id/outpost_button_teleop"
+                android:layout_width="240sp"
+                android:layout_height="110sp"
+                android:backgroundTint="@color/orange_button_toggle"
+                android:text="@string/outpost_button_teleop"
+                android:textColor="@color/background_default"
+                android:textSize="38sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/defending_button_teleop"
+                android:layout_width="240sp"
+                android:layout_height="110sp"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/orange_button_toggle"
+                android:text="@string/defending_button_teleop"
+                android:textColor="@color/background_default"
+                android:textSize="38sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/outpost_button_teleop" />
+
+            <Button
+                android:id="@+id/immobile_button_teleop"
+                android:layout_width="240sp"
+                android:layout_height="110sp"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/orange_button_toggle"
+                android:text="@string/immobile_button_teleop"
+                android:textColor="@color/background_default"
+                android:textSize="38sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/defending_button_teleop" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <RadioGroup
             android:id="@+id/team_start_teleop"
@@ -108,7 +127,7 @@
             android:background="@drawable/toggle_background"
             android:checkedButton="@+id/team_blue_teleop"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/scoring_button_teleop"
+            app:layout_constraintBottom_toTopOf="@+id/active_button_column"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/locationTeleop">
 
@@ -166,13 +185,12 @@
             android:id="@+id/hang_attempted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
             android:text="@string/hang_attempted"
             android:textColor="@color/off_white"
             android:textSize="45sp"
             app:layout_constraintBottom_toTopOf="@+id/nextButton"
-            app:layout_constraintStart_toStartOf="@+id/outpost_button_teleop"
-            app:layout_constraintTop_toBottomOf="@+id/immobile_button_teleop" />
+            app:layout_constraintStart_toStartOf="@+id/extra_button_column"
+            app:layout_constraintTop_toBottomOf="@+id/extra_button_column" />
 
         <TextView
             android:id="@+id/start_teleop_team"
@@ -182,7 +200,7 @@
             android:text="@string/start_teleop_team"
             android:textColor="@color/off_white"
             android:textSize="40sp"
-            app:layout_constraintBottom_toTopOf="@+id/scoring_button_teleop"
+            app:layout_constraintBottom_toTopOf="@+id/extra_button_column"
             app:layout_constraintStart_toStartOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/locationTeleop" />
 
