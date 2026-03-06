@@ -241,6 +241,36 @@ public class BluetoothConnectedThread extends Thread {
         this.timeoutMs = timeoutMs;
     }
 
+    public boolean isConnected() {
+        if(ping()) {
+            return true;
+        }
+        else {
+            cancel();
+            return false;
+        }
+    }
+
+    private boolean ping() {
+        int byteLength;
+        try {
+            write(new byte[]{-1});
+            read(4);
+
+            resetByteBuffer(4);
+            byteLength = byteBuffer.put(buffer).getInt(0);
+            sendAck();
+
+            resetByteBuffer(byteLength);
+            read(byteLength);
+            sendAck();
+        }
+        catch(CommErrorException e) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * used to flush stream and close socket
      */

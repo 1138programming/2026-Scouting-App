@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(!connectivity) {
             clearQrCode();
+            connectedThread = null;
         }
         qrCodeFragment.updateQrCode();
     }
@@ -157,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         connectedThread.sendInformation(info, 2);
     }
     public void updateBtScoutingInfo() {
-        if (!Objects.isNull(connectedThread)) {
+        if (connectedThread != null && connectedThread.isConnected()) {
             connectedThread.checkLists();
         }
         else {

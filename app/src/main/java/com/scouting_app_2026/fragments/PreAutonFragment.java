@@ -96,7 +96,7 @@ public class PreAutonFragment extends DataFragment {
         RadioGroup startingPosition = new RadioGroup(NonDataIDs.StartPosRadio.getID(), binding.startingLocation);
             startingPositionGroup.addElement(startingPosition);
 
-        Checkbox noShowCheckbox = new Checkbox(NonDataIDs.NoShow.getID(), binding.noShowCheckbox, true, "noShow");
+        Checkbox noShowCheckbox = new Checkbox(NonDataIDs.NoShow.getID(), binding.noShowCheckbox, true,true, "noShow");
             startingPositionGroup.addElement(noShowCheckbox);
 
             startingPositionGroup.elementSelected(noShowCheckbox);

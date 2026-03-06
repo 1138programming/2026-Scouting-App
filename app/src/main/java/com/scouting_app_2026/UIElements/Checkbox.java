@@ -19,6 +19,16 @@ public class Checkbox extends UIElement {
         if(startingState) checkbox.performClick();
     }
 
+    public Checkbox(int datapointID, android.widget.CheckBox checkbox, boolean startingState, boolean locking, String name) {
+        super(datapointID);
+        this.checkbox = checkbox;
+        this.locking = locking;
+        this.undoStack = null;
+        this.nameValue = name;
+        checkbox.setOnClickListener(View1 -> this.clicked());
+        if(startingState) checkbox.performClick();
+    }
+
     public Checkbox(int datapointID, android.widget.CheckBox checkbox, boolean startingState, String name) {
         super(datapointID);
         this.checkbox = checkbox;
@@ -36,13 +46,16 @@ public class Checkbox extends UIElement {
         if (locking) {
             if(checkbox.isChecked()) {
                 checkbox.setEnabled(false);
-                undoStack.addTimestamp(this, true);
+                if(undoStack != null) undoStack.addTimestamp(this, true);
             }
         }
     }
 
     public void setChecked(boolean checked) {
         checkbox.setChecked(checked);
+        if(locking) {
+            checkbox.setEnabled(!checked);
+        }
     }
 
     public boolean isChecked() {
@@ -83,5 +96,11 @@ public class Checkbox extends UIElement {
                 checkbox.setEnabled(false);
             }
         }
+    }
+
+    @Override
+    public boolean getIndependent() {
+        //if false, then independent, if it's checked, then there's a datapoint and it shouldn't be counted twice
+        return !isChecked();
     }
 }
