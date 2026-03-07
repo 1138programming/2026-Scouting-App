@@ -195,7 +195,7 @@ public class PreAutonFragment extends DataFragment {
 
                 binding.robotDriverStation.setText(R.string.red_general_position);
 
-                selectedColor = 0;
+                selectedColor = currentFlippedStatus ? 1 : 0;
                 break;
             case "BLUE":
                 binding.startingPosImage.setImageResource(R.drawable.blueside);
@@ -211,7 +211,7 @@ public class PreAutonFragment extends DataFragment {
 
                 binding.robotDriverStation.setText(R.string.blue_general_position);
 
-                selectedColor = 1;
+                selectedColor = currentFlippedStatus ? 0 : 1;
                 break;
         }
     }
@@ -219,7 +219,13 @@ public class PreAutonFragment extends DataFragment {
     public byte[] getTabletInformation() {
         StringBuilder tabletInfo = new StringBuilder();
 
-        String driverStationPos = (selectedColor == 0) ? "Red" : "Blue";
+        String driverStationPos;
+        if (selectedColor == 0) {
+            driverStationPos = (currentFlippedStatus) ? "Red" : "Blue";
+        }
+        else {
+            driverStationPos = (!currentFlippedStatus) ? "Red" : "Blue";
+        }
         if(driverStationNumber >= 0 && driverStationNumber <= 3) {
             driverStationPos = driverStationPos + " " + driverStationNumber;
         }
@@ -339,6 +345,7 @@ public class PreAutonFragment extends DataFragment {
     private void attemptDeviceNameParse() {
         successfulDeviceNameParse = true;
         String deviceName = ((MainActivity)requireActivity()).getDeviceName();
+        Log.d(TAG, deviceName);
         String[] temp = deviceName.split(" ");
         if(temp.length >= 2) try {
             driverStationNumber = Integer.parseInt(temp[temp.length-1]);
@@ -357,11 +364,11 @@ public class PreAutonFragment extends DataFragment {
 
         if (successfulDeviceNameParse) switch(temp[temp.length-2]) {
             case "Red":
-                selectedColor = 0;
+                selectedColor = currentFlippedStatus ? 0 : 1;
                 lockColor();
                 break;
             case "Blue":
-                selectedColor = 1;
+                selectedColor = currentFlippedStatus ? 1 : 0;
                 lockColor();
                 break;
             default:
@@ -369,8 +376,9 @@ public class PreAutonFragment extends DataFragment {
         }
 
         if(successfulDeviceNameParse) {
+            Log.d(TAG, "success!");
             String colorStatus = temp[temp.length-2] + " " + driverStationNumber;
-            binding.robotDriverStation.setText(colorStatus);
+            requireActivity().runOnUiThread(() -> binding.robotDriverStation.setText(colorStatus));
         }
     }
 

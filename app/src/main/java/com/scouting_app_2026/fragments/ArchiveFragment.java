@@ -45,7 +45,7 @@ public class ArchiveFragment extends DataFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        folderDir = new File(requireContext().getFilesDir().getPath() + "/scoutingData");
+        folderDir = new File(requireContext().getFilesDir().getPath() + "/settings");
         if (!folderDir.isDirectory()) {
             if (!folderDir.mkdir()) {
                 Log.e(TAG,"Unable to make directory: \"" + folderDir.getPath() + "\"");
