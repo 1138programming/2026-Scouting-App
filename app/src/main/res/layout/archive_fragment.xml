@@ -25,6 +25,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/submitAll"
+            android:layout_width="200sp"
+            android:layout_height="80sp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/chaminade_orange"
+            android:text="@string/submit_all_button"
+            android:textColor="@color/background_default"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ListView
             android:id="@+id/submissionList"
             android:layout_width="750sp"

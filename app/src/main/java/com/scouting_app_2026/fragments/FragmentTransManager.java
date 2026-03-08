@@ -205,12 +205,26 @@ public class FragmentTransManager {
         ft.commitNow();
     }
 
+    public void archiveSubmitAll() {
+        ft = fm.beginTransaction();
+        showFragment("ConfirmSubmitAllFragment");
+        ft.commitNow();
+    }
+
+    public void submitAllClose() {
+        ft = fm.beginTransaction();
+        hideFragment("ConfirmSubmitAllFragment");
+        ft.commitNow();
+    }
+
     public void archiveFragmentBack() {
         ft = fm.beginTransaction();
         hideFragment("ArchiveFragment");
         showFragment("PreAutonFragment");
         ft.commitNow();
     }
+
+
 
     public void adminFragmentOpen() {
         ft = fm.beginTransaction();

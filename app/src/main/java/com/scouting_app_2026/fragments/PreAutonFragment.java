@@ -291,7 +291,7 @@ public class PreAutonFragment extends DataFragment {
     }
 
     public String getFileTitle() {
-        return scouterNameSpinner.getValue() + " Match #"+matchNumberSpinner.getValue();
+        return scouterNameSpinner.getValue() + " Match #"+matchNumberSpinner.getValue() + " Team #" + teamNumberSpinner.getValue();
     }
 
     public void updateTemplateContext() {

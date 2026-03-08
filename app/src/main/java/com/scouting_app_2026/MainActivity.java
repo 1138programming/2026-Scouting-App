@@ -40,6 +40,7 @@ import com.scouting_app_2026.fragments.popups.MenuFragment;
 import com.scouting_app_2026.fragments.popups.PracticeConfirm;
 import com.scouting_app_2026.fragments.popups.ReplayConfirm;
 import com.scouting_app_2026.fragments.popups.ResetFragment;
+import com.scouting_app_2026.fragments.popups.ConfirmSubmitAll;
 import com.scouting_app_2026.fragments.popups.TeleopStart;
 
 import org.json.JSONArray;
@@ -51,7 +52,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     public ConfirmSubmit confirmSubmit = new ConfirmSubmit();
     public ArchiveFragment archiveFragment = new ArchiveFragment();
     public ArchiveConfirm archiveConfirmSubmit = new ArchiveConfirm();
+    public ConfirmSubmitAll confirmSubmitAll = new ConfirmSubmitAll();
     public MenuFragment menuFragment = new MenuFragment();
     public ResetFragment resetFragment = new ResetFragment();
     public PracticeConfirm practiceConfirm = new PracticeConfirm();
@@ -104,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
         updateConnectivity();
     }
 
+    public boolean getConnectivity() {
+        return this.connectivity;
+    }
+
     /**
      * Called when GUI element needs to be updated. This is not a switch,
      * it looks at {@code connectivity} to make sure GUI element is accurate.
@@ -131,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(resetFragment);
         fragments.add(menuFragment);
         fragments.add(practiceConfirm);
+        fragments.add(confirmSubmitAll);
         fragments.add(replayConfirm);
         fragments.add(qrCodeFragment);
         fragments.add(settingsFragment);
@@ -155,11 +161,11 @@ public class MainActivity extends AppCompatActivity {
         preAuton.updateTemplateContext();
         if(!connectivity) return;
         byte[] info = preAuton.getTabletInformation();
-        connectedThread.sendInformation(info, 2);
+        connectedThread.sendTabletInfoRequest(info);
     }
     public void updateBtScoutingInfo() {
         if (connectedThread != null && connectedThread.isConnected()) {
-            connectedThread.checkLists();
+            connectedThread.checkListsRequest();
         }
         else {
             updateLists();
@@ -200,6 +206,8 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(archiveFragment);
         archiveConfirmSubmit = new ArchiveConfirm();
         fragments.add(archiveConfirmSubmit);
+        confirmSubmitAll = new ConfirmSubmitAll();
+        fragments.add(confirmSubmitAll);
         menuFragment = new MenuFragment();
         fragments.add(menuFragment);
         resetFragment = new ResetFragment();
@@ -220,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
     public void sendSavedData(File file) {
         if(connectivity) {
             try {
-                connectedThread.sendInformation(Files.readAllBytes(file.toPath()), 1);
+                connectedThread.sendMatchRequest(Files.readAllBytes(file.toPath()));
             } catch (IOException e) {
                 Log.e(TAG, "failed to read from file to submit match", e);
             }
@@ -261,11 +269,15 @@ public class MainActivity extends AppCompatActivity {
         FileSaver.saveFile(jsonFile.toString(), preAuton.getFileTitle(), this);
 
         if(connectivity) {
-            connectedThread.sendInformation(jsonFile.toString().getBytes(StandardCharsets.UTF_8), 1);
+            connectedThread.sendMatchRequest(jsonFile.toString().getBytes(StandardCharsets.UTF_8));
         }
         else {
             Toast.makeText(this, "Data has not been uploaded because bluetooth isn't connected", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void checkSubmittedMatches(String localMatches) {
+        connectedThread.checkSubmittedMatchesRequest(localMatches.getBytes(StandardCharsets.UTF_8));
     }
 
     public long getCurrStartTime() {

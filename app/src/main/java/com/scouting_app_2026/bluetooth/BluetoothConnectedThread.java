@@ -2,7 +2,9 @@ package com.scouting_app_2026.bluetooth;
 
 import static com.scouting_app_2026.MainActivity.TAG;
 import static com.scouting_app_2026.bluetooth.commands.CommandType.CHECK_LISTS;
-import static com.scouting_app_2026.bluetooth.commands.CommandType.SEND_INFORMATION;
+import static com.scouting_app_2026.bluetooth.commands.CommandType.CHECK_MATCHES;
+import static com.scouting_app_2026.bluetooth.commands.CommandType.SEND_TABLET_INFO;
+import static com.scouting_app_2026.bluetooth.commands.CommandType.UPLOAD_MATCH;
 
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
@@ -74,9 +76,18 @@ public class BluetoothConnectedThread extends Thread {
                 BluetoothCommand command = commandQueue.take();
 
                 switch (command.type) {
-                    case SEND_INFORMATION:
-                        handleSendInformation(command.bytes, command.code);
+                    case UPLOAD_MATCH:
+                        handleSendMatch(command.bytes);
                         Log.d(TAG, "handleSendInformation");
+                        break;
+                    case SEND_TABLET_INFO:
+                        handleSendTabletInfo(command.bytes);
+                        Log.d(TAG, "handleCheckLists");
+                        break;
+
+                    case CHECK_MATCHES:
+                        handleCheckSubmittedMatches(command.bytes);
+                        Log.d(TAG, "handleCheckLists");
                         break;
 
                     case CHECK_LISTS:
@@ -158,32 +169,58 @@ public class BluetoothConnectedThread extends Thread {
      * &nbsp;-1 - check if lists of teams and matches are up to date <p>
      * &nbsp;-2 - update lists of scouters, teams, and matches <p>
      *      {@code IMPORTANT} numbers -1 and -2 shouldn't be used with this function.
-     *             Use {@link BluetoothConnectedThread#checkLists()}  and {@link BluetoothConnectedThread#updateLists()} instead as needed
+     *             Use {@link BluetoothConnectedThread#checkListsRequest()}  and {@link BluetoothConnectedThread#updateLists()} instead as needed
      * sends information
      *
      */
-    public void sendInformation(byte[] bytes, int code) {
-        commandQueue.offer(new BluetoothCommand(SEND_INFORMATION, bytes, code));
+    private void sendBytes(byte[] bytes, int code) throws CommErrorException {
+        write(new byte[]{(byte)code});
+        readAck();
+        resetByteBuffer(4);
+        write(byteBuffer.putInt(bytes.length).array());
+        readAck();
+        write(bytes);
     }
-    private void handleSendInformation(byte[] bytes, int code) {
+    private void readBytes(int code) throws CommErrorException {
+        write(new byte[]{(byte)code});
+        resetByteBuffer(4);
+        read(4);
+
+        int byteLength = byteBuffer.put(buffer).getInt(0);
+        sendAck();
+
+        resetByteBuffer(byteLength);
+        read(byteLength);
+        sendAck();
+    }
+    public void sendMatchRequest(byte[] bytes) {
+        commandQueue.offer(new BluetoothCommand(UPLOAD_MATCH, bytes));
+    }
+    private void handleSendMatch(byte[] bytes) {
         try {
-            write(new byte[]{(byte)code});
-            readAck();
-            resetByteBuffer(4);
-            write(byteBuffer.putInt(bytes.length).array());
-            readAck();
-            write(bytes);
+            sendBytes(bytes, 1);
         }
         catch(CommErrorException e) {
             Log.e(TAG, "Communication exchange failed", e);
             cancel();
         }
     }
-    /**
-     *
-     */
-    public void checkLists() {
-        commandQueue.offer(new BluetoothCommand(CHECK_LISTS, null, -1));
+
+    public void sendTabletInfoRequest(byte[] bytes) {
+        commandQueue.offer(new BluetoothCommand(SEND_TABLET_INFO, bytes));
+    }
+    private void handleSendTabletInfo(byte[] bytes) {
+        try {
+            sendBytes(bytes, 2);
+        }
+        catch(CommErrorException e) {
+            Log.e(TAG, "Communication exchange failed", e);
+            cancel();
+        }
+    }
+
+    public void checkListsRequest() {
+        commandQueue.offer(new BluetoothCommand(CHECK_LISTS, null));
     }
     private void handleCheckLists() {
         int byteLength;
@@ -232,6 +269,39 @@ public class BluetoothConnectedThread extends Thread {
             cancel();
         }
 
+    }
+
+    public void checkSubmittedMatchesRequest(byte[] localMatches) {
+        commandQueue.offer(new BluetoothCommand(CHECK_MATCHES,localMatches));
+    }
+
+    private void handleCheckSubmittedMatches(byte[] bytes) {
+        int byteLength;
+        try {
+            sendBytes(bytes, -3);
+            readBytes(3);
+
+            byteLength = byteBuffer.put(buffer).getInt(0);
+            sendAck();
+
+            resetByteBuffer(byteLength);
+            read(byteLength);
+            sendAck();
+
+
+
+            Log.d(TAG, "Murmur Hash: \"" + MurmurHash.makeHash((new UpdateScoutingInfo(mainActivity)).getDataFromFile().getBytes(StandardCharsets.UTF_8)) + "\"");
+
+            int receivedHash = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN) .getInt();
+            if(receivedHash != MurmurHash.makeHash((new UpdateScoutingInfo(mainActivity)).getDataFromFile().getBytes(StandardCharsets.UTF_8))) {
+                updateLists();
+            }
+            mainActivity.runOnUiThread(mainActivity::updateLists);
+        }
+        catch(CommErrorException e) {
+            Log.e(TAG, "Communication exchange failed", e);
+            cancel();
+        }
     }
 
     /**

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ArchiveFragment extends DataFragment {
     ArchiveFragmentBinding binding;
@@ -45,7 +48,7 @@ public class ArchiveFragment extends DataFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        folderDir = new File(requireContext().getFilesDir().getPath() + "/settings");
+        folderDir = new File(requireContext().getFilesDir().getPath() + "/scoutingData");
         if (!folderDir.isDirectory()) {
             if (!folderDir.mkdir()) {
                 Log.e(TAG,"Unable to make directory: \"" + folderDir.getPath() + "\"");
@@ -54,6 +57,8 @@ public class ArchiveFragment extends DataFragment {
 
         Button backButton = new Button(NonDataIDs.ArchiveClose.getID(), binding.closeArchive);
         backButton.setOnClickFunction(() -> ftm.archiveFragmentBack());
+
+        binding.submitAll.setOnClickListener(view1 -> ftm.archiveSubmitAll());
 
         File[] files = folderDir.listFiles();
         if(files != null) {
@@ -86,6 +91,82 @@ public class ArchiveFragment extends DataFragment {
         lastSelectedFile = new File(folderDir, listEntry.toString());
         ((ArchiveConfirm) Objects.requireNonNull(getParentFragmentManager()
                 .findFragmentByTag("ArchiveConfirmFragment"))).setFileName(listEntry.toString());
+    }
+
+    public void submitAll() {
+        ftm.submitAllClose();
+
+        MainActivity mainActivity = ((MainActivity)requireActivity());
+
+        if(!mainActivity.getConnectivity()) {
+            Toast.makeText(requireContext(), "Not Connected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        File[] files = folderDir.listFiles();
+        if(files != null) {
+            for (File file : files) {
+                mainActivity.sendSavedData(file);
+            }
+        }
+    }
+
+    // check scouter, comp id, match id, team number
+    public void smartSubmit() {
+        ftm.submitAllClose();
+
+        MainActivity mainActivity = ((MainActivity)requireActivity());
+
+        if(!mainActivity.getConnectivity()) {
+            Toast.makeText(requireContext(), "Not Connected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        File[] files = folderDir.listFiles();
+        if(files != null) {
+            String[] fileInfo = new String[files.length];
+            StringBuilder everyMatchInfo = new StringBuilder();
+            String compID;
+            String teamID;
+            String matchID;
+
+            Pattern pattern = Pattern.compile("\"CompID\":\"([^,]+)\".*?\"MatchID\":\"([^,]+)\".*?\"TeamID\":\"([^,]+)\"");
+            Matcher matcher;
+
+            for(File file : files) {
+                String text = readFile(file);
+                /*
+                * Group(0) - whole match
+                * Group(1) - CompID
+                * Group(2) - MatchID
+                * Group(3) - TeamID
+                * */
+                matcher = pattern.matcher(text);
+
+                compID = matcher.group(1);
+                teamID = matcher.group(3);
+                matchID = matcher.group(2);
+
+                everyMatchInfo.append(compID).append(",").append(teamID).append(",").append(matchID).append("\n");
+            }
+            String matchInfo = everyMatchInfo.toString();
+            if(!matchInfo.isEmpty()) {
+//                mainActivity.
+            }
+        }
+    }
+
+    //do not use this cursed abomination if you can help it
+    private String[] splitJson(String string) {
+        String transactionList = string.substring(string.indexOf('[')+1, string.indexOf(']'));
+        String[] splitList = transactionList.split("\\},\\{");
+        splitList[0] = splitList[0].substring(1);
+        splitList[splitList.length-1] = splitList[splitList.length-1].substring(0, splitList[splitList.length-1].length()-1);
+        return splitList;
+    }
+
+    private String readFile(File file) {
+        return "";
     }
 
     @NonNull

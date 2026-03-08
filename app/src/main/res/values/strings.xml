@@ -6,8 +6,7 @@
     <string name="empty"></string>
 
     <!-- App Version -->
-    <string name="app_version">26.1.5</string>
-
+    <string name="app_version">26.1.8</string>
     <!-- Undo and Redo Buttons -->
     <string name="undo_title">Undo</string>
         <string name="undo_button_description">Undo last action</string>
@@ -135,7 +134,9 @@
 
     <!-- Submission Confirmation -->
     <string name="confirm_submit_title">Are you sure you want to submit?</string>
+    <string name="confirm_submit_all_title">Are you sure you want to submit ALL ARCHIVED MATCHES?</string>
     <string name="submit_button_title">Submit</string>
+    <string name="submit_all_button">Submit All</string>
     <string name="cancel_button_title">Cancel</string>
     <string name="confirm_reset_title">Are you sure you want to reset?</string>
     <string name="confirm_reset_button">Reset</string>
