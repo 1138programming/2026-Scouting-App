@@ -52,10 +52,11 @@ public class PostMatchFragment extends DataFragment {
         fuelScoredSpinner.updateSpinnerList(new ArrayList<>(hangOptionsPost), requireContext());
         undoStack.addElement(fuelScoredSpinner);
 
-        List<CharSequence> scoreEstimatePost = Arrays.asList(requireActivity().getResources().getStringArray(R.array.score_estimate_array));
-        Spinner scoreEstimateSpinner = new Spinner(DatapointID.teleopNumScored.getID(), binding.scoreEstimate,false);
-        scoreEstimateSpinner.updateSpinnerList(new ArrayList<>(scoreEstimatePost), requireContext());
-        undoStack.addElement(scoreEstimateSpinner);
+        new SliderElement(DatapointID.teleopNumScored.getID(), binding.scoreSlider, undoStack);
+//        List<CharSequence> scoreEstimatePost = Arrays.asList(requireActivity().getResources().getStringArray(R.array.score_estimate_array));
+//        Spinner scoreEstimateSpinner = new Spinner(DatapointID.teleopNumScored.getID(), binding.scoreEstimate,false);
+//        scoreEstimateSpinner.updateSpinnerList(new ArrayList<>(scoreEstimatePost), requireContext());
+//        undoStack.addElement(scoreEstimateSpinner);
 
         new SliderElement(DatapointID.teleopScoreAccuracy.getID(), binding.accuracySlider, undoStack);
 

@@ -49,7 +49,7 @@ public class Spinner extends UIElement {
         return spinner.getSelectedItemPosition();
     }
     public void setIndex(int index) {
-        spinner.setSelection(index);
+        spinner.post(() -> spinner.setSelection(index));
     }
     public int getLength() {
         return spinner.getCount();
@@ -62,10 +62,10 @@ public class Spinner extends UIElement {
         ArrayAdapter<CharSequence> listAdapter
                 = new ArrayAdapter<>(context, R.layout.spinner_layout, spinnerList);
         listAdapter.setDropDownViewResource(R.layout.spinner_layout);
-        spinner.setAdapter(listAdapter);
+        spinner.post(() -> spinner.setAdapter(listAdapter));
         int index = listAdapter.getPosition(currSelected);
         if(index != -1) {
-            spinner.setSelection(index);
+            setIndex(index);
         }
     }
 

@@ -13,17 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Spinner
-            android:id="@+id/scoreEstimate"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:entries="@array/score_estimate_array"
-            app:layout_constraintBottom_toBottomOf="@+id/score_estimate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.547"
-            app:layout_constraintStart_toEndOf="@+id/hangSuccessful"
-            app:layout_constraintTop_toTopOf="@+id/score_estimate" />
-
         <TextView
             android:id="@+id/teamNumber"
             android:layout_width="wrap_content"
@@ -65,7 +54,7 @@
             android:id="@+id/score_estimate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="35dp"
             android:text="@string/score_estimate"
             android:textColor="@color/off_white"
             android:textSize="48sp"
@@ -76,18 +65,18 @@
             android:id="@+id/hubAccuracy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
             android:text="@string/hub_accuracy"
             android:textColor="@color/off_white"
             android:textSize="48sp"
+            android:layout_marginTop="35dp"
             app:layout_constraintStart_toStartOf="@+id/score_estimate"
-            app:layout_constraintTop_toBottomOf="@+id/score_estimate" />
+            app:layout_constraintTop_toBottomOf="@+id/score_slider" />
 
         <TextView
             android:id="@+id/confidence_estimate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="35dp"
             android:text="@string/confidence_estimate"
             android:textColor="@color/off_white"
             android:textSize="48sp"
@@ -108,7 +97,7 @@
             android:id="@+id/accuracySlider"
             android:layout_width="550dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="35dp"
             android:stepSize="5"
             android:valueFrom="0"
             android:valueTo="100"
@@ -125,10 +114,29 @@
             app:trackHeight="50dp" />
 
         <com.google.android.material.slider.Slider
+            android:id="@+id/score_slider"
+            android:layout_width="550dp"
+            android:layout_height="wrap_content"
+            android:stepSize="1"
+            android:valueFrom="0"
+            android:valueTo="600"
+            app:haloColor="@color/chaminade_orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/score_estimate"
+            android:layout_marginTop="35dp"
+            app:thumbColor="@color/chaminade_orange"
+            app:thumbHeight="80dp"
+            app:thumbWidth="80dp"
+            app:tickVisible="false"
+            app:trackColorActive="@color/chaminade_orange"
+            app:trackHeight="50dp" />
+
+        <com.google.android.material.slider.Slider
             android:id="@+id/confidenceSlider"
             android:layout_width="550dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="35dp"
             android:stepSize="1"
             android:valueFrom="0"
             android:valueTo="10"

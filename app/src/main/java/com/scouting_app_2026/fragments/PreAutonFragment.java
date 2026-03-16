@@ -81,7 +81,6 @@ public class PreAutonFragment extends DataFragment {
 
         matchNumberSpinner = new Spinner(NonDataIDs.MatchNumber.getID(), binding.matchNumberSpinner, false);
         matchNumberSpinner.setOnClickFunction(() -> ((MainActivity) requireContext()).updateTabletInformation());
-        updateMatches();
 
         teamColorButtons = new RadioGroup(NonDataIDs.TeamColor.getID(), binding.teamColorSwitch);
         teamColorButtons.setOnClickFunction(this::updateTeamColor);
@@ -131,6 +130,8 @@ public class PreAutonFragment extends DataFragment {
     public void onStart() {
         super.onStart();
         ((MainActivity) requireActivity()).updateBtScoutingInfo();
+
+        updateMatches();
 
         if(scouterIndex < scouterNameSpinner.getLength()) {
             scouterNameSpinner.setIndex(scouterIndex);
