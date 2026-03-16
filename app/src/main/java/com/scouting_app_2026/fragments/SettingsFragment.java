@@ -165,7 +165,7 @@ public class SettingsFragment extends Fragment {
             bufferedWriter.close();
         }
         catch(IOException e) {
-            Log.e(TAG, "", e);
+            Log.e(TAG, "Failed to write settings to file", e);
         }
     }
 

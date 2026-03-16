@@ -129,7 +129,7 @@ public class AutonFragment extends DataFragment {
 
         ((MainActivity)requireActivity()).autonStart();
 
-        robotLocation.setSelected(((MainActivity)requireActivity()).getAutonStartPos());
+        robotLocation.setSelectedByIndex(((MainActivity)requireActivity()).getAutonStartPos());
     }
 
     public void endAuton() {

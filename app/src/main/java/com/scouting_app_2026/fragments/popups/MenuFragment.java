@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment;
 
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
+import com.scouting_app_2026.bluetooth.BluetoothConnectedThread;
+import com.scouting_app_2026.bluetooth.BluetoothSDPThread;
 import com.scouting_app_2026.databinding.MenuDropdownBinding;
 import com.scouting_app_2026.R;
 import com.scouting_app_2026.bluetooth.CaptureAct;
@@ -52,7 +54,7 @@ public class MenuFragment extends Fragment {
                 if(results.length == 2) {
                     String log = "MAC Address: " + results[0] + "  Port: " + results[1];
                     Log.d(TAG, log);
-                    QrBtConnThread.bluetoothConnect(results[0], Integer.parseInt(results[1]), (MainActivity) requireActivity());
+                    QrBtConnThread.bluetoothConnect(results[0], (MainActivity) requireActivity());
                     ((MainActivity)requireActivity()).setQrCode(contents);
                 }
                 else {
@@ -87,7 +89,8 @@ public class MenuFragment extends Fragment {
         switch(selectedOption) {
             case connect:
                 ftm.menuClose();
-                scanCode();
+//                scanCode();
+                bluetoothConnect();
                 break;
             case reset:
                 ftm.menuReset();
@@ -151,6 +154,9 @@ public class MenuFragment extends Fragment {
 
     private void adminSelected() {
         ftm.adminFragmentOpen();
+    }
+    private void bluetoothConnect() {
+        BluetoothSDPThread.bluetoothConnectAsync((MainActivity)requireActivity(), true);
     }
 
     @NonNull

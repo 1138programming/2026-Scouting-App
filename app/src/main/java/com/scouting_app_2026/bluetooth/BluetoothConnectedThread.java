@@ -3,6 +3,7 @@ package com.scouting_app_2026.bluetooth;
 import static com.scouting_app_2026.MainActivity.TAG;
 import static com.scouting_app_2026.bluetooth.commands.CommandType.CHECK_LISTS;
 import static com.scouting_app_2026.bluetooth.commands.CommandType.CHECK_MATCHES;
+import static com.scouting_app_2026.bluetooth.commands.CommandType.PING;
 import static com.scouting_app_2026.bluetooth.commands.CommandType.SEND_TABLET_INFO;
 import static com.scouting_app_2026.bluetooth.commands.CommandType.UPLOAD_MATCH;
 
@@ -20,10 +21,14 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.function.Consumer;
+
+import javax.security.auth.callback.Callback;
 
 public class BluetoothConnectedThread extends Thread {
     private final BluetoothSocket socket;
@@ -77,22 +82,26 @@ public class BluetoothConnectedThread extends Thread {
 
                 switch (command.type) {
                     case UPLOAD_MATCH:
-                        handleSendMatch(command.bytes);
                         Log.d(TAG, "handleSendInformation");
+                        handleSendMatch(command.bytes);
                         break;
                     case SEND_TABLET_INFO:
+                        Log.d(TAG, "handleSendTabletInfo");
                         handleSendTabletInfo(command.bytes);
-                        Log.d(TAG, "handleCheckLists");
                         break;
 
                     case CHECK_MATCHES:
+                        Log.d(TAG, "handleSmartUpload");
                         handleCheckSubmittedMatches(command.bytes);
-                        Log.d(TAG, "handleCheckLists");
                         break;
 
                     case CHECK_LISTS:
-                        handleCheckLists();
                         Log.d(TAG, "handleCheckLists");
+                        handleCheckLists();
+                        break;
+                    case PING:
+                        Log.d(TAG, "handlePing");
+                        handlePing(command.callback);
                         break;
                 }
 
@@ -137,7 +146,7 @@ public class BluetoothConnectedThread extends Thread {
 
         String message = new String(buffer, StandardCharsets.UTF_8);
         if(!message.equals(ack)) {
-            throw new CommErrorException();
+            throw new CommErrorException("Received *NACK*");
         }
     }
     /**
@@ -153,6 +162,7 @@ public class BluetoothConnectedThread extends Thread {
      */
     private void write(byte[] bytes) throws CommErrorException{
         try {
+//            Log.d(TAG, Arrays.toString(bytes));
             outputStream.write(bytes);
             outputStream.flush();
         }
@@ -311,17 +321,11 @@ public class BluetoothConnectedThread extends Thread {
         this.timeoutMs = timeoutMs;
     }
 
-    public boolean isConnected() {
-        if(ping()) {
-            return true;
-        }
-        else {
-            cancel();
-            return false;
-        }
+    public void runIfConnected(Consumer<Boolean> callback) {
+        commandQueue.offer(new BluetoothCommand(PING, null, callback));
     }
 
-    private boolean ping() {
+    private void handlePing(Consumer<Boolean> callback) {
         int byteLength;
         try {
             write(new byte[]{-1});
@@ -334,11 +338,13 @@ public class BluetoothConnectedThread extends Thread {
             resetByteBuffer(byteLength);
             read(byteLength);
             sendAck();
+            callback.accept(true);
         }
         catch(CommErrorException e) {
-            return false;
+            cancel();
+            Log.e(TAG, "Ping failed, disconnecting...");
+            callback.accept(false);
         }
-        return true;
     }
 
     /**

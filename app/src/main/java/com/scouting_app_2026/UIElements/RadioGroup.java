@@ -88,11 +88,14 @@ public class RadioGroup extends UIElement {
         radioGroup.setEnabled(true);
     }
 
-    public void setSelected(int childIndex) {
-        radioGroup.check(radioGroup.getChildAt(childIndex).getId());
+    public void setSelectedByIndex(int childIndex) {
+        radioGroup.post(() -> radioGroup.check(radioGroup.getChildAt(childIndex).getId()));
+    }
+    public void setSelectedById(int id) {
+        radioGroup.post(() -> radioGroup.check(radioGroup.findViewById(id).getId()));
     }
 
-    public int getSelected() {
+    public int getChecked() {
         return radioGroup.getCheckedRadioButtonId();
     }
 

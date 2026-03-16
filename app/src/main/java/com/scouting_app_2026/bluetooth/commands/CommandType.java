@@ -5,5 +5,6 @@ public enum CommandType {
     SEND_TABLET_INFO,
     CHECK_LISTS,
     UPDATE_LISTS,
-    CHECK_MATCHES
+    CHECK_MATCHES,
+    PING
 }

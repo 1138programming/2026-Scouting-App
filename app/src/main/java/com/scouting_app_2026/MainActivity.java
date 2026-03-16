@@ -21,6 +21,7 @@ import com.scouting_app_2026.JSON.FileSaver;
 import com.scouting_app_2026.JSON.TemplateContext;
 import com.scouting_app_2026.JSON.UpdateScoutingInfo;
 import com.scouting_app_2026.bluetooth.BluetoothConnectedThread;
+import com.scouting_app_2026.bluetooth.BluetoothSDPThread;
 import com.scouting_app_2026.extras.MatchTiming;
 import com.scouting_app_2026.extras.PermissionManager;
 import com.scouting_app_2026.fragments.AdminFragment;
@@ -53,6 +54,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "Team1138ScoutingApp";
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int timeBufferMs = 3000;
     public static final String datapointEventValue = "";
     public static final int defaultTimestamp = 0;
-    private boolean connectivity = false;
+    private final AtomicBoolean connectivity = new AtomicBoolean(false);
     private boolean practice = false;
     private int replayLevel = 0;
     private String qrCodeContents = "";
@@ -101,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
      * Updates the variable that tracks Bluetooth Connectivity
      */
     public void setConnectivity(boolean connectivity) {
-        this.connectivity = connectivity;
+        this.connectivity.set(connectivity);
         updateConnectivity();
     }
 
     public boolean getConnectivity() {
-        return this.connectivity;
+        return this.connectivity.get();
     }
 
     /**
@@ -114,9 +116,9 @@ public class MainActivity extends AppCompatActivity {
      * it looks at {@code connectivity} to make sure GUI element is accurate.
      */
     private void updateConnectivity() {
-        runOnUiThread(() -> preAuton.setBtStatus(connectivity));
+        runOnUiThread(() -> preAuton.setBtStatus(connectivity.get()));
 
-        if(!connectivity) {
+        if(!connectivity.get()) {
             clearQrCode();
             connectedThread = null;
         }
@@ -159,12 +161,20 @@ public class MainActivity extends AppCompatActivity {
     }
     public void updateTabletInformation() {
         preAuton.updateTemplateContext();
-        if(!connectivity) return;
+        if(!connectivity.get()) return;
         byte[] info = preAuton.getTabletInformation();
         connectedThread.sendTabletInfoRequest(info);
     }
     public void updateBtScoutingInfo() {
-        if (connectedThread != null && connectedThread.isConnected()) {
+        if (connectedThread != null) {
+            connectedThread.runIfConnected(this::updateListsRunnable);
+        }
+        else {
+            updateLists();
+        }
+    }
+    private void updateListsRunnable(boolean connectivity) {
+        if(connectivity) {
             connectedThread.checkListsRequest();
         }
         else {
@@ -226,17 +236,50 @@ public class MainActivity extends AppCompatActivity {
         updateConnectivity();
     }
     public void sendSavedData(File file) {
-        if(connectivity) {
-            try {
-                connectedThread.sendMatchRequest(Files.readAllBytes(file.toPath()));
-            } catch (IOException e) {
-                Log.e(TAG, "failed to read from file to submit match", e);
-            }
+        if(connectivity.get()) {
+            connectedThread.runIfConnected(connected -> {
+                if(connected) {
+                    try {
+                        connectedThread.sendMatchRequest(Files.readAllBytes(file.toPath()));
+                    } catch (IOException e) {
+                        Log.e(TAG, "failed to read from file to submit match", e);
+                    }
+                }
+                else {
+                    if(BluetoothSDPThread.bluetoothConnect(this, false)) {
+                        while(!connectivity.get()) {
+                            try {
+                                Thread.sleep(5);
+                            } catch (InterruptedException e) {
+                                return;
+                            }
+                        }
+                        try {
+                            connectedThread.sendMatchRequest(Files.readAllBytes(file.toPath()));
+                        } catch (IOException e) {
+                            Log.e(TAG, "failed to read from file to submit match", e);
+                        }
+                    }
+                }
+            });
         }
         else {
-            Toast.makeText(this,"not connected to Bluetooth", Toast.LENGTH_SHORT).show();
+            if(BluetoothSDPThread.bluetoothConnect(this, false)) {
+                while(!connectivity.get()) {
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                }
+                sendSavedData(file);
+            }
+            else {
+                Toast.makeText(this,"Not connected to Bluetooth", Toast.LENGTH_SHORT).show();
+            }
         }
     }
+
     public void sendMatchData() {
         if(practice) return;
 
@@ -268,11 +311,23 @@ public class MainActivity extends AppCompatActivity {
 
         FileSaver.saveFile(jsonFile.toString(), preAuton.getFileTitle(), this);
 
-        if(connectivity) {
+        if(connectivity.get()) {
             connectedThread.sendMatchRequest(jsonFile.toString().getBytes(StandardCharsets.UTF_8));
         }
         else {
-            Toast.makeText(this, "Data has not been uploaded because bluetooth isn't connected", Toast.LENGTH_LONG).show();
+            if(BluetoothSDPThread.bluetoothConnect(this, false)) {
+                while(!connectivity.get()) {
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                }
+                connectedThread.sendMatchRequest(jsonFile.toString().getBytes(StandardCharsets.UTF_8));
+            }
+            else {
+                Toast.makeText(this, "Data has not been uploaded because bluetooth isn't connected", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -414,6 +469,7 @@ public class MainActivity extends AppCompatActivity {
         preAuton.flipField(fieldFlipped);
         auton.flipField(fieldFlipped);
         teleop.flipField(fieldFlipped);
+//        preAuton.attemptDeviceNameParse();
     }
 
     public String getCurrentState() {
@@ -436,9 +492,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         addFragmentsToManager();
 
         addPermissions();
         permissionManager.requestPermissions();
+        BluetoothSDPThread.bluetoothConnectAsync(this, false);
     }
 }

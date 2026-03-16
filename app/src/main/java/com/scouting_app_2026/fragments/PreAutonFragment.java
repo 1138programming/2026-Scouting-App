@@ -122,6 +122,7 @@ public class PreAutonFragment extends DataFragment {
         button.setOnClickFunction(() -> ftm.preAutonMenu());
 
         updateTeamColor();
+        attemptDeviceNameParse();
     }
 
     /* When the fragment is completely created, we test so see
@@ -130,7 +131,6 @@ public class PreAutonFragment extends DataFragment {
     public void onStart() {
         super.onStart();
         ((MainActivity) requireActivity()).updateBtScoutingInfo();
-        attemptDeviceNameParse();
 
         if(scouterIndex < scouterNameSpinner.getLength()) {
             scouterNameSpinner.setIndex(scouterIndex);
@@ -285,9 +285,10 @@ public class PreAutonFragment extends DataFragment {
     }
 
     public void setBtStatus(boolean status) {
-        binding.btConnectionStatus.setText(
+        binding.btConnectionStatus.post(() -> binding.btConnectionStatus.setText(
                 getResources().getString(status ? R.string.connected_status_title : R.string.disconnected_status_title),
-                TextView.BufferType.NORMAL);
+                TextView.BufferType.NORMAL)
+        );
     }
 
     public String getFileTitle() {
@@ -342,7 +343,7 @@ public class PreAutonFragment extends DataFragment {
         }
     }
 
-    private void attemptDeviceNameParse() {
+    public void attemptDeviceNameParse() {
         successfulDeviceNameParse = true;
         String deviceName = ((MainActivity)requireActivity()).getDeviceName();
         Log.d(TAG, deviceName);
@@ -376,14 +377,18 @@ public class PreAutonFragment extends DataFragment {
         }
 
         if(successfulDeviceNameParse) {
-            Log.d(TAG, "success!");
             String colorStatus = temp[temp.length-2] + " " + driverStationNumber;
-            requireActivity().runOnUiThread(() -> binding.robotDriverStation.setText(colorStatus));
+            requireActivity().runOnUiThread(() ->
+                    binding.robotDriverStation.post(() ->
+                            binding.robotDriverStation.setText(colorStatus)));
         }
     }
 
     private void lockColor() {
-        ((RadioButton)binding.teamColorSwitch.getChildAt(selectedColor)).setChecked(true);
+        binding.teamColorSwitch.post(() -> {
+            ((RadioButton) binding.teamColorSwitch.getChildAt(selectedColor))
+                    .setChecked(true);
+        });
         binding.teamColorSwitch.getChildAt(0).setEnabled(false);
         binding.teamColorSwitch.getChildAt(1).setEnabled(false);
     }
@@ -401,19 +406,19 @@ public class PreAutonFragment extends DataFragment {
     }
 
     public void flipField(boolean fieldFlipped) {
-
         if(currentFlippedStatus != fieldFlipped) {
             currentFlippedStatus = fieldFlipped;
 
             ArrayList<android.widget.RadioButton> colorButtons = teamColorButtons.getButtons();
-            int id = teamColorButtons.getSelected();
             teamColorButtons.unselect();
 
             teamColorButtons.removeAllButton();
             for(int i = colorButtons.size()-1; i >= 0; i--) {
+//                colorButtons.get(i).setChecked(false);
                 teamColorButtons.addButton(colorButtons.get(i));
             }
-            teamColorButtons.setSelected(id == 0 ? 1 : 0);
+
+            attemptDeviceNameParse();
         }
     }
 

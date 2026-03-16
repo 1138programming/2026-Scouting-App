@@ -120,7 +120,7 @@ public class TeleopFragment extends DataFragment {
 
         ((MainActivity)requireActivity()).teleopStart();    
 
-        robotLocation.setSelected(((MainActivity)requireActivity()).getTeleopStartPos());
+        robotLocation.setSelectedByIndex(((MainActivity)requireActivity()).getTeleopStartPos());
     }
 
     public void endTeleop() {
