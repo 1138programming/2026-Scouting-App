@@ -22,6 +22,9 @@ import com.scouting_app_2026.datapointIDs.NonDataIDs;
 import com.scouting_app_2026.fragments.popups.ArchiveConfirm;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
@@ -32,6 +35,7 @@ public class ArchiveFragment extends DataFragment {
     ArchiveFragmentBinding binding;
     File folderDir;
     private File lastSelectedFile;
+    private File[] files;
 
     public ArchiveFragment() {
 
@@ -122,7 +126,7 @@ public class ArchiveFragment extends DataFragment {
             return;
         }
 
-        File[] files = folderDir.listFiles();
+        files = folderDir.listFiles();
         if(files != null) {
             String[] fileInfo = new String[files.length];
             StringBuilder everyMatchInfo = new StringBuilder();
@@ -134,7 +138,14 @@ public class ArchiveFragment extends DataFragment {
             Matcher matcher;
 
             for(File file : files) {
-                String text = readFile(file);
+                String text;
+                try {
+                    text = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+                }
+                catch(IOException e) {
+                    Log.e(TAG, "Unable to read file", e);
+                    return;
+                }
                 /*
                 * Group(0) - whole match
                 * Group(1) - CompID
@@ -143,15 +154,21 @@ public class ArchiveFragment extends DataFragment {
                 * */
                 matcher = pattern.matcher(text);
 
-                compID = matcher.group(1);
-                teamID = matcher.group(3);
-                matchID = matcher.group(2);
+                if(matcher.find()) {
+                    compID = matcher.group(1);
+                    teamID = matcher.group(3);
+                    matchID = matcher.group(2);
+                }
+                else {
+                    Log.e(TAG, "regex not found in file");
+                    continue;
+                }
 
-                everyMatchInfo.append(compID).append(",").append(teamID).append(",").append(matchID).append("\n");
+                everyMatchInfo.append(compID).append(";").append(teamID).append(";").append(matchID).append("\n");
             }
             String matchInfo = everyMatchInfo.toString();
             if(!matchInfo.isEmpty()) {
-//                mainActivity.
+                mainActivity.smartUpload(matchInfo);
             }
         }
     }
@@ -167,6 +184,10 @@ public class ArchiveFragment extends DataFragment {
 
     private String readFile(File file) {
         return "";
+    }
+
+    public File getFile(int index) {
+        return files[index];
     }
 
     @NonNull

@@ -43,7 +43,7 @@ public class ConfirmSubmitAll extends Fragment {
         Button submitButton = new Button(
                 NonDataIDs.ArchiveConfirm.getID(), binding.submitButton);
         submitButton.setOnClickFunction(() -> ((ArchiveFragment) Objects.requireNonNull(
-                getParentFragmentManager().findFragmentByTag("ArchiveFragment"))).submitAll());
+                getParentFragmentManager().findFragmentByTag("ArchiveFragment"))).smartSubmit());
     }
 
     @NonNull

@@ -331,8 +331,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void checkSubmittedMatches(String localMatches) {
-        connectedThread.checkSubmittedMatchesRequest(localMatches.getBytes(StandardCharsets.UTF_8));
+    public void smartUpload(String localMatches) {
+        connectedThread.smartUploadRequest(localMatches.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public void submitNeededMatches(String[] neededMatches) {
+        int index;
+        File temp;
+
+        for(String curr : neededMatches) {
+            index = Integer.parseInt(curr);
+
+            temp = archiveFragment.getFile(index);
+            try {
+//                Log.w(TAG,curr);
+                connectedThread.sendMatchRequest(Files.readAllBytes(temp.toPath()));
+            } catch (IOException e) {
+                Log.e(TAG, "Failed to read from file", e);
+            }
+        }
     }
 
     public long getCurrStartTime() {

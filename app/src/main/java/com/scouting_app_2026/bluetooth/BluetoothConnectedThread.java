@@ -2,13 +2,14 @@ package com.scouting_app_2026.bluetooth;
 
 import static com.scouting_app_2026.MainActivity.TAG;
 import static com.scouting_app_2026.bluetooth.commands.CommandType.CHECK_LISTS;
-import static com.scouting_app_2026.bluetooth.commands.CommandType.CHECK_MATCHES;
 import static com.scouting_app_2026.bluetooth.commands.CommandType.PING;
 import static com.scouting_app_2026.bluetooth.commands.CommandType.SEND_TABLET_INFO;
+import static com.scouting_app_2026.bluetooth.commands.CommandType.SMART_UPLOAD;
 import static com.scouting_app_2026.bluetooth.commands.CommandType.UPLOAD_MATCH;
 
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.scouting_app_2026.JSON.MurmurHash;
 import com.scouting_app_2026.JSON.UpdateScoutingInfo;
@@ -21,14 +22,11 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
-
-import javax.security.auth.callback.Callback;
 
 public class BluetoothConnectedThread extends Thread {
     private final BluetoothSocket socket;
@@ -90,9 +88,9 @@ public class BluetoothConnectedThread extends Thread {
                         handleSendTabletInfo(command.bytes);
                         break;
 
-                    case CHECK_MATCHES:
-                        Log.d(TAG, "handleSmartUpload");
-                        handleCheckSubmittedMatches(command.bytes);
+                    case SMART_UPLOAD:
+                        Log.d(TAG, "handleSendSummaries");
+                        handleSmartUpload(command.bytes);
                         break;
 
                     case CHECK_LISTS:
@@ -179,7 +177,7 @@ public class BluetoothConnectedThread extends Thread {
      * &nbsp;-1 - check if lists of teams and matches are up to date <p>
      * &nbsp;-2 - update lists of scouters, teams, and matches <p>
      *      {@code IMPORTANT} numbers -1 and -2 shouldn't be used with this function.
-     *             Use {@link BluetoothConnectedThread#checkListsRequest()}  and {@link BluetoothConnectedThread#updateLists()} instead as needed
+     *             Use {@link BluetoothConnectedThread#checkListsRequest()}  and {@link BluetoothConnectedThread#updateListsRequest()} instead as needed
      * sends information
      *
      */
@@ -250,7 +248,7 @@ public class BluetoothConnectedThread extends Thread {
 
             int receivedHash = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN) .getInt();
             if(receivedHash != MurmurHash.makeHash((new UpdateScoutingInfo(mainActivity)).getDataFromFile().getBytes(StandardCharsets.UTF_8))) {
-                updateLists();
+                updateListsRequest();
             }
             mainActivity.runOnUiThread(mainActivity::updateLists);
         }
@@ -260,7 +258,7 @@ public class BluetoothConnectedThread extends Thread {
         }
     }
 
-    private void updateLists() {
+    private void updateListsRequest() {
         int listLength;
         try {
             write(new byte[]{-2});
@@ -281,32 +279,25 @@ public class BluetoothConnectedThread extends Thread {
 
     }
 
-    public void checkSubmittedMatchesRequest(byte[] localMatches) {
-        commandQueue.offer(new BluetoothCommand(CHECK_MATCHES,localMatches));
+    public void smartUploadRequest(byte[] localMatchSummaries) {
+        commandQueue.offer(new BluetoothCommand(SMART_UPLOAD,localMatchSummaries));
     }
 
-    private void handleCheckSubmittedMatches(byte[] bytes) {
-        int byteLength;
+    private void handleSmartUpload(byte[] bytes) {
         try {
-            sendBytes(bytes, -3);
-            readBytes(3);
+            sendBytes(bytes, 3);
+            readBytes(-3);
 
-            byteLength = byteBuffer.put(buffer).getInt(0);
-            sendAck();
+            String rawText = new String(buffer, StandardCharsets.UTF_8);
 
-            resetByteBuffer(byteLength);
-            read(byteLength);
-            sendAck();
-
-
-
-            Log.d(TAG, "Murmur Hash: \"" + MurmurHash.makeHash((new UpdateScoutingInfo(mainActivity)).getDataFromFile().getBytes(StandardCharsets.UTF_8)) + "\"");
-
-            int receivedHash = ByteBuffer.wrap(buffer).order(ByteOrder.LITTLE_ENDIAN) .getInt();
-            if(receivedHash != MurmurHash.makeHash((new UpdateScoutingInfo(mainActivity)).getDataFromFile().getBytes(StandardCharsets.UTF_8))) {
-                updateLists();
+            String[] neededMatches = rawText.split(",");
+            if(!rawText.isBlank() && neededMatches.length > 0) {
+                Log.d(TAG, rawText);
+                mainActivity.submitNeededMatches(neededMatches);
             }
-            mainActivity.runOnUiThread(mainActivity::updateLists);
+            else {
+                mainActivity.runOnUiThread(() -> Toast.makeText(mainActivity, "Matches up to date!", Toast.LENGTH_SHORT).show());
+            }
         }
         catch(CommErrorException e) {
             Log.e(TAG, "Communication exchange failed", e);
